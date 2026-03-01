@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const playfair = Playfair_Display({ subsets: ["latin"], style: ["italic", "normal"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
   title: "Vivek — AI Product Builder",
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} min-h-screen pb-20 antialiased selection:bg-black selection:text-white`}
+        className={`${inter.className} ${playfair.variable} min-h-screen pb-20 antialiased selection:bg-black selection:text-white`}
       >
         {children}
       </body>

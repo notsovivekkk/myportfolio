@@ -5,6 +5,8 @@
 body {
   background-color: #F9F9F9;
   color: #111111;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bento-card {
@@ -13,6 +15,26 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.03);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.02);
   overflow: hidden;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark body {
+  background-color: #111111;
+  color: #F9F9F9;
+}
+
+.dark .bento-card {
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  transition-property: color, background-color, border-color, box-shadow, opacity;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Tab transitions */
