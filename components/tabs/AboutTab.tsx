@@ -98,8 +98,8 @@ export default function AboutTab() {
         <div className="lg:col-span-6 grid grid-cols-2 gap-4 sm:gap-6">
 
           {/* Gallery card */}
-          <BentoCard className="col-span-2 sm:col-span-1 !p-0 overflow-hidden">
-            <div className="relative w-full h-[220px] sm:aspect-square sm:h-auto">
+          <BentoCard className="col-span-2 sm:col-span-1 sm:aspect-square !p-0 overflow-hidden">
+            <div className="relative w-full h-[220px] sm:h-full">
               <Image
                 src={
                   activePhotoTab === "grid" ? "/images/dp.jpg" :
@@ -185,7 +185,7 @@ export default function AboutTab() {
           </BentoCard>
 
           {/* Song card */}
-          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:h-auto sm:aspect-square flex flex-col overflow-hidden !p-0">
+          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:aspect-square flex flex-col overflow-hidden !p-0">
             <div className="relative flex-1 overflow-hidden">
               <Image
                 src="/images/song.jpg"
@@ -215,8 +215,8 @@ export default function AboutTab() {
           </BentoCard>
 
           {/* Email card */}
-          <a href="mailto:purayathvivek@gmail.com?subject=Hey%20Vivek" className="col-span-2 sm:col-span-1 block">
-            <BentoCard className="sm:aspect-square p-5 flex flex-col items-center justify-center text-center cursor-pointer group h-full">
+          <a href="mailto:purayathvivek@gmail.com?subject=Hey%20Vivek" className="col-span-2 sm:col-span-1 sm:aspect-square block">
+            <BentoCard className="p-5 flex flex-col items-center justify-center text-center cursor-pointer group h-full">
               <div style={{ animation: "float 3s ease-in-out infinite" }}>
                 <svg
                   width="30"

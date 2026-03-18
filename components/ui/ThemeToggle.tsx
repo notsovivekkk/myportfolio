@@ -21,7 +21,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle dark mode"
-      className="fixed bottom-[18px] right-4 sm:bottom-auto sm:top-6 sm:right-6 z-50 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-md border border-gray-100 dark:border-gray-800 shadow-sm flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+      className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-md border border-gray-100 dark:border-gray-800 shadow-sm flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
     >
       <svg
         width="16"
