@@ -18,7 +18,7 @@ export default function Nav({ activeTab, onSwitch, items }: NavProps) {
             <button
               key={item.id}
               onClick={() => onSwitch(item.id)}
-              className={`relative px-3 sm:px-5 py-1.5 sm:py-2 text-[13px] sm:text-[14px] rounded-full transition-all duration-300 flex items-center gap-1.5 ${
+              className={`relative px-4 sm:px-5 py-2 sm:py-2 text-[13px] sm:text-[14px] rounded-full transition-all duration-300 flex items-center gap-1.5 ${
                 isActive
                   ? "bg-white dark:bg-white/20 text-primary dark:text-white font-semibold shadow-[0_1px_6px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.06)]"
                   : "text-primary/40 dark:text-white/35 font-medium hover:text-primary/70 dark:hover:text-white/65 hover:bg-white/40 dark:hover:bg-white/8"

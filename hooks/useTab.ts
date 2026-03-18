@@ -8,6 +8,7 @@ export function useTab(initial: TabId = "home") {
 
   const switchTab = useCallback((tab: TabId) => {
     setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
   return { activeTab, switchTab };
