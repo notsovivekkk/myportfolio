@@ -25,7 +25,7 @@ export default function Portfolio() {
       <ThemeToggle />
       <Nav activeTab={activeTab} onSwitch={switchTab} items={navItems} />
 
-      <main className="max-w-[1200px] mx-auto pt-6 sm:pt-32 pb-20 sm:pb-6 px-4 sm:px-6">
+      <main className="max-w-[1200px] mx-auto pt-8 sm:pt-32 pb-20 sm:pb-4 px-4 sm:px-6">
         {(Object.keys(tabMap) as TabId[]).map((tabId) => (
           <div
             key={tabId}

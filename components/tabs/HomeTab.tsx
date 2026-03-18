@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import BentoCard from "@/components/cards/BentoCard";
 
@@ -9,17 +8,20 @@ const skillItems = [
   { label: "User Research", color: "#007AFF" },
   { label: "PRDs", color: "#007AFF" },
   { label: "Roadmapping", color: "#007AFF" },
-  { label: "TypeScript", color: "#34C759" },
-  { label: "Next.js", color: "#34C759" },
-  { label: "React", color: "#34C759" },
-  { label: "Python", color: "#34C759" },
-  { label: "Node.js", color: "#34C759" },
+  { label: "Agile / Scrum", color: "#007AFF" },
+  { label: "Customer Discovery", color: "#007AFF" },
+  { label: "Hypothesis Testing", color: "#007AFF" },
   { label: "LLMs", color: "#AF52DE" },
   { label: "RAG Systems", color: "#AF52DE" },
   { label: "AI Agents", color: "#AF52DE" },
   { label: "Prompt Eng.", color: "#AF52DE" },
+  { label: "Cursor", color: "#AF52DE" },
+  { label: "Claude Code", color: "#AF52DE" },
+  { label: "Vibe Coding", color: "#AF52DE" },
   { label: "Figma", color: "#FF9500" },
   { label: "UX Design", color: "#FF9500" },
+  { label: "Wireframing", color: "#FF9500" },
+  { label: "Systems Thinking", color: "#FF9500" },
 ];
 
 const focusItems = [
@@ -49,36 +51,14 @@ const focusItems = [
   },
 ];
 
-type PhotoTab = "grid" | "map" | "heart" | "sparkle";
-
-const PhotosFlowerIcon = () => (
-  <div className="w-9 h-9 rounded-[9px] bg-white/90 dark:bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center">
-    <svg width="20" height="20" viewBox="0 0 28 28">
-      {[
-        { angle: 0, color: "#FF3B30" },
-        { angle: 45, color: "#FF9500" },
-        { angle: 90, color: "#FFCC00" },
-        { angle: 135, color: "#34C759" },
-        { angle: 180, color: "#5AC8FA" },
-        { angle: 225, color: "#007AFF" },
-        { angle: 270, color: "#5856D6" },
-        { angle: 315, color: "#AF52DE" },
-      ].map(({ angle, color }, i) => (
-        <ellipse
-          key={i}
-          cx="14"
-          cy="14"
-          rx="3.2"
-          ry="7"
-          fill={color}
-          opacity={0.9}
-          transform={`rotate(${angle} 14 14)`}
-        />
-      ))}
-      <circle cx="14" cy="14" r="3.5" fill="white" />
-    </svg>
-  </div>
-);
+const workSteps = [
+  "Facing the problem",
+  "Talking to users",
+  "Scoping the solution",
+  "Prioritising",
+  "Building",
+  "Shipping",
+];
 
 const LinkedInIcon = () => (
   <div className="w-10 h-10 rounded-lg bg-[#0A66C2] flex items-center justify-center shadow-sm shrink-0">
@@ -101,19 +81,54 @@ const ArrowIcon = () => (
   </svg>
 );
 
-export default function HomeTab() {
-  const [activePhotoTab, setActivePhotoTab] = useState<PhotoTab>("grid");
+function WorkApproachCard() {
+  return (
+    <BentoCard className="h-[220px] sm:h-auto sm:aspect-square p-5 flex flex-col overflow-hidden">
+      <div
+        className="flex-1 relative overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+        }}
+      >
+        {/* Subtle center slot indicator */}
+        <div
+          className="absolute left-0 right-0 pointer-events-none z-10"
+          style={{ top: "calc(50% - 23px)", height: 46 }}
+        >
+          <div className="h-px w-full bg-black/[0.07] dark:bg-white/[0.09]" />
+          <div className="h-px w-full bg-black/[0.07] dark:bg-white/[0.09] absolute bottom-0 left-0" />
+        </div>
 
+        {/* Scrolling track — duplicated for seamless loop */}
+        <div style={{ animation: "workFlowScroll 12s linear infinite" }}>
+          {[...workSteps, ...workSteps].map((step, i) => (
+            <div
+              key={i}
+              className="h-[46px] flex items-center text-[13px] sm:text-[14px] font-medium text-primary dark:text-white"
+            >
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
+    </BentoCard>
+  );
+}
+
+export default function HomeTab() {
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
         {/* Hero */}
-        <BentoCard className="lg:col-span-6 p-7 sm:p-10 md:p-12">
-          <h1 className="text-2xl sm:text-3xl md:text-[40px] font-semibold tracking-tight mb-8 sm:mb-12 dark:text-white">
+        <BentoCard className="lg:col-span-6 p-5 sm:p-10 md:p-12 min-h-0">
+          <h1 className="text-[19px] sm:text-2xl md:text-[28px] font-semibold tracking-tight sm:whitespace-nowrap mb-4 sm:mb-12 dark:text-white">
             <span className="text-primary dark:text-white font-bold">Vivek</span> is shipping{" "}
             <u className="decoration-2 underline-offset-4 decoration-black dark:decoration-white">AI products</u>.
           </h1>
-          <div className="space-y-4 sm:space-y-6 text-[15px] sm:text-[17px] text-secondary dark:text-gray-400 leading-relaxed">
+          <div className="space-y-2 sm:space-y-6 text-[13px] sm:text-[17px] text-secondary dark:text-gray-400 leading-relaxed">
             <p>i turn messy ideas into shipped AI products.</p>
             <p>product-first.</p>
             <p>execution-obsessed.</p>
@@ -129,51 +144,10 @@ export default function HomeTab() {
 
         {/* Right column */}
         <div className="lg:col-span-6 flex flex-col gap-4 sm:gap-5">
-          {/* Photos + LinkedIn: stacked on mobile, side-by-side squares on desktop */}
+          {/* Work Approach + LinkedIn: side-by-side */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Photos */}
-            <BentoCard className="!p-0 overflow-hidden">
-              <div className="relative w-full h-[220px] sm:aspect-square sm:h-auto">
-                <Image
-                  src="/images/dp.jpg"
-                  alt="Photo"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-                <div className="absolute top-3 right-3 z-10">
-                  <PhotosFlowerIcon />
-                </div>
-                <div className="absolute bottom-3 left-3 right-3 flex justify-center z-10">
-                  <div className="bg-white/50 dark:bg-black/30 backdrop-blur-xl backdrop-saturate-150 rounded-full px-1.5 py-1.5 flex items-center gap-1 shadow-[0_2px_10px_rgba(0,0,0,0.1)]">
-                    <TabIcon active={activePhotoTab === "grid"} onClick={() => setActivePhotoTab("grid")}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
-                        <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
-                        <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
-                        <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
-                      </svg>
-                    </TabIcon>
-                    <TabIcon active={activePhotoTab === "map"} onClick={() => setActivePhotoTab("map")}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                      </svg>
-                    </TabIcon>
-                    <TabIcon active={activePhotoTab === "heart"} onClick={() => setActivePhotoTab("heart")}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
-                    </TabIcon>
-                    <TabIcon active={activePhotoTab === "sparkle"} onClick={() => setActivePhotoTab("sparkle")}>
-                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 2c0 4-2 8-2 8s4-2 8-2c-4 0-8 2-8 2s2 4 2 8c0-4-2-8-2-8s-4 2-8 2c4 0 8-2 8-2S12 6 12 2z" />
-                      </svg>
-                    </TabIcon>
-                  </div>
-                </div>
-              </div>
-            </BentoCard>
+            {/* Work Approach Animation */}
+            <WorkApproachCard />
 
             {/* LinkedIn */}
             <BentoCard className="sm:aspect-square p-5 sm:p-5 flex flex-col justify-between overflow-hidden">
@@ -197,9 +171,14 @@ export default function HomeTab() {
                 India · 2,153 followers · 500+ connections
               </p>
               <div className="mt-4 sm:mt-auto pt-3 border-t border-gray-100 dark:border-gray-800 flex justify-center">
-                <span className="text-xs sm:text-[11px] font-semibold text-primary dark:text-gray-300 flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition-opacity">
+                <a
+                  href="https://www.linkedin.com/in/vivek-m12/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs sm:text-[11px] font-semibold text-primary dark:text-gray-300 flex items-center gap-1.5 hover:opacity-70 transition-opacity"
+                >
                   View profile <ArrowIcon />
-                </span>
+                </a>
               </div>
             </BentoCard>
           </div>
@@ -261,7 +240,7 @@ export default function HomeTab() {
         <BentoCard className="lg:col-span-6 p-8 sm:p-10 flex flex-col items-center justify-center text-center">
           <span className="font-quote text-4xl sm:text-5xl text-muted/30 dark:text-white/10 leading-none select-none mb-2">&ldquo;</span>
           <blockquote className="font-quote italic text-[16px] sm:text-[19px] leading-relaxed text-primary dark:text-gray-200 max-w-md">
-            Leverage isn&apos;t just code or capital — it&apos;s clarity. The clearer your thinking, the faster your systems compound.
+            Leverage isn&apos;t just code or capital , it&apos;s clarity. The clearer your thinking, the faster your systems compound.
           </blockquote>
           <div className="mt-5 flex items-center gap-3">
             <span className="block w-8 h-px bg-muted/30 dark:bg-white/10" />
@@ -271,28 +250,5 @@ export default function HomeTab() {
         </BentoCard>
       </div>
     </div>
-  );
-}
-
-function TabIcon({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`p-2 sm:p-2.5 rounded-full transition-all duration-200 ${
-        active
-          ? "bg-white/80 dark:bg-white/20 shadow-sm text-gray-800 dark:text-white"
-          : "text-gray-500/70 dark:text-white/40 hover:text-gray-700 dark:hover:text-white/60"
-      }`}
-    >
-      {children}
-    </button>
   );
 }

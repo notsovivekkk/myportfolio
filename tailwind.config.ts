@@ -13,8 +13,8 @@ const config: Config = {
         quote: ["var(--font-playfair)", "Georgia", "serif"],
       },
       colors: {
-        bg: "#F9F9F9",
-        card: "#FFFFFF",
+        bg: "#EBEBEB",
+        card: "#F5F5F5",
         primary: "#111111",
         secondary: "#737373",
         muted: "#A3A3A3",

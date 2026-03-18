@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 body {
-  background-color: #F9F9F9;
+  background-color: #EBEBEB;
   color: #111111;
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
               color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bento-card {
-  background-color: #FFFFFF;
+  background-color: #F5F5F5;
   border-radius: 2rem;
   border: 1px solid rgba(0, 0, 0, 0.03);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -48,12 +48,80 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Work tab animations */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes syncPulse {
+  0%   { transform: translateY(-10px); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+@keyframes checkTick {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes popupSlide {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes sectionFill {
+  from { opacity: 0; transform: scaleX(0.85); transform-origin: left; }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes spinStar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes phraseIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Work approach — pause at each step, then snap forward with anticipation */
+@keyframes workFlowScroll {
+  0%      { transform: translateY(0); }
+  13.5%   { transform: translateY(0);      animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  16.67%  { transform: translateY(-46px);  animation-timing-function: linear; }
+  30%     { transform: translateY(-46px);  animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  33.33%  { transform: translateY(-92px);  animation-timing-function: linear; }
+  46.5%   { transform: translateY(-92px);  animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  50%     { transform: translateY(-138px); animation-timing-function: linear; }
+  63%     { transform: translateY(-138px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  66.67%  { transform: translateY(-184px); animation-timing-function: linear; }
+  79.5%   { transform: translateY(-184px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  83.33%  { transform: translateY(-230px); animation-timing-function: linear; }
+  96.5%   { transform: translateY(-230px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
+  100%    { transform: translateY(-276px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  width: max-content;
+  animation: marquee 18s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
 }
