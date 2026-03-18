@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     "I turn messy ideas into shipped AI products. Product-first. Execution-obsessed. AI-native.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -19,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${playfair.variable} min-h-screen pb-20 antialiased selection:bg-black selection:text-white`}
+        className={`${inter.className} ${playfair.variable} min-h-screen antialiased selection:bg-black selection:text-white`}
       >
         {children}
       </body>

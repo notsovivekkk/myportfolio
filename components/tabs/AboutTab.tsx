@@ -185,30 +185,28 @@ export default function AboutTab() {
           </BentoCard>
 
           {/* Song card */}
-          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:aspect-square flex flex-col overflow-hidden !p-0">
-            <div className="relative flex-1 overflow-hidden">
-              <Image
-                src="/images/song.jpg"
-                alt="Am I Dreaming"
-                fill
-                className="object-cover"
-              />
-              {/* Play button overlay */}
-              <a
-                href="https://open.spotify.com/track/6Ec5LeRzkisa5KJtwLfOoW"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#111111">
-                    <path d="M8 5.14v14l11-7-11-7z"/>
-                  </svg>
-                </div>
-              </a>
-            </div>
-            {/* Info strip */}
-            <div className="px-4 py-3 bg-card dark:bg-[#1a1a1a]">
+          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:aspect-square overflow-hidden !p-0 relative">
+            <Image
+              src="/images/song.jpg"
+              alt="Am I Dreaming"
+              fill
+              className="object-cover"
+            />
+            {/* Play button */}
+            <a
+              href="https://open.spotify.com/track/6Ec5LeRzkisa5KJtwLfOoW"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#111111">
+                  <path d="M8 5.14v14l11-7-11-7z"/>
+                </svg>
+              </div>
+            </a>
+            {/* Info strip — overlaid at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-white/80 dark:bg-black/60 backdrop-blur-md">
               <p className="text-sm font-bold text-primary dark:text-white leading-tight">Am I Dreaming</p>
               <p className="text-xs text-muted dark:text-gray-500 mt-0.5">Metro Boomin · A$AP Rocky</p>
             </div>
