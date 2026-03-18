@@ -195,7 +195,7 @@ export default function AboutTab() {
               />
               {/* Play button overlay */}
               <a
-                href="https://open.spotify.com/track/4cluDES4hQEUhmXj6TXkSo"
+                href="https://open.spotify.com/track/6Ec5LeRzkisa5KJtwLfOoW"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="absolute inset-0 flex items-center justify-center"
