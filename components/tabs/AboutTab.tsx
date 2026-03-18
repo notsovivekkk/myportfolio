@@ -185,7 +185,7 @@ export default function AboutTab() {
           </BentoCard>
 
           {/* Song card — image fills full square, info strip overlays bottom */}
-          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:aspect-square overflow-hidden !p-0 relative">
+          <BentoCard className="col-span-2 sm:col-span-1 h-[220px] sm:h-auto sm:aspect-square overflow-hidden !p-0 relative">
             <Image src="/images/song.jpg" alt="Am I Dreaming" fill className="object-cover" />
             <a
               href="https://open.spotify.com/track/6Ec5LeRzkisa5KJtwLfOoW"
