@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Frame,
@@ -7,11 +8,8 @@ import {
   Panel,
   Section,
   SectionHeading,
-  Button,
   Pill,
-  ArrowIcon,
 } from "@/components/ui/Primitives";
-import { LinkedInIcon } from "@/components/ui/SocialIcons";
 
 /* ------------------------------------------------------------------
    Content
@@ -41,161 +39,213 @@ const skillItems = [
 const focusItems = [
   {
     num: "01",
-    title: "AI Product Systems",
-    desc: "From concept to shipped.",
+    title: "Intelligence",
+    desc: "Finding who needs it and when. ICP research, signal detection, buying window identification.",
   },
   {
     num: "02",
-    title: "Human-AI Interaction",
-    desc: "Designing for trust and behavior.",
+    title: "Infrastructure",
+    desc: "Building the systems that find and enrich. Clay, Deepline, Claude Code, enrichment pipelines.",
   },
   {
     num: "03",
-    title: "Customer Discovery",
-    desc: "Turning conversations into product clarity.",
+    title: "Execution",
+    desc: "Running outreach that lands. Email infrastructure, deliverability, copy, campaigns, real results.",
   },
   {
     num: "04",
-    title: "MVP Velocity",
-    desc: "Shipping under ambiguity.",
+    title: "Automation",
+    desc: "Making it run itself. Decision engines, agents, deployed tools that work without constant input.",
   },
 ];
 
 const workSteps = [
-  "Facing the problem",
-  "Talking to users",
-  "Scoping the solution",
-  "Prioritising",
-  "Building",
-  "Shipping",
+  "Understanding the ICP",
+  "Mapping the signals",
+  "Building the list",
+  "Enriching the data",
+  "Crafting the message",
+  "Launching the campaign",
 ];
 
+const tools = [
+  { name: "Clay", src: "/images/tools/clay.png" },
+  { name: "Cursor", src: "/images/tools/cursor.png" },
+  { name: "HeyReach", src: "/images/tools/heyreach.png" },
+  { name: "Deepline", src: "/images/tools/deepline.png" },
+  { name: "Instantly", src: "/images/tools/instantly.png" },
+  { name: "Smartlead", src: "/images/tools/smartlead.png" },
+  { name: "Claude", src: "/images/tools/claude.png" },
+  { name: "ChatGPT", src: "/images/tools/chatgpt.png" },
+  { name: "Apollo", src: "/images/tools/apollo.png" },
+  { name: "Prospeo", src: "/images/tools/prospeo.png" },
+  { name: "Apify", src: "/images/tools/apify.png" },
+  { name: "Python", src: "/images/tools/python.png" },
+  { name: "Framer", src: "/images/tools/framer.png" },
+  { name: "Webflow", src: "/images/tools/webflow.png" },
+];
+
+/* The five layers, top to bottom, with the feedback arc closing the
+   loop back to Signal. Names only: naming tools here would date the
+   diagram and duplicate the marquee below it. */
+const gtmLayers = ["Signal", "Enrichment", "Intelligence", "Action", "Feedback"];
+
+const LAYER_CYCLE = 9; // seconds for one pass plus the return
+const LAYER_H = 30; // plate height
+const LAYER_GAP = 6;
+const LAYER_PITCH = LAYER_H + LAYER_GAP;
+
 /* ------------------------------------------------------------------
-   Hero backdrop, decorative line grid.
-   Gradient-faded strokes so the lines dissolve rather than stop, which
-   keeps them reading as texture instead of as content.
+   The GTM system, running quietly beside the claim it supports.
+   Built from the same rounded plates and soft shadows as the rest of
+   the page, so it reads as an object on the page rather than a
+   schematic pasted onto it.
    ------------------------------------------------------------------ */
-function HeroBackdrop() {
+function GtmSystemDiagram() {
   return (
-    <svg
-      className="pointer-events-none absolute -bottom-9 -right-7 h-[260px] w-[215px] sm:h-[420px] sm:w-[347px]"
-      viewBox="0 0 347 420"
-      fill="none"
+    <div
       aria-hidden="true"
+      className="pointer-events-none absolute right-11 top-1/2 hidden w-[206px] -translate-y-1/2 md:block"
     >
-      {/* userSpaceOnUse, not the default objectBoundingBox: a straight
-          line has a zero-width (or zero-height) bounding box, and Chrome
-          declines to paint an objectBoundingBox gradient into one, the
-          strokes silently vanish. */}
-      <defs>
-        <linearGradient
-          id="pf-v"
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="420"
-        >
-          <stop stopColor="#D8DBE0" stopOpacity="0" />
-          <stop offset="0.44" stopColor="#D8DBE0" />
-          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
-          id="pf-h"
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="0"
-          x2="347"
-          y2="0"
-        >
-          <stop stopColor="#D8DBE0" stopOpacity="0" />
-          <stop offset="0.44" stopColor="#D8DBE0" />
-          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient
-          id="pf-fill"
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="60"
-          x2="0"
-          y2="250"
-        >
-          <stop stopColor="#D8DBE0" />
-          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0.1" />
-        </linearGradient>
-      </defs>
+      <div className="relative">
+        {/* The light that travels down behind the stack. Blurred and
+            wider than the plates so the falloff is what you notice,
+            not an edge. */}
+        <span
+          className="absolute inset-x-[-14px] top-[-13px] h-[56px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(50% 50% at 50% 50%, rgba(10,10,10,0.13) 0%, rgba(10,10,10,0) 72%)",
+            filter: "blur(5px)",
+            animation: `layerLight ${LAYER_CYCLE}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
+          }}
+        />
 
-      <g strokeWidth="1">
-        <path d="M152.9 0V273.5" stroke="url(#pf-v)" />
-        <path d="M195.5 0V298.1" stroke="url(#pf-v)" />
-        <path d="M238.1 0V344.6" stroke="url(#pf-v)" />
-        <path d="M280.7 78V419.7" stroke="url(#pf-v)" />
-        <path d="M152.4 197.6H346.3" stroke="url(#pf-h)" />
-        <path d="M0.4 119.7H346.3" stroke="url(#pf-h)" />
-      </g>
+        <ul
+          className="relative flex flex-col"
+          style={{ gap: LAYER_GAP, width: 172 }}
+        >
+          {gtmLayers.map((layer, i) => (
+            <li
+              key={layer}
+              className="flex items-center rounded-[9px] px-3.5"
+              style={{
+                height: LAYER_H,
+                backgroundColor: "#F3F4F6",
+                color: "#9CA3AF",
+                animation: `layerPlate ${LAYER_CYCLE}s ${(
+                  i * 0.15 * LAYER_CYCLE
+                ).toFixed(2)}s ease-in-out infinite`,
+              }}
+            >
+              <span className="text-[9.5px] font-medium uppercase tracking-[0.16em]">
+                {layer}
+              </span>
+            </li>
+          ))}
+        </ul>
 
-      {/* Two filled cells anchor the grid so it reads as deliberate. */}
-      <rect
-        x="238.6"
-        y="198.1"
-        width="41.6"
-        height="44.4"
-        fill="url(#pf-fill)"
-        opacity="0.4"
-      />
-      <rect
-        x="196"
-        y="75.9"
-        width="41.6"
-        height="44.4"
-        fill="url(#pf-fill)"
-        opacity="0.4"
-      />
-    </svg>
+        {/* Feedback loop. A stroke that fades at both ends, so it
+            suggests a return path without drawing a bracket. */}
+        <svg
+          className="absolute right-0"
+          style={{
+            top: LAYER_H / 2,
+            height: LAYER_PITCH * (gtmLayers.length - 1),
+            width: 28,
+            animation: `layerLoop ${LAYER_CYCLE}s ease-in-out infinite`,
+          }}
+          viewBox="0 0 28 144"
+          fill="none"
+        >
+          <defs>
+            <linearGradient id="pf-loop" x1="0" y1="144" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#0A0A0A" stopOpacity="0" />
+              <stop offset="0.45" stopColor="#0A0A0A" stopOpacity="0.3" />
+              <stop offset="1" stopColor="#0A0A0A" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M1 142 C 25 130, 25 14, 1 2"
+            stroke="url(#pf-loop)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+    </div>
   );
 }
 
 /* ------------------------------------------------------------------
-   Work approach, vertical ticker of the process steps
+   Work approach.
+
+   Dots on a rail read as a wireframe of a process rather than the
+   process itself. This is a single soft surface that glides between
+   the steps instead: one object moving, on a spring, with the numerals
+   borrowed from the focus grid so the two sections rhyme. Nothing is
+   drawn as a line, so there is nothing to look sharp.
    ------------------------------------------------------------------ */
+const STEP_MS = 2000;
+const STEP_H = 34;
+
 function WorkApproachCard() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(
+      () => setActive((i) => (i + 1) % workSteps.length),
+      STEP_MS
+    );
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <Frame className="h-full">
       <Card className="flex h-full flex-col p-5">
         <p className="text-sm text-body">How I work</p>
 
-        {/* Fixed viewport height, the keyframes translate a known
-            distance, so letting this stretch would expose the whole
-            track instead of a moving window onto it. */}
-        <div
-          className="relative mt-2 h-[168px] overflow-hidden"
-          style={{
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
-          }}
-        >
-          {/* Hairlines marking the "current" slot */}
-          <div
-            className="pointer-events-none absolute inset-x-0 z-10"
-            style={{ top: "calc(50% - 23px)", height: 46 }}
-          >
-            <div className="h-px w-full bg-line" />
-            <div className="absolute bottom-0 left-0 h-px w-full bg-line" />
-          </div>
+        <div className="relative mt-3">
+          {/* The gliding surface. Spring easing gives it a little
+              settle at the end of each move, which is what separates
+              "considered" from "mechanical". */}
+          <span
+            className="absolute inset-x-[-12px] rounded-[10px] bg-frame"
+            style={{
+              height: STEP_H,
+              transform: `translateY(${active * STEP_H}px)`,
+              transition: "transform 620ms cubic-bezier(0.34, 1.36, 0.64, 1)",
+            }}
+          />
 
-          {/* Duplicated so the loop has no visible seam */}
-          <div style={{ animation: "workFlowScroll 12s linear infinite" }}>
-            {[...workSteps, ...workSteps].map((step, i) => (
-              <div
-                key={i}
-                className="flex h-[46px] items-center text-base font-medium text-ink"
-              >
-                {step}
-              </div>
-            ))}
-          </div>
+          <ul className="relative">
+            {workSteps.map((step, i) => {
+              const isActive = i === active;
+              return (
+                <li
+                  key={step}
+                  className="flex items-center gap-3"
+                  style={{ height: STEP_H }}
+                >
+                  <span
+                    className={`w-[16px] text-[10px] tabular-nums transition-colors duration-500 ease-default ${
+                      isActive ? "text-ink" : "text-muted/70"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`text-base transition-colors duration-500 ease-default ${
+                      isActive ? "font-medium text-ink" : "text-muted"
+                    }`}
+                  >
+                    {step}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </Card>
     </Frame>
@@ -203,52 +253,57 @@ function WorkApproachCard() {
 }
 
 /* ------------------------------------------------------------------
-   LinkedIn preview card
+   Tool agnosticism, stated then demonstrated.
+   The claim is that the stack evolves, so the stack is the thing that
+   moves while the sentence above it holds still.
    ------------------------------------------------------------------ */
-function LinkedInCard() {
+function ToolsCard() {
   return (
     <Frame className="h-full">
       <Card className="flex h-full flex-col p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
-              <Image
-                src="/images/dp.jpg"
-                alt="Vivek M"
-                width={40}
-                height={40}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-base font-medium text-ink">Vivek M</p>
-              <p className="text-sm text-muted">@vivekm</p>
-            </div>
-          </div>
-
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-tile bg-[#0A66C2] text-white">
-            <LinkedInIcon size={18} />
-          </span>
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-medium text-ink">
+            Tools change. Systems don&apos;t.
+          </h3>
+          <p className="text-base text-body">
+            I am tool agnostic. The stack evolves. The thinking behind it stays
+            the same.
+          </p>
         </div>
 
-        <p className="mt-4 text-base text-body">
-          Building MVP&apos;s &amp; AI Systems. Smart Context Coder{" "}
-          <span className="text-[#0A66C2]">@growthbae</span>
-        </p>
-
-        <p className="mt-2 text-sm text-muted">
-          India · 2,153 followers · 500+ connections
-        </p>
-
-        <div className="mt-auto pt-4">
-          <a
-            href="https://www.linkedin.com/in/vivek-m12/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-base font-medium text-ink transition-opacity duration-200 hover:opacity-60"
+        {/* Masked at both edges so names dissolve instead of being
+            chopped off by the card border. */}
+        <div
+          className="relative mt-auto overflow-hidden pt-6"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          }}
+        >
+          {/* Listed twice; the keyframe travels exactly -50%, so the
+              second copy is under the cursor when the first wraps. */}
+          <div
+            className="marquee-track flex items-center gap-6"
+            style={{ animationDuration: "30s" }}
           >
-            View profile <ArrowIcon />
-          </a>
+            {[...tools, ...tools].map((tool, i) => (
+              <span
+                key={`${tool.name}-${i}`}
+                title={tool.name}
+                className="group relative flex h-7 w-7 shrink-0 items-center justify-center"
+              >
+                <Image
+                  src={tool.src}
+                  alt={tool.name}
+                  width={28}
+                  height={28}
+                  className="h-7 w-7 object-contain transition-transform duration-300 ease-default group-hover:scale-110"
+                />
+              </span>
+            ))}
+          </div>
         </div>
       </Card>
     </Frame>
@@ -263,11 +318,9 @@ export default function HomeTab() {
     <div className="flex flex-col gap-5">
       {/* ---------- Hero ---------- */}
       <Frame hero>
-        {/* Everything inside sits on a 28px rhythm, with 12px for the
-            tightest pairs. Nesting the headline and buttons into one
-            block keeps them reading as a single unit. */}
+        {/* 28px rhythm, 12px for the tightest pairs. */}
         <Card className="relative flex flex-col gap-7 p-8 sm:p-11">
-          <HeroBackdrop />
+          <GtmSystemDiagram />
 
           {/* Identity */}
           <div className="relative z-[1] flex items-center gap-5">
@@ -283,51 +336,29 @@ export default function HomeTab() {
             </div>
             <div className="flex flex-col gap-0.5">
               <h2 className="text-lg font-medium text-ink">Vivek M</h2>
-              <p className="text-base text-body">AI Product Builder</p>
+              <p className="text-base text-body">AI Native GTM-E</p>
             </div>
           </div>
 
-          {/* Headline + actions, one unit */}
-          <div className="relative z-[1] flex flex-col gap-7">
-            {/* 80% keeps the copy clear of the backdrop grid */}
-            <div className="flex max-w-full flex-col gap-3 sm:max-w-[80%]">
-              <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
-                I turn messy ideas into shipped AI products.
-              </h1>
-              <p className="text-md text-body">
-                Product-first. Execution-obsessed. AI-native. I operate at the
-                intersection of product thinking and technical execution.
-                Started in design, scaled into shipping full-stack systems, now
-                focused on AI-native products. I don&apos;t just explore ideas,
-                I ship them.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                href="mailto:purayathvivek@gmail.com?subject=Hey%20Vivek"
-                variant="primary"
-                className="w-full sm:w-auto"
-              >
-                Book a Free Call
-              </Button>
-              <Button
-                href="https://www.linkedin.com/in/vivek-m12/"
-                variant="secondary"
-                external
-                className="w-full sm:w-auto"
-              >
-                See my LinkedIn
-              </Button>
-            </div>
+          {/* Held to 58% so the copy never runs under the diagram */}
+          <div className="relative z-[1] flex max-w-full flex-col gap-3 md:max-w-[58%]">
+            <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
+              I build GTM systems that find the right people, at the right time,
+              with the right message.
+            </h1>
+            <p className="text-md text-body">
+              Clean lists. Right signals. Relevant outreach. I wire together
+              data, AI, and messaging that lands because it is relevant, not
+              because it is loud. Builder background. Revenue focus.
+            </p>
           </div>
         </Card>
       </Frame>
 
-      {/* ---------- Approach + LinkedIn ---------- */}
+      {/* ---------- Approach + tools ---------- */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <WorkApproachCard />
-        <LinkedInCard />
+        <ToolsCard />
       </div>
 
       {/* ---------- Focus ---------- */}
@@ -335,7 +366,7 @@ export default function HomeTab() {
         <SectionHeading
           label="What I focus on."
           title="Where I do my best work"
-          subtitle="Four areas where product thinking and technical execution actually compound."
+          subtitle="Four areas where GTM thinking and technical execution actually compound."
         />
 
         {/* 2px gaps on a grey frame turn into hairline rules between

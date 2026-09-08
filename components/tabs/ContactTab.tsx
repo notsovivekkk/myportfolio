@@ -91,7 +91,8 @@ export default function ContactTab() {
 
           <div className="flex flex-col items-center gap-3">
             <h1 className="max-w-[20ch] text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
-              Let&apos;s bring your idea to life
+              Available for GTM Engineering contracts. Let&apos;s build your
+              revenue system.
             </h1>
             <p className="max-w-[46ch] text-md text-body">
               Always open to new opportunities, collaborations, and creative

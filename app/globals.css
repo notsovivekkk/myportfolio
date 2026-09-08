@@ -353,57 +353,69 @@ body {
   }
 }
 
-/* Work approach, pause at each step, then snap forward with anticipation */
-@keyframes workFlowScroll {
+/* The five layers of a GTM system, drawn as material rather than as a
+   diagram. Each layer is a plate that lifts toward the viewer as the
+   signal reaches it: it brightens to white, gains a soft shadow, and
+   its label darkens. Nothing here is a hairline, which is what stopped
+   the earlier version from reading as a wireframe. */
+@keyframes layerPlate {
+  0%,
+  100% {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    box-shadow: 0 0 0 0 rgba(41, 41, 41, 0);
+    transform: translateX(0);
+  }
+  4%,
+  11% {
+    background-color: #ffffff;
+    color: #0a0a0a;
+    box-shadow: 0 8px 18px -8px rgba(41, 41, 41, 0.22),
+      0 0 0 1px rgba(229, 231, 235, 0.9);
+    transform: translateX(-3px);
+  }
+  22% {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    box-shadow: 0 0 0 0 rgba(41, 41, 41, 0);
+    transform: translateX(0);
+  }
+}
+
+/* The signal itself: a soft blurred light passing behind the stack,
+   so the plates read as being lit rather than switched on. */
+@keyframes layerLight {
   0% {
     transform: translateY(0);
+    opacity: 0;
   }
-  13.5% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  7% {
+    opacity: 1;
   }
-  16.67% {
-    transform: translateY(-46px);
-    animation-timing-function: linear;
+  64% {
+    transform: translateY(144px);
+    opacity: 1;
   }
-  30% {
-    transform: translateY(-46px);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  73%,
+  100% {
+    transform: translateY(144px);
+    opacity: 0;
   }
-  33.33% {
-    transform: translateY(-92px);
-    animation-timing-function: linear;
+}
+
+/* The feedback loop breathes in and out instead of being a drawn
+   bracket, so it stays an impression rather than a schematic. */
+@keyframes layerLoop {
+  0%,
+  62% {
+    opacity: 0;
   }
-  46.5% {
-    transform: translateY(-92px);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
-  }
-  50% {
-    transform: translateY(-138px);
-    animation-timing-function: linear;
-  }
-  63% {
-    transform: translateY(-138px);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
-  }
-  66.67% {
-    transform: translateY(-184px);
-    animation-timing-function: linear;
-  }
-  79.5% {
-    transform: translateY(-184px);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
-  }
-  83.33% {
-    transform: translateY(-230px);
-    animation-timing-function: linear;
-  }
-  96.5% {
-    transform: translateY(-230px);
-    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  74%,
+  88% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(-276px);
+    opacity: 0;
   }
 }
 

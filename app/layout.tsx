@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vivek M, AI Product Builder",
+  title: "Vivek M, AI Native GTM-E",
   description:
-    "I turn messy ideas into shipped AI products. Product-first. Execution-obsessed. AI-native.",
+    "I build GTM systems that find the right people, at the right time, with the right message. Clean lists. Right signals. Relevant outreach."
 };
 
 export const viewport: Viewport = {
