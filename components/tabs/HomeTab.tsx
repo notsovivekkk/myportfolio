@@ -1,7 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import BentoCard from "@/components/cards/BentoCard";
+import {
+  Frame,
+  Card,
+  Panel,
+  Section,
+  SectionHeading,
+  Button,
+  Pill,
+  ArrowIcon,
+} from "@/components/ui/Primitives";
+import { LinkedInIcon } from "@/components/ui/SocialIcons";
+
+/* ------------------------------------------------------------------
+   Content
+   ------------------------------------------------------------------ */
 
 const skillItems = [
   { label: "Product Strategy", color: "#007AFF" },
@@ -28,26 +42,22 @@ const focusItems = [
   {
     num: "01",
     title: "AI Product Systems",
-    desc: "From concept → shipped.",
-    gradient: "from-blue-500 to-violet-500",
+    desc: "From concept to shipped.",
   },
   {
     num: "02",
     title: "Human-AI Interaction",
     desc: "Designing for trust and behavior.",
-    gradient: "from-rose-400 to-orange-400",
   },
   {
     num: "03",
     title: "Customer Discovery",
     desc: "Turning conversations into product clarity.",
-    gradient: "from-emerald-400 to-teal-500",
   },
   {
     num: "04",
     title: "MVP Velocity",
     desc: "Shipping under ambiguity.",
-    gradient: "from-amber-400 to-yellow-500",
   },
 ];
 
@@ -60,195 +70,327 @@ const workSteps = [
   "Shipping",
 ];
 
-const LinkedInIcon = () => (
-  <div className="w-10 h-10 rounded-lg bg-[#0A66C2] flex items-center justify-center shadow-sm shrink-0">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  </div>
-);
-
-const ArrowIcon = () => (
-  <svg
-    width="10"
-    height="10"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-  >
-    <path d="M7 17L17 7M17 7H7M17 7V17" />
-  </svg>
-);
-
-function WorkApproachCard() {
+/* ------------------------------------------------------------------
+   Hero backdrop, decorative line grid.
+   Gradient-faded strokes so the lines dissolve rather than stop, which
+   keeps them reading as texture instead of as content.
+   ------------------------------------------------------------------ */
+function HeroBackdrop() {
   return (
-    <BentoCard className="h-[220px] sm:h-auto sm:aspect-square p-5 flex flex-col overflow-hidden">
-      <div
-        className="flex-1 relative overflow-hidden"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
-        }}
-      >
-        {/* Subtle center slot indicator */}
-        <div
-          className="absolute left-0 right-0 pointer-events-none z-10"
-          style={{ top: "calc(50% - 23px)", height: 46 }}
+    <svg
+      className="pointer-events-none absolute -bottom-9 -right-7 h-[260px] w-[215px] sm:h-[420px] sm:w-[347px]"
+      viewBox="0 0 347 420"
+      fill="none"
+      aria-hidden="true"
+    >
+      {/* userSpaceOnUse, not the default objectBoundingBox: a straight
+          line has a zero-width (or zero-height) bounding box, and Chrome
+          declines to paint an objectBoundingBox gradient into one, the
+          strokes silently vanish. */}
+      <defs>
+        <linearGradient
+          id="pf-v"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="420"
         >
-          <div className="h-px w-full bg-black/[0.07] dark:bg-white/[0.09]" />
-          <div className="h-px w-full bg-black/[0.07] dark:bg-white/[0.09] absolute bottom-0 left-0" />
-        </div>
+          <stop stopColor="#D8DBE0" stopOpacity="0" />
+          <stop offset="0.44" stopColor="#D8DBE0" />
+          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient
+          id="pf-h"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="347"
+          y2="0"
+        >
+          <stop stopColor="#D8DBE0" stopOpacity="0" />
+          <stop offset="0.44" stopColor="#D8DBE0" />
+          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient
+          id="pf-fill"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="60"
+          x2="0"
+          y2="250"
+        >
+          <stop stopColor="#D8DBE0" />
+          <stop offset="1" stopColor="#D8DBE0" stopOpacity="0.1" />
+        </linearGradient>
+      </defs>
 
-        {/* Scrolling track — duplicated for seamless loop */}
-        <div style={{ animation: "workFlowScroll 12s linear infinite" }}>
-          {[...workSteps, ...workSteps].map((step, i) => (
-            <div
-              key={i}
-              className="h-[46px] flex items-center text-[13px] sm:text-[14px] font-medium text-primary dark:text-white"
-            >
-              {step}
-            </div>
-          ))}
-        </div>
-      </div>
-    </BentoCard>
+      <g strokeWidth="1">
+        <path d="M152.9 0V273.5" stroke="url(#pf-v)" />
+        <path d="M195.5 0V298.1" stroke="url(#pf-v)" />
+        <path d="M238.1 0V344.6" stroke="url(#pf-v)" />
+        <path d="M280.7 78V419.7" stroke="url(#pf-v)" />
+        <path d="M152.4 197.6H346.3" stroke="url(#pf-h)" />
+        <path d="M0.4 119.7H346.3" stroke="url(#pf-h)" />
+      </g>
+
+      {/* Two filled cells anchor the grid so it reads as deliberate. */}
+      <rect
+        x="238.6"
+        y="198.1"
+        width="41.6"
+        height="44.4"
+        fill="url(#pf-fill)"
+        opacity="0.4"
+      />
+      <rect
+        x="196"
+        y="75.9"
+        width="41.6"
+        height="44.4"
+        fill="url(#pf-fill)"
+        opacity="0.4"
+      />
+    </svg>
   );
 }
 
-export default function HomeTab() {
+/* ------------------------------------------------------------------
+   Work approach, vertical ticker of the process steps
+   ------------------------------------------------------------------ */
+function WorkApproachCard() {
   return (
-    <div>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
-        {/* Hero */}
-        <BentoCard className="lg:col-span-6 p-5 sm:p-10 md:p-12 min-h-0">
-          <h1 className="text-[19px] sm:text-2xl md:text-[28px] font-semibold tracking-tight sm:whitespace-nowrap mb-4 sm:mb-12 dark:text-white">
-            <span className="text-primary dark:text-white font-bold">Vivek</span> is shipping{" "}
-            <u className="decoration-2 underline-offset-4 decoration-black dark:decoration-white">AI products</u>.
-          </h1>
-          <div className="space-y-2 sm:space-y-6 text-[13px] sm:text-[17px] text-secondary dark:text-gray-400 leading-relaxed">
-            <p>i turn messy ideas into shipped AI products.</p>
-            <p>product-first.</p>
-            <p>execution-obsessed.</p>
-            <p>AI-native.</p>
-            <p>
-              i operate at the intersection of product thinking and technical execution. i started in design, scaled
-              into shipping full-stack systems, and am now focused on AI-native products.
-            </p>
-            <p>i don&apos;t just explore ideas.</p>
-            <p>i ship them.</p>
-          </div>
-        </BentoCard>
+    <Frame className="h-full">
+      <Card className="flex h-full flex-col p-5">
+        <p className="text-sm text-body">How I work</p>
 
-        {/* Right column */}
-        <div className="lg:col-span-6 flex flex-col gap-4 sm:gap-5">
-          {/* Work Approach + LinkedIn: side-by-side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Work Approach Animation */}
-            <WorkApproachCard />
-
-            {/* LinkedIn */}
-            <BentoCard className="sm:aspect-square p-5 sm:p-5 flex flex-col justify-between overflow-hidden">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3 sm:gap-2.5 min-w-0">
-                  <div className="w-10 h-10 sm:w-9 sm:h-9 rounded-full overflow-hidden ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
-                    <Image src="/images/dp.jpg" alt="Vivek M" width={40} height={40} className="object-cover w-full h-full" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="text-[14px] sm:text-[13px] font-bold text-primary dark:text-white leading-tight truncate">Vivek M</h4>
-                    <p className="text-xs sm:text-[11px] text-secondary dark:text-gray-500">@vivekm</p>
-                  </div>
-                </div>
-                <LinkedInIcon />
-              </div>
-              <p className="text-[14px] sm:text-[12px] text-primary dark:text-gray-200 leading-relaxed sm:line-clamp-3">
-                Building MVP&apos;s & AI Systems . Smart Context Coder{" "}
-                <span className="text-[#0A66C2]">@growthbae</span>
-              </p>
-              <p className="text-xs sm:text-[11px] text-secondary dark:text-gray-500 mt-2 sm:mt-1.5">
-                India · 2,153 followers · 500+ connections
-              </p>
-              <div className="mt-4 sm:mt-auto pt-3 border-t border-gray-100 dark:border-gray-800 flex justify-center">
-                <a
-                  href="https://www.linkedin.com/in/vivek-m12/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs sm:text-[11px] font-semibold text-primary dark:text-gray-300 flex items-center gap-1.5 hover:opacity-70 transition-opacity"
-                >
-                  View profile <ArrowIcon />
-                </a>
-              </div>
-            </BentoCard>
+        {/* Fixed viewport height, the keyframes translate a known
+            distance, so letting this stretch would expose the whole
+            track instead of a moving window onto it. */}
+        <div
+          className="relative mt-2 h-[168px] overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%)",
+          }}
+        >
+          {/* Hairlines marking the "current" slot */}
+          <div
+            className="pointer-events-none absolute inset-x-0 z-10"
+            style={{ top: "calc(50% - 23px)", height: 46 }}
+          >
+            <div className="h-px w-full bg-line" />
+            <div className="absolute bottom-0 left-0 h-px w-full bg-line" />
           </div>
 
-          {/* Focus fills remaining gap on desktop */}
-          <BentoCard className="p-5 sm:p-6 flex-1">
-            <h3 className="text-xs font-semibold text-muted dark:text-gray-500 tracking-widest uppercase mb-4 flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <path d="M3 9h18M9 21V9" />
-              </svg>{" "}
-              FOCUS
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              {focusItems.map((item) => (
-                <div
-                  key={item.num}
-                  className="bg-bg dark:bg-white/5 rounded-2xl p-3 sm:p-4 border border-gray-100 dark:border-white/5"
-                >
-                  <span className={`text-[11px] font-bold tracking-wider bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent`}>
-                    {item.num}
-                  </span>
-                  <h4 className="text-[13px] sm:text-sm font-semibold text-primary dark:text-white mt-1.5 leading-snug">
-                    {item.title}
-                  </h4>
-                  <p className="text-[11px] sm:text-xs text-secondary dark:text-gray-500 mt-1 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </BentoCard>
-        </div>
-
-        {/* Skill Stack — same width as Hero */}
-        <BentoCard className="lg:col-span-6 p-5 sm:p-6">
-          <h3 className="text-xs font-semibold text-muted dark:text-gray-500 tracking-widest uppercase mb-4 flex items-center gap-2">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>{" "}
-            SKILL STACK
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {skillItems.map((skill) => (
-              <span
-                key={skill.label}
-                className="group inline-flex items-center gap-1.5 bg-bg dark:bg-white/5 rounded-full px-3 py-1.5 text-xs font-medium text-secondary dark:text-gray-400 border border-gray-100 dark:border-white/5 cursor-default transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:text-primary dark:hover:text-white hover:border-gray-200 dark:hover:border-white/10"
+          {/* Duplicated so the loop has no visible seam */}
+          <div style={{ animation: "workFlowScroll 12s linear infinite" }}>
+            {[...workSteps, ...workSteps].map((step, i) => (
+              <div
+                key={i}
+                className="flex h-[46px] items-center text-base font-medium text-ink"
               >
-                <span className="w-1.5 h-1.5 rounded-full shrink-0 transition-transform duration-300 group-hover:scale-150" style={{ backgroundColor: skill.color }} />
-                {skill.label}
-              </span>
+                {step}
+              </div>
             ))}
           </div>
-        </BentoCard>
+        </div>
+      </Card>
+    </Frame>
+  );
+}
 
-        {/* Quote — next to Skill Stack */}
-        <BentoCard className="lg:col-span-6 p-8 sm:p-10 flex flex-col items-center justify-center text-center">
-          <span className="font-quote text-4xl sm:text-5xl text-muted/30 dark:text-white/10 leading-none select-none mb-2">&ldquo;</span>
-          <blockquote className="font-quote italic text-[16px] sm:text-[19px] leading-relaxed text-primary dark:text-gray-200 max-w-md">
-            Leverage isn&apos;t just code or capital , it&apos;s clarity. The clearer your thinking, the faster your systems compound.
-          </blockquote>
-          <div className="mt-5 flex items-center gap-3">
-            <span className="block w-8 h-px bg-muted/30 dark:bg-white/10" />
-            <span className="text-xs font-semibold tracking-widest uppercase text-muted dark:text-gray-500">Vivek</span>
-            <span className="block w-8 h-px bg-muted/30 dark:bg-white/10" />
+/* ------------------------------------------------------------------
+   LinkedIn preview card
+   ------------------------------------------------------------------ */
+function LinkedInCard() {
+  return (
+    <Frame className="h-full">
+      <Card className="flex h-full flex-col p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <Image
+                src="/images/dp.jpg"
+                alt="Vivek M"
+                width={40}
+                height={40}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-base font-medium text-ink">Vivek M</p>
+              <p className="text-sm text-muted">@vivekm</p>
+            </div>
           </div>
-        </BentoCard>
+
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-tile bg-[#0A66C2] text-white">
+            <LinkedInIcon size={18} />
+          </span>
+        </div>
+
+        <p className="mt-4 text-base text-body">
+          Building MVP&apos;s &amp; AI Systems. Smart Context Coder{" "}
+          <span className="text-[#0A66C2]">@growthbae</span>
+        </p>
+
+        <p className="mt-2 text-sm text-muted">
+          India · 2,153 followers · 500+ connections
+        </p>
+
+        <div className="mt-auto pt-4">
+          <a
+            href="https://www.linkedin.com/in/vivek-m12/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-base font-medium text-ink transition-opacity duration-200 hover:opacity-60"
+          >
+            View profile <ArrowIcon />
+          </a>
+        </div>
+      </Card>
+    </Frame>
+  );
+}
+
+/* ------------------------------------------------------------------
+   Tab
+   ------------------------------------------------------------------ */
+export default function HomeTab() {
+  return (
+    <div className="flex flex-col gap-5">
+      {/* ---------- Hero ---------- */}
+      <Frame hero>
+        {/* Everything inside sits on a 28px rhythm, with 12px for the
+            tightest pairs. Nesting the headline and buttons into one
+            block keeps them reading as a single unit. */}
+        <Card className="relative flex flex-col gap-7 p-8 sm:p-11">
+          <HeroBackdrop />
+
+          {/* Identity */}
+          <div className="relative z-[1] flex items-center gap-5">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full sm:h-[90px] sm:w-[90px]">
+              <Image
+                src="/images/dp.jpg"
+                alt="Vivek M"
+                width={90}
+                height={90}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <h2 className="text-lg font-medium text-ink">Vivek M</h2>
+              <p className="text-base text-body">AI Product Builder</p>
+            </div>
+          </div>
+
+          {/* Headline + actions, one unit */}
+          <div className="relative z-[1] flex flex-col gap-7">
+            {/* 80% keeps the copy clear of the backdrop grid */}
+            <div className="flex max-w-full flex-col gap-3 sm:max-w-[80%]">
+              <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
+                I turn messy ideas into shipped AI products.
+              </h1>
+              <p className="text-md text-body">
+                Product-first. Execution-obsessed. AI-native. I operate at the
+                intersection of product thinking and technical execution.
+                Started in design, scaled into shipping full-stack systems, now
+                focused on AI-native products. I don&apos;t just explore ideas,
+                I ship them.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                href="mailto:purayathvivek@gmail.com?subject=Hey%20Vivek"
+                variant="primary"
+                className="w-full sm:w-auto"
+              >
+                Book a Free Call
+              </Button>
+              <Button
+                href="https://www.linkedin.com/in/vivek-m12/"
+                variant="secondary"
+                external
+                className="w-full sm:w-auto"
+              >
+                See my LinkedIn
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </Frame>
+
+      {/* ---------- Approach + LinkedIn ---------- */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <WorkApproachCard />
+        <LinkedInCard />
       </div>
+
+      {/* ---------- Focus ---------- */}
+      <Panel className="flex flex-col gap-9 sm:gap-10">
+        <SectionHeading
+          label="What I focus on."
+          title="Where I do my best work"
+          subtitle="Four areas where product thinking and technical execution actually compound."
+        />
+
+        {/* 2px gaps on a grey frame turn into hairline rules between
+            cards, a grid without drawing a single border. */}
+        <div className="grid grid-cols-1 gap-0.5 overflow-hidden rounded-card sm:grid-cols-2">
+          {focusItems.map((item) => (
+            <div
+              key={item.num}
+              className="flex min-h-[200px] flex-col justify-between gap-8 bg-surface p-6 sm:min-h-[240px] sm:p-8"
+            >
+              <span className="text-3xl text-body opacity-20">{item.num}</span>
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-normal text-ink">{item.title}</h3>
+                <p className="text-base text-body">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Panel>
+
+      {/* ---------- Skill stack ---------- */}
+      <Section cardClassName="flex flex-col gap-7">
+        <SectionHeading
+          label="Skill stack."
+          title="Tools and thinking I build with"
+        />
+        <div className="flex flex-wrap gap-2">
+          {skillItems.map((skill) => (
+            <Pill key={skill.label}>
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ backgroundColor: skill.color }}
+              />
+              {skill.label}
+            </Pill>
+          ))}
+        </div>
+      </Section>
+
+      {/* ---------- Quote ---------- */}
+      <Frame>
+        <Card className="flex flex-col items-center gap-6 px-6 py-12 text-center sm:px-16 sm:py-14">
+          <blockquote className="max-w-[46ch] text-xl font-normal text-ink">
+            Leverage isn&apos;t just code or capital, it&apos;s clarity. The
+            clearer your thinking, the faster your systems compound.
+          </blockquote>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-8 bg-line" />
+            <span className="text-sm font-medium uppercase tracking-[0.04em] text-muted">
+              Vivek
+            </span>
+            <span className="h-px w-8 bg-line" />
+          </div>
+        </Card>
+      </Frame>
     </div>
   );
 }

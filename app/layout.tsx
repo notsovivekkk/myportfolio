@@ -1,12 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-const playfair = Playfair_Display({ subsets: ["latin"], style: ["italic", "normal"], variable: "--font-playfair" });
+// One family, loaded as a variable font. Inter's character variants
+// (set in globals.css) give us the display-ish feel without a second file.
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Vivek — AI Product Builder",
+  title: "Vivek M, AI Product Builder",
   description:
     "I turn messy ideas into shipped AI products. Product-first. Execution-obsessed. AI-native.",
 };
@@ -14,6 +19,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
@@ -22,10 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} ${playfair.variable} min-h-screen antialiased selection:bg-black selection:text-white`}
-      >
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen bg-surface font-sans antialiased selection:bg-ink selection:text-white">
         {children}
       </body>
     </html>

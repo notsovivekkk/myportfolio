@@ -2,126 +2,447 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   DESIGN TOKENS
+   One source of truth. Components never hardcode these values
+   they read them through Tailwind's theme (see tailwind.config.ts)
+   or the .pf-* classes below.
+   ============================================================ */
+:root {
+  /* Surfaces, the signature move is a soft grey FRAME wrapping a
+     white CARD. Two layers of depth without a single heavy shadow. */
+  --color-surface: #ffffff;
+  --color-frame: #f3f4f6;
+
+  /* Text, never pure black. #0A0A0A reads softer and prints better. */
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #4a4f54;
+  --color-text-muted: #9ca3af;
+
+  --color-border: #e5e7eb;
+
+  /* Accent, reserved for the "available" signal only. Scarcity is
+     what makes an accent feel like an accent. */
+  --color-accent: #178d00;
+  --color-accent-soft: #e2f9dd;
+
+  /* Radii, larger container, smaller child. The 2px difference
+     between frame (22) and card (20) is what makes the inset read. */
+  --radius-frame: 22px;
+  --radius-card: 20px;
+  --radius-tile: 12px;
+  --radius-control: 12px;
+  --radius-pill: 999px;
+
+  /* Motion, exits are faster than entrances. */
+  --duration-fast: 100ms;
+  --duration-base: 200ms;
+  --duration-slow: 350ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #EBEBEB;
-  color: #111111;
-  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  /* Inter's character variants get us close to Inter Display's
+     tighter, more geometric feel without loading a second family. */
+  font-feature-settings: "cv03" on, "cv04" on, "cv09" on, "cv11" on;
 }
 
-.bento-card {
-  background-color: #F5F5F5;
-  border-radius: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.02);
+/* ============================================================
+   THE FRAME + CARD PATTERN
+   Every content block is a grey frame holding a white card.
+   ============================================================ */
+.pf-frame {
+  background-color: var(--color-frame);
+  border-radius: var(--radius-frame);
+  padding: 2px;
   overflow: hidden;
-  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dark body {
-  background-color: #111111;
-  color: #F9F9F9;
+/* Hero variant. The 66px shoulder is exactly the height the fixed nav
+   occupies, and both are the same grey, so the nav appears to sit
+   inside this block rather than float above it. Declared here rather
+   than as a utility because .pf-frame's `padding` shorthand would
+   otherwise beat a Tailwind `pt-*` class. */
+.pf-frame-hero {
+  padding: 66px 2px 2px;
 }
 
-.dark .bento-card {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+/* Panel, a frame used on its own, with content sitting directly on
+   the grey. Used where a section heading should feel recessed. */
+.pf-panel {
+  background-color: var(--color-frame);
+  border-radius: var(--radius-frame);
+  padding: 36px 20px 20px;
+  overflow: hidden;
 }
 
-* {
-  transition-property: color, background-color, border-color, box-shadow, opacity;
-  transition-duration: 0.4s;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+@media (min-width: 640px) {
+  .pf-panel {
+    padding: 50px 32px 32px;
+  }
 }
 
-/* Tab transitions */
+/* Same nav shoulder, for tabs that open with a Panel instead of a card. */
+.pf-panel-hero {
+  padding: 66px 20px 20px;
+}
+
+@media (min-width: 640px) {
+  .pf-panel-hero {
+    padding: 66px 32px 32px;
+  }
+}
+
+.pf-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+/* A tile is a card's child, softer, sits on white or grey. */
+.pf-tile {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+}
+
+/* ============================================================
+   CONTROLS
+   The layered shadows are doing the work here: an inner highlight
+   fakes a light source from above, the stacked outer shadows fake
+   a soft ambient occlusion. That's what makes them feel physical.
+   ============================================================ */
+.pf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 8px 20px;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  transition: transform var(--duration-base) var(--easing-default),
+    box-shadow var(--duration-base) var(--easing-default),
+    opacity var(--duration-base) var(--easing-default);
+}
+
+.pf-btn:active {
+  transform: scale(0.98);
+}
+
+.pf-btn:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.pf-btn-primary {
+  background-color: var(--color-text-primary);
+  color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    0 0 0 1px #111827, 0 1.5px 3px rgba(31, 31, 31, 0.08),
+    0 4px 4px rgba(31, 31, 31, 0.07), 0 12px 6px rgba(31, 31, 31, 0.04);
+}
+
+.pf-btn-primary:hover {
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4),
+    0 0 0 1px #111827, 0 2px 4px rgba(31, 31, 31, 0.1),
+    0 6px 8px rgba(31, 31, 31, 0.08), 0 16px 10px rgba(31, 31, 31, 0.05);
+}
+
+.pf-btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: inset 0 2px 2px #ffffff,
+    0 12px 12px -6px rgba(41, 41, 41, 0.04),
+    0 6px 6px -3px rgba(41, 41, 41, 0.04),
+    0 3px 3px -1.5px rgba(41, 41, 41, 0.02), 0 0 0 1px var(--color-border);
+}
+
+.pf-btn-secondary:hover {
+  box-shadow: inset 0 2px 2px #ffffff,
+    0 16px 16px -6px rgba(41, 41, 41, 0.06),
+    0 8px 8px -3px rgba(41, 41, 41, 0.05),
+    0 3px 3px -1.5px rgba(41, 41, 41, 0.03), 0 0 0 1px #d1d5db;
+}
+
+/* Small square icon button, same shadow language, tighter box. */
+.pf-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  color: #1f1f1f;
+  box-shadow: inset 0 2px 2px #ffffff,
+    0 12px 12px -6px rgba(41, 41, 41, 0.04),
+    0 6px 6px -3px rgba(41, 41, 41, 0.04),
+    0 3px 3px -1.5px rgba(41, 41, 41, 0.02), 0 0 0 1px var(--color-border);
+  transition: transform var(--duration-base) var(--easing-default),
+    color var(--duration-base) var(--easing-default);
+}
+
+.pf-icon-btn:hover {
+  transform: translateY(-1px);
+  color: var(--color-text-primary);
+}
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
 .tab-content {
   display: none;
-  animation: fadeIn 0.3s ease-in-out;
 }
 
 .tab-content.active {
   display: block;
+  animation: fadeIn var(--duration-slow) var(--easing-default);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Work tab animations */
+/* Nav links: a hairline that wipes in from the left on hover, plus the
+   colour shift. Small enough to feel like feedback, not a performance. */
+.pf-navlink {
+  position: relative;
+}
+
+.pf-navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--easing-default);
+}
+
+.pf-navlink:hover::after {
+  transform: scaleX(1);
+}
+
+/* The active tab already reads as current through weight and colour. */
+.pf-navlink[aria-current="page"]::after {
+  display: none;
+}
+
+/* Mobile menu expand. Animating grid-template-rows gets a real
+   height transition without hardcoding a max-height guess. */
+.pf-menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-slow) var(--easing-default),
+    opacity var(--duration-base) var(--easing-default);
+  opacity: 0;
+}
+
+.pf-menu[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pf-menu > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ============================================================
+   MOTION, carried over from the previous build
+   ============================================================ */
 @keyframes msgIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes syncPulse {
-  0%   { transform: translateY(-10px); opacity: 0; }
-  20%  { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { transform: translateY(10px); opacity: 0; }
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
 }
 
 @keyframes checkTick {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes popupSlide {
-  from { transform: translateY(110%); }
-  to   { transform: translateY(0); }
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes sectionFill {
-  from { opacity: 0; transform: scaleX(0.85); transform-origin: left; }
-  to   { opacity: 1; transform: scaleX(1); }
+  from {
+    opacity: 0;
+    transform: scaleX(0.85);
+    transform-origin: left;
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 @keyframes spinStar {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes phraseIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Work approach — pause at each step, then snap forward with anticipation */
+/* Work approach, pause at each step, then snap forward with anticipation */
 @keyframes workFlowScroll {
-  0%      { transform: translateY(0); }
-  13.5%   { transform: translateY(0);      animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  16.67%  { transform: translateY(-46px);  animation-timing-function: linear; }
-  30%     { transform: translateY(-46px);  animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  33.33%  { transform: translateY(-92px);  animation-timing-function: linear; }
-  46.5%   { transform: translateY(-92px);  animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  50%     { transform: translateY(-138px); animation-timing-function: linear; }
-  63%     { transform: translateY(-138px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  66.67%  { transform: translateY(-184px); animation-timing-function: linear; }
-  79.5%   { transform: translateY(-184px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  83.33%  { transform: translateY(-230px); animation-timing-function: linear; }
-  96.5%   { transform: translateY(-230px); animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4); }
-  100%    { transform: translateY(-276px); }
+  0% {
+    transform: translateY(0);
+  }
+  13.5% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  16.67% {
+    transform: translateY(-46px);
+    animation-timing-function: linear;
+  }
+  30% {
+    transform: translateY(-46px);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  33.33% {
+    transform: translateY(-92px);
+    animation-timing-function: linear;
+  }
+  46.5% {
+    transform: translateY(-92px);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  50% {
+    transform: translateY(-138px);
+    animation-timing-function: linear;
+  }
+  63% {
+    transform: translateY(-138px);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  66.67% {
+    transform: translateY(-184px);
+    animation-timing-function: linear;
+  }
+  79.5% {
+    transform: translateY(-184px);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  83.33% {
+    transform: translateY(-230px);
+    animation-timing-function: linear;
+  }
+  96.5% {
+    transform: translateY(-230px);
+    animation-timing-function: cubic-bezier(0.25, -0.4, 0.5, 1.4);
+  }
+  100% {
+    transform: translateY(-276px);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .marquee-track {
   width: max-content;
-  animation: marquee 18s linear infinite;
+  animation: marquee 28s linear infinite;
 }
 
 .marquee-track:hover {
   animation-play-state: paused;
+}
+
+/* Respect the setting. Non-negotiable. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
