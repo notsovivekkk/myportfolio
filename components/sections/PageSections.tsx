@@ -94,7 +94,7 @@ function WorkApproachCard() {
   return (
     <Frame className="h-full">
       <Card className="flex h-full flex-col p-5">
-        <p className="text-sm text-body">How I work</p>
+        <p className="text-sm text-body">The Workflow</p>
 
         <div className="relative mt-3">
           {/* The gliding surface. Spring easing gives it a little
