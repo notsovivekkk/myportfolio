@@ -21,6 +21,11 @@
 
   --color-border: #e5e7eb;
 
+  /* The one chromatic note on the page. Scoped to the story heading,
+     where the writing is in first person and earns a different voice. */
+  --color-story: #4c5fd7;
+  --color-highlight: 198, 255, 78; /* rgb parts, so alpha can vary */
+
   /* Accent, reserved for the "available" signal only. Scarcity is
      what makes an accent feel like an accent. */
   --color-accent: #178d00;
@@ -197,6 +202,33 @@ body {
 .pf-icon-btn:hover {
   transform: translateY(-1px);
   color: var(--color-text-primary);
+}
+
+/* Highlighter pen.
+
+   The angle is what sells it. A flat rectangle of colour reads as a
+   background; a gradient raked across at 104deg with the ends dropping
+   to zero reads as a stroke laid down by hand, because that is roughly
+   what a chisel tip leaves behind.
+
+   box-decoration-break: clone matters as soon as the sentence wraps.
+   Without it a wrapped highlight is one box stretched across the break,
+   with a gap on one line and an overhang on the next. With it, every
+   line fragment gets its own complete stroke. */
+.pf-highlight {
+  background-image: linear-gradient(
+    104deg,
+    rgba(var(--color-highlight), 0) 0.4%,
+    rgba(var(--color-highlight), 0.85) 2.2%,
+    rgba(var(--color-highlight), 0.85) 96.5%,
+    rgba(var(--color-highlight), 0) 99.6%
+  );
+  color: var(--color-text-primary);
+  padding: 0.12em 0.3em;
+  margin: 0 -0.22em;
+  border-radius: 0.2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* ============================================================

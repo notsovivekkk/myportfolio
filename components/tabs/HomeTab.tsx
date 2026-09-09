@@ -6,35 +6,13 @@ import {
   Frame,
   Card,
   Panel,
-  Section,
   SectionHeading,
-  Pill,
 } from "@/components/ui/Primitives";
+import StorySection from "@/components/sections/StorySection";
 
 /* ------------------------------------------------------------------
    Content
    ------------------------------------------------------------------ */
-
-const skillItems = [
-  { label: "Product Strategy", color: "#007AFF" },
-  { label: "User Research", color: "#007AFF" },
-  { label: "PRDs", color: "#007AFF" },
-  { label: "Roadmapping", color: "#007AFF" },
-  { label: "Agile / Scrum", color: "#007AFF" },
-  { label: "Customer Discovery", color: "#007AFF" },
-  { label: "Hypothesis Testing", color: "#007AFF" },
-  { label: "LLMs", color: "#AF52DE" },
-  { label: "RAG Systems", color: "#AF52DE" },
-  { label: "AI Agents", color: "#AF52DE" },
-  { label: "Prompt Eng.", color: "#AF52DE" },
-  { label: "Cursor", color: "#AF52DE" },
-  { label: "Claude Code", color: "#AF52DE" },
-  { label: "Vibe Coding", color: "#AF52DE" },
-  { label: "Figma", color: "#FF9500" },
-  { label: "UX Design", color: "#FF9500" },
-  { label: "Wireframing", color: "#FF9500" },
-  { label: "Systems Thinking", color: "#FF9500" },
-];
 
 const focusItems = [
   {
@@ -294,24 +272,8 @@ export default function HomeTab() {
         </div>
       </Panel>
 
-      {/* ---------- Skill stack ---------- */}
-      <Section cardClassName="flex flex-col gap-7">
-        <SectionHeading
-          label="Skill stack."
-          title="Tools and thinking I build with"
-        />
-        <div className="flex flex-wrap gap-2">
-          {skillItems.map((skill) => (
-            <Pill key={skill.label}>
-              <span
-                className="h-1.5 w-1.5 shrink-0 rounded-full"
-                style={{ backgroundColor: skill.color }}
-              />
-              {skill.label}
-            </Pill>
-          ))}
-        </div>
-      </Section>
+      {/* ---------- Story ---------- */}
+      <StorySection />
 
       {/* ---------- Quote ---------- */}
       <Frame>

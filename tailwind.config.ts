@@ -6,6 +6,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
+        hand: ["var(--font-caveat)", "ui-rounded", "cursive"],
       },
       colors: {
         // Semantic names — say what a color is FOR, not what it looks like.
@@ -18,6 +19,7 @@ const config: Config = {
         line: "#E5E7EB", // borders, dividers
         accent: "#178D00",
         "accent-soft": "#E2F9DD",
+        story: "#4C5FD7", // handwritten story heading only
 
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
