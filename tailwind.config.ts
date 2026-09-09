@@ -21,6 +21,23 @@ const config: Config = {
         "accent-soft": "#E2F9DD",
         story: "#4C5FD7", // handwritten story heading only
 
+        /* Company page palettes. Additive: the main site's tokens above
+           are untouched, so a company page can never restyle the
+           portfolio by accident. Duplicate this block per company. */
+        vn: {
+          primary: "#7B2D8B",
+          "primary-deep": "#66246F", // hover, keeps white text at AA
+          "primary-soft": "#F5E7F8", // pill and accent fills
+          blush: "#FDE8F0", // gradient start
+          frame: "#F8F1FA", // the grey frame, tinted purple
+          line: "#EBDCEF",
+          ink: "#1A1A1A",
+          body: "#4A4550",
+          muted: "#7A7280", // 4.9:1 on white, safe for captions
+          match: "#1E7F4A", // honest tick
+          developing: "#B57209", // amber dot
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
