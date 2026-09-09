@@ -231,29 +231,6 @@ body {
   box-decoration-break: clone;
 }
 
-/* ============================================================
-   TAB SWITCHING
-   ============================================================ */
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-  animation: fadeIn var(--duration-slow) var(--easing-default);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Nav links: a hairline that wipes in from the left on hover, plus the
    colour shift. Small enough to feel like feedback, not a performance. */
 .pf-navlink {
@@ -278,7 +255,7 @@ body {
 }
 
 /* The active tab already reads as current through weight and colour. */
-.pf-navlink[aria-current="page"]::after {
+.pf-navlink[aria-current]::after {
   display: none;
 }
 

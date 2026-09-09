@@ -71,8 +71,12 @@ function InlineAvatar({
 }
 
 export default function StorySection() {
+  /* Padding is asymmetric on purpose. The top gap separates the story
+     from the focus grid above it; the bottom one only has to clear the
+     next card, so it does not need to match. Equal padding left a hole
+     under the last line. */
   return (
-    <section className="px-6 py-16 sm:px-8 sm:py-24">
+    <section className="px-6 pb-10 pt-14 sm:px-8 sm:pb-12 sm:pt-20">
       {/* The only handwritten type on the site, and the only colour.
           Both are doing the same job: signalling that this is Vivek
           talking, not the site describing him. */}
@@ -133,6 +137,10 @@ export default function StorySection() {
           detect when they are ready, and reach them with something relevant
           enough to get a reply.
         </p>
+
+        {/* The resolution. The highlight above is the peak of the story,
+            this is where it lands, so it takes weight rather than colour. */}
+        <p className="text-ink">Now I build the systems that do that.</p>
       </div>
     </section>
   );

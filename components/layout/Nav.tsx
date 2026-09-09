@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { socialLinks } from "@/components/ui/SocialIcons";
-import type { TabId, NavItem } from "@/types";
+import type { NavItem } from "@/types";
 
 interface NavProps {
-  activeTab: TabId;
-  onSwitch: (tab: TabId) => void;
   items: NavItem[];
 }
 
@@ -39,7 +37,7 @@ function Clock() {
         {time ?? " "}
       </span>
       <span className="whitespace-nowrap text-base text-body">
-        Kerala, India
+        Bangalore, India
       </span>
     </div>
   );
@@ -48,13 +46,7 @@ function Clock() {
 /* Hamburger that morphs into a close mark. The middle bar fades while
    the outer two converge and rotate, so it reads as one object
    changing state rather than two icons swapping. */
-function MenuToggle({
-  open,
-  onClick,
-}: {
-  open: boolean;
-  onClick: () => void;
-}) {
+function MenuToggle({ open, onClick }: { open: boolean; onClick: () => void }) {
   const bar =
     "absolute left-[10px] h-px w-5 bg-ink transition-all duration-300 ease-default";
 
@@ -74,10 +66,7 @@ function MenuToggle({
           transform: open ? "rotate(45deg)" : "none",
         }}
       />
-      <span
-        className={bar}
-        style={{ top: "50%", opacity: open ? 0 : 1 }}
-      />
+      <span className={bar} style={{ top: "50%", opacity: open ? 0 : 1 }} />
       <span
         className={bar}
         style={{
@@ -89,16 +78,62 @@ function MenuToggle({
   );
 }
 
-export default function Nav({ activeTab, onSwitch, items }: NavProps) {
+export default function Nav({ items }: NavProps) {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("top");
 
-  const select = (tab: TabId) => {
-    onSwitch(tab);
+  const go = useCallback((id: string) => {
     setOpen(false);
-  };
+    if (id === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    // scrollIntoView honours the scroll-margin-top on the target, which
+    // is what keeps the section clear of the fixed bar.
+    document.getElementById(id)?.scrollIntoView({ block: "start" });
+  }, []);
 
-  // Escape closes the menu. Cheap to add, and its absence is the kind
-  // of thing that makes a menu feel like a trap on a phone.
+  /* Scroll spy. Walks the sections top down and keeps the last one whose
+     top has passed the nav, which is the section you are actually
+     reading. The bottom-of-page case is special: the final section is
+     often shorter than the viewport, so it would never become "current"
+     on scroll position alone. */
+  useEffect(() => {
+    const ids = items.map((i) => i.id).filter((id) => id !== "top");
+    let raf = 0;
+
+    const update = () => {
+      const y = window.scrollY + 120;
+      let current = "top";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top + window.scrollY <= y) current = id;
+      }
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 8
+      ) {
+        current = ids[ids.length - 1] ?? current;
+      }
+      setActive(current);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [items]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -123,12 +158,16 @@ export default function Nav({ activeTab, onSwitch, items }: NavProps) {
 
             <div className="hidden items-center gap-5 sm:flex">
               {items.map((item) => {
-                const isActive = activeTab === item.id;
+                const isActive = active === item.id;
                 return (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => select(item.id)}
-                    aria-current={isActive ? "page" : undefined}
+                    href={item.id === "top" ? "#" : `#${item.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      go(item.id);
+                    }}
+                    aria-current={isActive ? "true" : undefined}
                     className={`pf-navlink cursor-pointer text-base outline-none transition-colors duration-200 ease-default focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-muted ${
                       isActive
                         ? "font-medium text-ink"
@@ -136,7 +175,7 @@ export default function Nav({ activeTab, onSwitch, items }: NavProps) {
                     }`}
                   >
                     {item.label}
-                  </button>
+                  </a>
                 );
               })}
             </div>
@@ -165,19 +204,23 @@ export default function Nav({ activeTab, onSwitch, items }: NavProps) {
             <div>
               <div className="flex flex-col items-center gap-5 px-4 pb-7 pt-3">
                 {items.map((item) => {
-                  const isActive = activeTab === item.id;
+                  const isActive = active === item.id;
                   return (
-                    <button
+                    <a
                       key={item.id}
-                      onClick={() => select(item.id)}
+                      href={item.id === "top" ? "#" : `#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        go(item.id);
+                      }}
                       tabIndex={open ? 0 : -1}
-                      aria-current={isActive ? "page" : undefined}
+                      aria-current={isActive ? "true" : undefined}
                       className={`text-lg outline-none transition-colors duration-200 ease-default ${
                         isActive ? "font-medium text-ink" : "text-body"
                       }`}
                     >
                       {item.label}
-                    </button>
+                    </a>
                   );
                 })}
 

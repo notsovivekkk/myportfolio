@@ -9,6 +9,10 @@ import {
   SectionHeading,
 } from "@/components/ui/Primitives";
 import StorySection from "@/components/sections/StorySection";
+import BackgroundSection from "@/components/sections/BackgroundSection";
+import ContactCta from "@/components/sections/ContactCta";
+import ClosingQuote from "@/components/sections/ClosingQuote";
+import PersonalSection from "@/components/sections/PersonalSection";
 
 /* ------------------------------------------------------------------
    Content
@@ -199,7 +203,7 @@ function ToolsCard() {
 /* ------------------------------------------------------------------
    Tab
    ------------------------------------------------------------------ */
-export default function HomeTab() {
+export default function PageSections() {
   return (
     <div className="flex flex-col gap-5">
       {/* ---------- Hero ---------- */}
@@ -273,24 +277,25 @@ export default function HomeTab() {
       </Panel>
 
       {/* ---------- Story ---------- */}
-      <StorySection />
+      <div id="story" className="scroll-mt-24">
+        <StorySection />
+      </div>
 
-      {/* ---------- Quote ---------- */}
-      <Frame>
-        <Card className="flex flex-col items-center gap-6 px-6 py-12 text-center sm:px-16 sm:py-14">
-          <blockquote className="max-w-[46ch] text-xl font-normal text-ink">
-            Leverage isn&apos;t just code or capital, it&apos;s clarity. The
-            clearer your thinking, the faster your systems compound.
-          </blockquote>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-8 bg-line" />
-            <span className="text-sm font-medium uppercase tracking-[0.04em] text-muted">
-              Vivek
-            </span>
-            <span className="h-px w-8 bg-line" />
-          </div>
-        </Card>
-      </Frame>
+      {/* ---------- Background ---------- */}
+      <div id="background" className="scroll-mt-24">
+        <BackgroundSection />
+      </div>
+
+      {/* ---------- Contact ---------- */}
+      <div id="contact" className="scroll-mt-24">
+        <ContactCta />
+      </div>
+
+      {/* ---------- Off the clock ---------- */}
+      <PersonalSection />
+
+      {/* ---------- Closing ---------- */}
+      <ClosingQuote />
     </div>
   );
 }
