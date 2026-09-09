@@ -85,98 +85,6 @@ const tools = [
   { name: "Webflow", src: "/images/tools/webflow.png" },
 ];
 
-/* The five layers, top to bottom, with the feedback arc closing the
-   loop back to Signal. Names only: naming tools here would date the
-   diagram and duplicate the marquee below it. */
-const gtmLayers = ["Signal", "Enrichment", "Intelligence", "Action", "Feedback"];
-
-const LAYER_CYCLE = 9; // seconds for one pass plus the return
-const LAYER_H = 30; // plate height
-const LAYER_GAP = 6;
-const LAYER_PITCH = LAYER_H + LAYER_GAP;
-
-/* ------------------------------------------------------------------
-   The GTM system, running quietly beside the claim it supports.
-   Built from the same rounded plates and soft shadows as the rest of
-   the page, so it reads as an object on the page rather than a
-   schematic pasted onto it.
-   ------------------------------------------------------------------ */
-function GtmSystemDiagram() {
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute right-11 top-1/2 hidden w-[206px] -translate-y-1/2 md:block"
-    >
-      <div className="relative">
-        {/* The light that travels down behind the stack. Blurred and
-            wider than the plates so the falloff is what you notice,
-            not an edge. */}
-        <span
-          className="absolute inset-x-[-14px] top-[-13px] h-[56px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(50% 50% at 50% 50%, rgba(10,10,10,0.13) 0%, rgba(10,10,10,0) 72%)",
-            filter: "blur(5px)",
-            animation: `layerLight ${LAYER_CYCLE}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
-          }}
-        />
-
-        <ul
-          className="relative flex flex-col"
-          style={{ gap: LAYER_GAP, width: 172 }}
-        >
-          {gtmLayers.map((layer, i) => (
-            <li
-              key={layer}
-              className="flex items-center rounded-[9px] px-3.5"
-              style={{
-                height: LAYER_H,
-                backgroundColor: "#F3F4F6",
-                color: "#9CA3AF",
-                animation: `layerPlate ${LAYER_CYCLE}s ${(
-                  i * 0.15 * LAYER_CYCLE
-                ).toFixed(2)}s ease-in-out infinite`,
-              }}
-            >
-              <span className="text-[9.5px] font-medium uppercase tracking-[0.16em]">
-                {layer}
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Feedback loop. A stroke that fades at both ends, so it
-            suggests a return path without drawing a bracket. */}
-        <svg
-          className="absolute right-0"
-          style={{
-            top: LAYER_H / 2,
-            height: LAYER_PITCH * (gtmLayers.length - 1),
-            width: 28,
-            animation: `layerLoop ${LAYER_CYCLE}s ease-in-out infinite`,
-          }}
-          viewBox="0 0 28 144"
-          fill="none"
-        >
-          <defs>
-            <linearGradient id="pf-loop" x1="0" y1="144" x2="0" y2="0" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0A0A0A" stopOpacity="0" />
-              <stop offset="0.45" stopColor="#0A0A0A" stopOpacity="0.3" />
-              <stop offset="1" stopColor="#0A0A0A" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M1 142 C 25 130, 25 14, 1 2"
-            stroke="url(#pf-loop)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
 /* ------------------------------------------------------------------
    Work approach.
 
@@ -319,11 +227,9 @@ export default function HomeTab() {
       {/* ---------- Hero ---------- */}
       <Frame hero>
         {/* 28px rhythm, 12px for the tightest pairs. */}
-        <Card className="relative flex flex-col gap-7 p-8 sm:p-11">
-          <GtmSystemDiagram />
-
+        <Card className="flex flex-col gap-7 p-8 sm:p-11 sm:pl-14">
           {/* Identity */}
-          <div className="relative z-[1] flex items-center gap-5">
+          <div className="flex items-center gap-5">
             <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full sm:h-[90px] sm:w-[90px]">
               <Image
                 src="/images/dp.jpg"
@@ -340,8 +246,9 @@ export default function HomeTab() {
             </div>
           </div>
 
-          {/* Held to 58% so the copy never runs under the diagram */}
-          <div className="relative z-[1] flex max-w-full flex-col gap-3 md:max-w-[58%]">
+          {/* Capped so the line length stays readable, not because anything
+              sits to the right of it any more */}
+          <div className="flex max-w-full flex-col gap-3 md:max-w-[72%]">
             <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
               I build GTM systems that find the right people, at the right time,
               with the right message.
