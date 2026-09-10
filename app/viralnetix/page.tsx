@@ -4,6 +4,7 @@ import {
   WhyViralnetix,
   Assessment,
   Projects,
+  FullBackgroundLink,
   Contact,
 } from "./sections";
 
@@ -40,6 +41,7 @@ export default function ViralnetixPage() {
             <WhyViralnetix />
             <Assessment />
             <Projects />
+            <FullBackgroundLink />
             <Contact />
           </div>
         </div>

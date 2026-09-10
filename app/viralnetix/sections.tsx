@@ -87,7 +87,7 @@ function Button({
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="inline-flex h-10 w-full items-center justify-center rounded-[12px] bg-vn-primary px-5 text-base font-medium text-white shadow-[0_1px_2px_rgba(26,26,26,0.08),0_6px_16px_-6px_rgba(123,45,139,0.45)] outline-none transition-colors duration-200 ease-default hover:bg-vn-primary-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vn-primary sm:w-auto"
+      className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-[12px] bg-vn-primary px-5 text-base font-medium text-white shadow-[0_1px_2px_rgba(26,26,26,0.08),0_6px_16px_-6px_rgba(123,45,139,0.45)] outline-none transition-colors duration-200 ease-default hover:bg-vn-primary-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vn-primary sm:w-auto"
     >
       {children}
     </a>
@@ -296,13 +296,18 @@ export function Hero() {
 
       <div className="mt-10 flex flex-col gap-3 sm:mt-12">
         <p className="text-sm font-medium uppercase tracking-[0.08em] text-vn-primary">
-          GTM Engineer Application
+          GTM Engineer Application (Junior GTM-E)
         </p>
-        <h1 className="max-w-[20ch] text-[26px] font-normal leading-[1.2] tracking-[-0.02em] text-vn-ink sm:text-3xl">
-          I built three things for Viralnetix before applying.
+        {/* 26ch, widened from 20ch. The old headline was short enough to
+            hold a narrow measure; this one would break into four lines
+            there, which is a paragraph, not a headline. */}
+        <h1 className="max-w-[26ch] text-[26px] font-normal leading-[1.2] tracking-[-0.02em] text-vn-ink sm:text-3xl">
+          I spent the last week building three projects for Viralnetix. Before
+          even applying.
         </h1>
         <p className="max-w-[52ch] text-md leading-[1.65] text-vn-body">
-          Not because I had to. Because I wanted to show how I think.
+          Saw Danilo&apos;s post about Ljubica. Did not want to show up empty
+          handed.
         </p>
       </div>
     </section>
@@ -343,7 +348,7 @@ export function Assessment() {
           <SectionHeading
             label="Where I stand against the role"
             title="Honest assessment against your requirements"
-            subtitle="Four strong matches, two still developing. Marked as they actually are, not as they would look best."
+            subtitle="Four strong matches, two still developing."
           />
 
           <ul className="flex flex-col gap-0.5 overflow-hidden rounded-[12px]">
@@ -438,6 +443,29 @@ export function Projects() {
         </Frame>
       ))}
     </div>
+  );
+}
+
+/* The step between the work and the ask, in the same card and the same
+   button as everything else on the page. It was a bare text link first
+   and read as a footnote, which is the wrong weight for the one place
+   the reader can go and check the claims.
+
+   Points at #story rather than #background: the story runs from video
+   editing through to GTM engineering, so landing there means reading it
+   in order instead of arriving halfway through. */
+export function FullBackgroundLink() {
+  return (
+    <Frame>
+      <Card className="flex items-center justify-center px-8 py-9 text-center sm:px-11 sm:py-10">
+        <Button href="https://notsovivek.fyi/#story" external>
+          My full background is here
+          {/* Hidden from assistive tech so the accessible name stays a
+              sentence rather than ending in "right arrow". */}
+          <span aria-hidden="true">&rarr;</span>
+        </Button>
+      </Card>
+    </Frame>
   );
 }
 
