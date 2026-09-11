@@ -144,7 +144,7 @@ const assessment: {
   {
     requirement: "n8n, Zapier, or Make",
     position:
-      "Familiar conceptually. Have not built with them yet. On the list. Always been a Claude Code enthusiast and builder, so this is the same muscle.",
+      "Familiar conceptually. Have not built with them yet. On the list. Always been a Claude Code enthusiast and builder, so this is the same muscle, I believe.",
     status: "developing",
   },
 ];
