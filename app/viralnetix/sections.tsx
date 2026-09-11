@@ -60,15 +60,23 @@ function SectionHeading({
   subtitle?: string;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    /* The three levels were 12 / 20 / 14 at one weight apart, which is
+       too close to lead the eye. Now 12 semibold / 22 semibold / 16
+       regular: the size jump does the ranking and the weight drop at
+       the subtitle marks where reading starts. */
+    <div className="flex flex-col gap-2">
       {label ? (
-        <p className="text-sm font-medium uppercase tracking-[0.08em] text-vn-primary">
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-vn-primary">
           {label}
         </p>
       ) : null}
-      <h2 className="text-xl font-medium text-vn-ink">{title}</h2>
+      <h2 className="text-[22px] font-semibold leading-[1.25] tracking-[-0.015em] text-vn-ink">
+        {title}
+      </h2>
       {subtitle ? (
-        <p className="max-w-[56ch] text-base text-vn-body">{subtitle}</p>
+        <p className="max-w-[56ch] text-md leading-[1.6] text-vn-body">
+          {subtitle}
+        </p>
       ) : null}
     </div>
   );
@@ -106,19 +114,19 @@ const assessment: {
   {
     requirement: "1-2 years Sales, GTM, RevOps experience",
     position:
-      "No formal GTM title yet. But 6 years of client acquisition through outbound at GrowthBae. This is a junior role built for hunger, and that is exactly where I fit.",
+      "No formal GTM title yet. But 6 years of client acquisition through outbound at GrowthBae. Looking for junior role, with extreme hunger to prove and own outcomes in 2-3 months.",
     status: "match",
   },
   {
     requirement: "Strong understanding of B2B sales funnels",
     position:
-      "Built full funnel systems. ICP research, signal detection, list building, enrichment, sequencing, campaign execution.",
+      "Yes I do understand and can converse with confidence. ICP research, signal detection, list building, enrichment, sequencing, campaign execution.",
     status: "match",
   },
   {
     requirement: "Clay, Instantly, HeyReach, Apollo experience",
     position:
-      "Clay capstone built end to end. Apollo and HeyReach used hands on. Instantly familiar. Deepline and Claude Code as additional stack.",
+      "Clay projects built end to end. Apollo and HeyReach used hands on. Instantly familiar. Deepline and Claude Code as additional stack.",
     status: "match",
   },
   {
@@ -266,16 +274,28 @@ function LoomEmbed({ src, title }: { src?: string; title: string }) {
 function ProjectBlock({
   label,
   children,
+  lead = false,
 }: {
   label: string;
   children: ReactNode;
+  lead?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="text-sm font-medium uppercase tracking-[0.08em] text-vn-muted">
+      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-vn-muted">
         {label}
       </p>
-      <p className="text-base leading-[1.65] text-vn-body">{children}</p>
+      {/* The outcome is the proof, so it is the one block in the card
+          set in full ink. Description and process are context and stay a
+          step back, which means a reader skimming for results finds them
+          without reading the rest. */}
+      <p
+        className={`text-md leading-[1.65] ${
+          lead ? "font-medium text-vn-ink" : "text-vn-body"
+        }`}
+      >
+        {children}
+      </p>
     </div>
   );
 }
@@ -295,16 +315,24 @@ export function Hero() {
       </div>
 
       <div className="mt-10 flex flex-col gap-3 sm:mt-12">
-        <p className="text-sm font-medium uppercase tracking-[0.08em] text-vn-primary">
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-vn-primary">
           GTM Engineer Application (Junior GTM-E)
         </p>
-        {/* 26ch, widened from 20ch. The old headline was short enough to
-            hold a narrow measure; this one would break into four lines
-            there, which is a paragraph, not a headline. */}
-        <h1 className="max-w-[26ch] text-[26px] font-normal leading-[1.2] tracking-[-0.02em] text-vn-ink sm:text-3xl">
-          I spent the last week building three projects for Viralnetix. Before
-          even applying.
-        </h1>
+        {/* Headline and its note are grouped at a tighter 8px so the
+            aside reads as belonging to the headline rather than as a
+            third stacked line competing with the subtext below. */}
+        <div className="flex flex-col gap-2">
+          <h1 className="max-w-[26ch] text-[28px] font-medium leading-[1.15] tracking-[-0.022em] text-vn-ink sm:text-[32px]">
+            I spent the last week building three projects for the role :) in
+            context to Viralnetix.
+          </h1>
+          {/* Muted and a size down: it is an instruction, not a claim,
+              so it should not carry the weight of the sentence above. */}
+          <p className="text-md leading-[1.6] text-vn-muted">
+            (Please scroll to the bottom to watch the loom)
+          </p>
+        </div>
+
         <p className="max-w-[52ch] text-md leading-[1.65] text-vn-body">
           Saw Danilo&apos;s post about Ljubica. Did not want to show up empty
           handed.
@@ -347,7 +375,7 @@ export function Assessment() {
         <Card className="flex flex-col gap-7 p-8 sm:p-11">
           <SectionHeading
             label="Where I stand against the role"
-            title="Honest assessment against your requirements"
+            title="Honest assessment against your requirements (mentioned in the website)"
             subtitle="Four strong matches, two still developing."
           />
 
@@ -360,12 +388,15 @@ export function Assessment() {
                    instead of reading a grid. */
                 className="grid gap-x-8 gap-y-2 border-l-2 border-vn-primary/35 bg-vn-frame/60 py-4 pl-5 pr-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]"
               >
-                <p className="text-base font-medium text-vn-ink">
+                {/* The requirement is their words, so it carries the
+                    weight and the darkest ink: it is the thing a reader
+                    is scanning for. The answer sits a weight below. */}
+                <p className="text-md font-semibold leading-[1.5] text-vn-ink">
                   {row.requirement}
                 </p>
                 <div className="flex gap-2.5">
                   <StatusMark status={row.status} />
-                  <p className="text-base leading-[1.65] text-vn-body">
+                  <p className="text-md leading-[1.6] text-vn-body">
                     {row.position}
                   </p>
                 </div>
@@ -407,10 +438,12 @@ export function Projects() {
           <Card className="flex flex-col gap-6 border-l-[3px] border-vn-primary p-8 sm:p-11">
             <div className="flex flex-col gap-3">
               <div className="flex items-baseline gap-3">
-                <span className="text-base tabular-nums text-vn-muted">
+                {/* Numbered in the brand colour so a skimmer registers
+                    that there are three of these, not one long block. */}
+                <span className="text-md font-semibold tabular-nums text-vn-primary">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="text-xl font-medium text-vn-ink">
+                <h3 className="text-[22px] font-semibold leading-[1.25] tracking-[-0.015em] text-vn-ink">
                   {project.name}
                 </h3>
               </div>
@@ -419,7 +452,7 @@ export function Projects() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center rounded-full bg-vn-primary-soft px-3 py-1 text-sm font-medium text-vn-primary"
+                    className="inline-flex items-center rounded-full bg-vn-primary-soft px-3 py-1 text-sm font-semibold uppercase tracking-[0.04em] text-vn-primary"
                   >
                     {tag}
                   </span>
@@ -432,7 +465,9 @@ export function Projects() {
                 {project.description}
               </ProjectBlock>
               <ProjectBlock label="Process">{project.process}</ProjectBlock>
-              <ProjectBlock label="Outcome">{project.outcome}</ProjectBlock>
+              <ProjectBlock label="Outcome" lead>
+                {project.outcome}
+              </ProjectBlock>
             </div>
 
             <LoomEmbed
@@ -475,7 +510,7 @@ export function Contact() {
       <Frame>
         <Card className="flex flex-col items-center gap-6 px-8 py-12 text-center sm:px-11 sm:py-14">
           <div className="flex flex-col items-center gap-3">
-            <h2 className="text-[26px] font-normal leading-[1.2] tracking-[-0.02em] text-vn-ink sm:text-3xl">
+            <h2 className="text-[28px] font-medium leading-[1.15] tracking-[-0.022em] text-vn-ink sm:text-[32px]">
               Let&apos;s talk
             </h2>
             <p className="max-w-[46ch] text-md leading-[1.65] text-vn-body">

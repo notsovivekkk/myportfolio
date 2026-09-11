@@ -9,9 +9,9 @@ import {
 } from "./sections";
 
 export const metadata: Metadata = {
-  title: "Vivek M, GTM Engineer application to Viralnetix",
+  title: "Vivek M, Junior GTM Engineer application to Viralnetix",
   description:
-    "I built three things for Viralnetix before applying. A warm signal engine, an inbound intelligence agent, and a client expansion system.",
+    "I spent the last week building three projects for the role. A warm signal engine, an inbound intelligence agent, and a client expansion system.",
   /* Noindex on purpose. This is written for one company, and a targeted
      application page turning up in search results for other people is
      rarely what you want. Delete this block to make it public. */
