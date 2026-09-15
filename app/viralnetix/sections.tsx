@@ -257,12 +257,22 @@ function LoomEmbed({ src, title }: { src?: string; title: string }) {
       style={{ aspectRatio: LOOM_RATIO }}
       className="w-full overflow-hidden rounded-[12px] bg-vn-frame"
     >
-      {/* lazy because three video frames on one page is three network
-          conversations nobody has asked for until they scroll. */}
+      {/* Deliberately NOT loading="lazy".
+
+          Chrome's lazy trigger for iframes is far tighter than for
+          images: the frame only starts fetching once it is almost in
+          view. A Loom embed then needs a document fetch plus its player
+          bundle before it paints, so the visitor scrolls to the video
+          and watches an empty box for a second or two, which is what
+          made the page feel like it needed a reload.
+
+          Three frames is a small enough number to just start them at
+          page load and have all three warm by the time anyone reaches
+          them. The preconnects in page.tsx take the handshake cost off
+          that first fetch. */}
       <iframe
         src={src}
         title={title}
-        loading="lazy"
         allowFullScreen
         allow="fullscreen; picture-in-picture"
         className="h-full w-full border-0"

@@ -21,6 +21,16 @@ export const metadata: Metadata = {
 export default function ViralnetixPage() {
   return (
     <div className="relative min-h-screen bg-white">
+      {/* Warm the connections to Loom before the iframes ask for them.
+          React hoists these into <head>, so DNS, TCP and TLS to both
+          origins are already done when the embeds start fetching.
+          That is roughly 200-400ms taken off the first frame, which is
+          most of the visible delay on a video the visitor scrolls to. */}
+      <link rel="preconnect" href="https://www.loom.com" />
+      <link rel="preconnect" href="https://cdn.loom.com" />
+      <link rel="preconnect" href="https://cdn.loom.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://luna.loom.com" />
+
       {/* The brand gradient, held to the top of the page. Running it the
           full height would leave a long page washed pink; landing it in
           white by the end of the hero keeps the colour as an entrance
