@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import LoomPlayer from "./LoomPlayer";
 
 /* ==================================================================
    Viralnetix application page.
@@ -156,6 +157,10 @@ const projects: {
   process: string;
   outcome: string;
   loom?: string;
+  /* Loom's own poster frame, from their oEmbed endpoint. Hardcoded
+     rather than fetched so the page stays fully static and the poster
+     is in the HTML on first paint. */
+  poster?: string;
 }[] = [
   {
     name: "Warm Signal Engine",
@@ -166,6 +171,8 @@ const projects: {
       "Scraped LinkedIn post reactions from a top cybersecurity influencer using Apify. Classified 40 engagers as partner or direct buyer using Claude API. Enriched top prospects via Deepline harvestapi. Re-scored with real company context. Found verified emails via findymail waterfall.",
     outcome: "40 raw engagers to 4 verified leads.",
     loom: "https://www.loom.com/embed/416ea66b152341a1be9831d7dd3973c4",
+    poster:
+      "https://cdn.loom.com/sessions/thumbnails/416ea66b152341a1be9831d7dd3973c4-839f46d30f07eda4.jpg",
   },
   {
     name: "Inbound Intelligence Agent",
@@ -177,6 +184,8 @@ const projects: {
     outcome:
       "Tested on Adacta and Vanta. Output named real customers, specific traction data, and a pilot campaign idea. Response time under 25 seconds.",
     loom: "https://www.loom.com/embed/24009c3a33ef4ef195811aaffc50adda",
+    poster:
+      "https://cdn.loom.com/sessions/thumbnails/24009c3a33ef4ef195811aaffc50adda-924e826af7865e86.jpg",
   },
   {
     name: "Adacta Client Expansion System",
@@ -188,6 +197,8 @@ const projects: {
     outcome:
       "10 ranked lookalike European insurers. NURNBERGER ranked first. New CIO Markus Svanda joined 6 days before detection. Email found and MX safe. SIGNAL IDUNA Romania flagged as land and expand opportunity, same group as existing Adacta customer.",
     loom: "https://www.loom.com/embed/cf390641fb2a4c3eb62f77312be2b253",
+    poster:
+      "https://cdn.loom.com/sessions/thumbnails/cf390641fb2a4c3eb62f77312be2b253-b17e2a50c405437e.jpg",
   },
 ];
 
@@ -226,58 +237,6 @@ function StatusMark({ status }: { status: Status }) {
       <span className="h-[7px] w-[7px] rounded-full bg-vn-developing" />
       <span className="sr-only">Developing</span>
     </span>
-  );
-}
-
-/* Loom slot.
-
-   The ratio is Loom's own, taken from the padding-bottom in their embed
-   snippet. It is 64.86%, not 16:9, because Loom sizes the frame to the
-   recording rather than to video convention. Using aspect-video here
-   would letterbox every one of them.
-
-   The placeholder carries the same ratio, so a card is exactly as tall
-   before a video is added as after, and nothing below it moves. */
-const LOOM_RATIO = "100 / 64.86161251504213";
-
-function LoomEmbed({ src, title }: { src?: string; title: string }) {
-  if (!src) {
-    return (
-      <div
-        style={{ aspectRatio: LOOM_RATIO }}
-        className="flex w-full items-center justify-center rounded-[12px] border border-dashed border-vn-line bg-vn-frame"
-      >
-        <span className="text-base text-vn-muted">Loom embed here</span>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      style={{ aspectRatio: LOOM_RATIO }}
-      className="w-full overflow-hidden rounded-[12px] bg-vn-frame"
-    >
-      {/* Deliberately NOT loading="lazy".
-
-          Chrome's lazy trigger for iframes is far tighter than for
-          images: the frame only starts fetching once it is almost in
-          view. A Loom embed then needs a document fetch plus its player
-          bundle before it paints, so the visitor scrolls to the video
-          and watches an empty box for a second or two, which is what
-          made the page feel like it needed a reload.
-
-          Three frames is a small enough number to just start them at
-          page load and have all three warm by the time anyone reaches
-          them. The preconnects in page.tsx take the handshake cost off
-          that first fetch. */}
-      <iframe
-        src={src}
-        title={title}
-        allowFullScreen
-        allow="fullscreen; picture-in-picture"
-        className="h-full w-full border-0"
-      />
-    </div>
   );
 }
 
@@ -480,9 +439,14 @@ export function Projects() {
               </ProjectBlock>
             </div>
 
-            <LoomEmbed
+            {/* Only the first poster is priority. The other two are the
+                default lazy, so the top of the page is not competing
+                with images nobody has scrolled to yet. */}
+            <LoomPlayer
               src={project.loom}
+              poster={project.poster}
               title={`${project.name} walkthrough`}
+              priority={i === 0}
             />
           </Card>
         </Frame>
