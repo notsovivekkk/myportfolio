@@ -200,6 +200,19 @@ const projects: {
     poster:
       "https://cdn.loom.com/sessions/thumbnails/cf390641fb2a4c3eb62f77312be2b253-b17e2a50c405437e.jpg",
   },
+  {
+    name: "Engagement to Inbound Pipeline",
+    tags: ["Intelligence", "Automation"],
+    description:
+      "GTM agencies find clients through referrals or cold lists. Both have limits. This agent finds potential clients already showing intent by engaging with GTM content on LinkedIn. Signal based client acquisition. Automated.",
+    process:
+      "Scraped 100 engagers from two of Maja Voje's GTM posts using Apify. Classified each person as potential GTM agency client or not using Claude API and a custom ICP context document. Enriched qualified people via Deepline. Scored and ranked. Top 3 pushed to Slack with personalised outreach angles referencing the specific post they engaged with.",
+    outcome:
+      "Any GTM agency can now turn their LinkedIn content engagement into a qualified client pipeline automatically. Instead of guessing who saw your posts, this agent identifies which engagers fit your ICP, enriches them with company context, and pushes personalised outreach angles to Slack with the exact message to send. Post content. Agent finds the buyers. You reach out with relevance.",
+    loom: "https://www.loom.com/embed/795484d9f1b8440a9899f207bd448008",
+    poster:
+      "https://cdn.loom.com/sessions/thumbnails/795484d9f1b8440a9899f207bd448008-091af5b5a844764c.jpg",
+  },
 ];
 
 /* ---------------- Pieces ---------------- */
@@ -292,7 +305,7 @@ export function Hero() {
             third stacked line competing with the subtext below. */}
         <div className="flex flex-col gap-2">
           <h1 className="max-w-[26ch] text-[28px] font-medium leading-[1.15] tracking-[-0.022em] text-vn-ink sm:text-[32px]">
-            I spent the last week building three projects for the role :) in
+            I spent the last week building four projects for the role :) in
             context to Viralnetix.
           </h1>
           {/* Muted and a size down: it is an instruction, not a claim,
@@ -396,8 +409,8 @@ export function Projects() {
     <div id="projects" className="flex scroll-mt-8 flex-col gap-5">
       <div className="px-1 pt-3 sm:px-2">
         <SectionHeading
-          label="Three Projects"
-          title="Three things I built for Viralnetix"
+          label="Four Projects"
+          title="Four things I built for Viralnetix"
           subtitle="Each one is a working system, not a mockup. Walkthrough on each."
         />
       </div>
@@ -408,7 +421,7 @@ export function Projects() {
             <div className="flex flex-col gap-3">
               <div className="flex items-baseline gap-3">
                 {/* Numbered in the brand colour so a skimmer registers
-                    that there are three of these, not one long block. */}
+                    that there are four of these, not one long block. */}
                 <span className="text-md font-semibold tabular-nums text-vn-primary">
                   {String(i + 1).padStart(2, "0")}
                 </span>

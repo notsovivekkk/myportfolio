@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "Vivek M, Junior GTM Engineer application to Viralnetix",
   description:
-    "I spent the last week building three projects for the role. A warm signal engine, an inbound intelligence agent, and a client expansion system.",
+    "I spent the last week building four projects for the role. A warm signal engine, an inbound intelligence agent, a client expansion system, and an engagement to inbound pipeline.",
   /* Noindex on purpose. This is written for one company, and a targeted
      application page turning up in search results for other people is
      rarely what you want. Delete this block to make it public. */
