@@ -4,6 +4,7 @@ import {
   WhyViralnetix,
   Assessment,
   Projects,
+  Showcase,
   FullBackgroundLink,
   Contact,
 } from "./sections";
@@ -11,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "Vivek M, Junior GTM Engineer application to Viralnetix",
   description:
-    "I spent the last week building four projects for the role. A warm signal engine, an inbound intelligence agent, a client expansion system, and an engagement to inbound pipeline.",
+    "I spent the last week building three projects for the role. A warm signal engine, an inbound intelligence agent, and a client expansion system.",
   /* Noindex on purpose. This is written for one company, and a targeted
      application page turning up in search results for other people is
      rarely what you want. Delete this block to make it public. */
@@ -41,15 +42,15 @@ export default function ViralnetixPage() {
 
       <main className="relative mx-auto w-full max-w-page px-4 sm:px-5">
         <div className="mx-auto w-full max-w-content">
-          <Hero />
-
           {/* One gap governs the whole page, the same 20px the portfolio
-              uses between blocks. Per-section padding is what let the
-              spacing drift apart in the first place. */}
-          <div className="flex flex-col gap-5 pb-16 sm:pb-20">
+              uses between blocks, hero included. Every block is a frame
+              at the same width, so every left edge lines up. */}
+          <div className="flex flex-col gap-5 pb-16 pt-6 sm:pb-20 sm:pt-10">
+            <Hero />
             <WhyViralnetix />
             <Assessment />
             <Projects />
+            <Showcase />
             <FullBackgroundLink />
             <Contact />
           </div>
