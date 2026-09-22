@@ -1,76 +1,33 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 /* ==================================================================
-   Click to play Loom, with the player warmed ahead of the click.
+   Loom poster that opens the video on Loom.
 
-   The cost of a Loom embed is its player, not the video. Measured cold,
-   one embed pulls about 757 separate JavaScript files off cdn.loom.com
-   and takes around 12 seconds to finish them. That was the delay after
-   pressing play.
+   Every in-page approach traded one kind of friction for another. A
+   Loom embed boots by downloading about 760 JavaScript files, so live
+   embeds sat blank on a first visit, and a click to play facade could
+   still stall or resume badly inside the iframe.
 
-   Two parts to the fix:
+   So the page no longer plays video at all. Each project shows the
+   video's own first frame with a play button, and the whole poster is
+   a link to the video on loom.com in a new tab. Loom's own page is
+   the fastest and most reliable place a Loom plays: their player,
+   their controls, their speed settings, full screen, and this page is
+   still open behind it when the reviewer comes back.
 
-   1. The page ships posters, not players. Nothing touches loom.com on
-      first paint, so the page itself is never blank or slow.
-
-   2. While the reader is still on the hero and the assessment, one
-      hidden, silent Loom frame loads in the background purely to pull
-      the player code into the browser cache. All five videos use the
-      same player build, so warming it once warms every one of them. By
-      the time anyone presses play, the player boots from cache.
-
-   The warm up waits until the page is idle, so it never competes with
-   the page's own loading. It is skipped on data saver and 2G, where a
-   few MB nobody asked for is a real cost; there, hovering, focusing or
-   touching a play button still starts it, which buys back most of the
-   gap between intent and click.
+   Nothing here touches loom.com until someone clicks, so the
+   application page itself stays light and instant.
    ================================================================== */
 
 /* Loom's ratio, from the padding-bottom in their own embed snippet.
-   The poster and the iframe share it, so pressing play swaps one for
-   the other without moving a pixel below. */
+   64.86% rather than 16:9 because Loom sizes the frame to the
+   recording. */
 const LOOM_RATIO = "100 / 64.86161251504213";
 
-/* Any public embed works, since the player build is shared. Set by the
-   first player that mounts. */
-let warmSrc: string | null = null;
-let warmed = false;
-
-function warmPlayer() {
-  if (warmed || !warmSrc || typeof document === "undefined") return;
-  warmed = true;
-
-  const frame = document.createElement("iframe");
-  /* No autoplay: this frame exists to fill the cache, not to play. */
-  frame.src = warmSrc;
-  frame.title = "";
-  frame.tabIndex = -1;
-  frame.setAttribute("aria-hidden", "true");
-  /* Rendered, so the browser really runs it, but 1px, invisible, off
-     screen and untouchable. display:none frames can be deprioritised. */
-  frame.style.cssText =
-    "position:fixed;left:-10px;top:-10px;width:1px;height:1px;opacity:0;pointer-events:none;border:0;";
-  document.body.appendChild(frame);
-
-  /* Leave it long enough for the player to request its lazy chunks,
-     then drop it. The cache keeps what it fetched. */
-  frame.addEventListener("load", () => {
-    window.setTimeout(() => frame.remove(), 20000);
-  });
-}
-
-function shouldWarmOnIdle() {
-  const c = (
-    navigator as Navigator & {
-      connection?: { saveData?: boolean; effectiveType?: string };
-    }
-  ).connection;
-  if (!c) return true;
-  if (c.saveData) return false;
-  return !/(^|-)2g$/.test(c.effectiveType ?? "");
+/* The data holds embed URLs, the format Loom's snippet gives. The
+   watch page is the same id under /share/. */
+function shareUrl(src: string) {
+  return src.replace("/embed/", "/share/");
 }
 
 export default function LoomPlayer({
@@ -84,35 +41,6 @@ export default function LoomPlayer({
   title: string;
   priority?: boolean;
 }) {
-  const [playing, setPlaying] = useState(false);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (!src || warmSrc) return;
-    warmSrc = src;
-    if (!shouldWarmOnIdle()) return;
-
-    /* After the page has fully loaded and the main thread is free.
-       Safari has no requestIdleCallback, so it gets a plain delay. */
-    let idleId: number | undefined;
-    let timeoutId: number | undefined;
-    const schedule = () => {
-      if (typeof window.requestIdleCallback === "function") {
-        idleId = window.requestIdleCallback(warmPlayer, { timeout: 4000 });
-      } else {
-        timeoutId = window.setTimeout(warmPlayer, 1500);
-      }
-    };
-    if (document.readyState === "complete") schedule();
-    else window.addEventListener("load", schedule, { once: true });
-
-    return () => {
-      window.removeEventListener("load", schedule);
-      if (idleId !== undefined) window.cancelIdleCallback(idleId);
-      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
-    };
-  }, [src]);
-
   if (!src) {
     return (
       <div
@@ -125,9 +53,13 @@ export default function LoomPlayer({
   }
 
   return (
-    <div
+    <a
+      href={shareUrl(src)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Watch ${title} on Loom (opens in a new tab)`}
       style={{ aspectRatio: LOOM_RATIO }}
-      className="relative w-full overflow-hidden rounded-[12px] bg-vn-frame"
+      className="group relative block w-full overflow-hidden rounded-[12px] bg-vn-frame outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vn-primary"
     >
       {poster && (
         <Image
@@ -142,73 +74,43 @@ export default function LoomPlayer({
         />
       )}
 
-      {playing && (
-        <iframe
-          /* autoplay so the click that dismissed the poster is the same
-             click that starts the video. */
-          src={`${src}?autoplay=1`}
-          title={title}
-          allowFullScreen
-          allow="autoplay; fullscreen; picture-in-picture"
-          onLoad={() => setReady(true)}
-          /* Invisible until its document has loaded, then a short fade.
-             Without this the frame flashes an empty white box over the
-             poster for a beat before the player paints. */
-          className={`absolute inset-0 h-full w-full border-0 transition-opacity duration-300 ease-default ${
-            ready ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      )}
+      {/* Soft scrim: keeps the button legible over a bright recording
+          and makes the poster read as a video, not a screenshot. */}
+      <span className="absolute inset-0 bg-vn-ink/10 transition-colors duration-200 ease-default group-hover:bg-vn-ink/[0.18]" />
 
-      {/* The poster's controls. Stays on top until the player is ready,
-          and the play mark turns into a spinner the instant it is
-          pressed, so the click is acknowledged even on a slow network. */}
-      {!ready && (
-        <button
-          type="button"
-          onClick={() => {
-            warmPlayer();
-            setPlaying(true);
-          }}
-          onPointerEnter={warmPlayer}
-          onFocus={warmPlayer}
-          onTouchStart={warmPlayer}
-          disabled={playing}
-          aria-label={playing ? `Loading ${title}` : `Play ${title}`}
-          aria-busy={playing}
-          className="group absolute inset-0 flex items-center justify-center outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vn-primary disabled:cursor-progress"
-        >
-          {/* Soft scrim: keeps the button legible over a bright
-              recording and makes the poster read as a video. */}
-          <span className="absolute inset-0 bg-vn-ink/10 transition-colors duration-200 ease-default group-hover:bg-vn-ink/[0.18]" />
-
-          <span
-            className={`relative flex h-[52px] w-[52px] items-center justify-center rounded-full bg-vn-primary shadow-[0_4px_20px_-4px_rgba(26,26,26,0.45)] transition-transform duration-200 ease-default ${
-              playing ? "" : "group-hover:scale-[1.06]"
-            }`}
+      <span className="absolute inset-0 flex items-center justify-center">
+        <span className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-vn-primary shadow-[0_4px_20px_-4px_rgba(26,26,26,0.45)] transition-transform duration-200 ease-default group-hover:scale-[1.06]">
+          {/* Nudged right: a triangle's optical centre sits left of its
+              bounding box, so a centred one always looks off. */}
+          <svg
+            width="18"
+            height="20"
+            viewBox="0 0 20 22"
+            fill="#FFFFFF"
+            aria-hidden="true"
+            className="ml-[3px]"
           >
-            {playing ? (
-              <span
-                aria-hidden="true"
-                className="h-5 w-5 animate-spin rounded-full border-2 border-white/35 border-t-white"
-              />
-            ) : (
-              /* Nudged right: a triangle's optical centre sits left of
-                 its bounding box, so a centred one always looks off. */
-              <svg
-                width="18"
-                height="20"
-                viewBox="0 0 20 22"
-                fill="#FFFFFF"
-                aria-hidden="true"
-                className="ml-[3px]"
-              >
-                <path d="M19 9.27a2 2 0 0 1 0 3.46L3 21.99a2 2 0 0 1-3-1.73V1.74A2 2 0 0 1 3 .01l16 9.26Z" />
-              </svg>
-            )}
-          </span>
-        </button>
-      )}
-    </div>
+            <path d="M19 9.27a2 2 0 0 1 0 3.46L3 21.99a2 2 0 0 1-3-1.73V1.74A2 2 0 0 1 3 .01l16 9.26Z" />
+          </svg>
+        </span>
+      </span>
+
+      {/* Says where the click goes before it happens, so a new tab is
+          expected rather than a surprise. */}
+      <span className="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-sm font-medium leading-none text-vn-ink shadow-[0_1px_3px_rgba(26,26,26,0.12)]">
+        Watch on Loom
+        <svg
+          width="9"
+          height="9"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </span>
+    </a>
   );
 }

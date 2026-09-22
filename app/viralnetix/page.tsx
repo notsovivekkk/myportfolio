@@ -22,15 +22,6 @@ export const metadata: Metadata = {
 export default function ViralnetixPage() {
   return (
     <div className="relative min-h-screen bg-white">
-      {/* Warm the handshake to Loom. cdn.loom.com serves the poster
-          frames, which are wanted on first paint; www.loom.com serves
-          the player, wanted the moment someone presses play. React
-          hoists these into <head>, so DNS, TCP and TLS are already
-          done by the time either is asked for. */}
-      <link rel="preconnect" href="https://cdn.loom.com" />
-      <link rel="preconnect" href="https://cdn.loom.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://www.loom.com" />
-
       {/* The brand gradient, held to the top of the page. Running it the
           full height would leave a long page washed pink; landing it in
           white by the end of the hero keeps the colour as an entrance
