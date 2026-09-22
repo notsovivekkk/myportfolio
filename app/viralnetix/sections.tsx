@@ -185,11 +185,15 @@ type Project = {
   tags: string[];
   /* One sentence. What the system does, not how it was built. */
   description: string;
-  outcome: string;
+  /* Optional: a walkthrough of a skill, rather than a system with a
+     result, has no outcome to report. */
+  outcome?: string;
   loom?: string;
   /* Loom's own poster frame, from their oEmbed endpoint. Hardcoded
      rather than fetched so the page stays fully static and the poster
-     is in the HTML on first paint. */
+     is in the HTML on first paint. Newer Looms only hand out signed
+     thumbnail links that expire, so those are saved into
+     public/images/looms and served from the site instead. */
   poster?: string;
 };
 
@@ -252,6 +256,14 @@ const showcaseProjects: Project[] = [
     loom: "https://www.loom.com/embed/de57bc9394ad4214851fe43ba0346c65",
     poster:
       "https://cdn.loom.com/sessions/thumbnails/de57bc9394ad4214851fe43ba0346c65-b4439463d61d1836.jpg",
+  },
+  {
+    name: "Clay Skills Showcase",
+    tags: ["Infrastructure", "Intelligence"],
+    description:
+      "A full Clay table for company enrichment and scoring, built end to end and walked through step by step.",
+    loom: "https://www.loom.com/embed/2021e9d0abc34809b94251ba2cc30b7f",
+    poster: "/images/looms/clay-skills-showcase.jpg",
   },
 ];
 
@@ -373,9 +385,11 @@ function ProjectTile({
         </div>
 
         <ProjectBlock label="Description">{project.description}</ProjectBlock>
-        <ProjectBlock label="Outcome" lead>
-          {project.outcome}
-        </ProjectBlock>
+        {project.outcome ? (
+          <ProjectBlock label="Outcome" lead>
+            {project.outcome}
+          </ProjectBlock>
+        ) : null}
       </div>
     </article>
   );
@@ -559,7 +573,7 @@ export function Showcase() {
       heading={
         <SectionHeading
           label="GTM showcase."
-          title="Two more systems I built"
+          title="Three more things I built"
           subtitle="Here to show how I think about signals, scoring and pipeline."
         />
       }
