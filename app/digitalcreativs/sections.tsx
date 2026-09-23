@@ -107,12 +107,18 @@ function Button({
   href: string;
   children: ReactNode;
   external?: boolean;
-  variant?: "solid" | "outline";
+  variant?: "solid" | "outline" | "quiet";
 }) {
-  const skin =
-    variant === "solid"
-      ? "bg-dc-primary text-dc-ink shadow-[0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(255,204,0,0.75)] hover:bg-dc-hover"
-      : "bg-white text-dc-ink shadow-[inset_0_0_0_1.5px_#FFCC00] hover:bg-dc-soft";
+  const skin = {
+    solid:
+      "bg-dc-primary text-dc-ink shadow-[0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(255,204,0,0.75)] hover:bg-dc-hover",
+    outline:
+      "bg-white text-dc-ink shadow-[inset_0_0_0_1.5px_#FFCC00] hover:bg-dc-soft",
+    /* A hairline, no fill. Present enough to be pressed, quiet enough
+       not to compete with the two buttons that close the page. */
+    quiet:
+      "bg-white text-dc-body shadow-[inset_0_0_0_1px_#F0E5C2] hover:text-dc-ink hover:shadow-[inset_0_0_0_1px_#FFCC00]",
+  }[variant];
 
   return (
     <a
@@ -222,7 +228,7 @@ const expectations: {
   },
   {
     title: "No more SOP worries",
-    text: "I document everything I build. Every system, every logic, every decision. Whoever comes after me can pick it up and run it.",
+    text: "I document everything I build. Every system, every logic, every decision.",
     icon: (
       <>
         <path d="M6 3h8l4 4v14H6V3Z" />
@@ -233,7 +239,7 @@ const expectations: {
   },
   {
     title: "Full ownership",
-    text: "Not overconfident. I will make mistakes. But I will own them, ask questions to fix them fast, and never leave something half-done. Every client I have worked with knows this about me.",
+    text: "Not overconfident. I will make mistakes. But I will own them, ask questions to fix them fast, and never leave something half-done.",
     icon: (
       <>
         <circle cx="12" cy="8" r="3.5" />
@@ -292,22 +298,27 @@ export function Hero() {
             <p className="text-base text-dc-deep">
               GTM Engineer Application (Junior GTM-E)
             </p>
-            <p className="max-w-[40ch] text-base text-dc-muted">
+            <p className="max-w-[40ch] text-base italic text-dc-muted">
               Already LinkedIn, DC styled headshot ready, lol.
             </p>
           </div>
         </div>
 
-        {/* The opening. A yellow rule rather than quote marks: the brand
-            colour earns its place holding up someone else's words. */}
-        <figure className="flex flex-col gap-3 border-l-[3px] border-dc-primary pl-5">
-          <blockquote className="max-w-[46ch] text-[20px] font-normal leading-[1.4] tracking-[-0.015em] text-dc-ink sm:text-[22px]">
+        {/* The opening. Quotation marks do the work, so the words are
+            marked as someone else's without a rule or a tint around
+            them. The opening mark is pulled into the left margin so the
+            first letter still lines up with everything below it. */}
+        <figure className="flex flex-col gap-2.5">
+          <blockquote className="max-w-[46ch] text-[20px] font-normal leading-[1.45] tracking-[-0.015em] text-dc-ink sm:text-[22px]">
+            <span aria-hidden="true" className="-ml-[0.45em]">
+              &ldquo;
+            </span>
             You can&apos;t build something great on top of people. You have to
-            build it with them.
+            build it with them.&rdquo;
           </blockquote>
           <figcaption className="text-base text-dc-body">
-            Loved these words from Preeti. It stuck with me and I wish to
-            work with people who believe in the same :)
+            It stuck with me and I wish to work with people who believe in
+            the same :)
           </figcaption>
         </figure>
 
@@ -413,10 +424,7 @@ export function Expectations() {
   return (
     <Panel
       heading={
-        <SectionHeading
-          label="Working together."
-          title="What you can expect when I join"
-        />
+        <SectionHeading title="Working together" />
       }
     >
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -457,16 +465,13 @@ export function BackgroundLink() {
   return (
     <Frame>
       <Card className="flex items-center justify-center px-8 py-8 text-center sm:px-11">
-        <p className="text-base text-dc-body">
-          <a
-            href="https://www.notsovivek.fyi"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-dc-deep underline decoration-dc-primary decoration-2 underline-offset-4 outline-none transition-colors duration-200 ease-default hover:text-dc-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dc-deep"
-          >
-            My full background is here
-          </a>
-        </p>
+        {/* Straight to the story, not the top: the main page runs from
+            video editing through to GTM engineering, so landing there
+            means reading it in order. */}
+        <Button href="https://www.notsovivek.fyi/#story" external variant="quiet">
+          My full background is here
+          <span aria-hidden="true">&rarr;</span>
+        </Button>
       </Card>
     </Frame>
   );
