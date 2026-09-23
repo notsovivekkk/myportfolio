@@ -38,6 +38,26 @@ const config: Config = {
           developing: "#B57209", // amber dot
         },
 
+        /* Digital Creativs. Their brand yellow, read off their own
+           stylesheet, set to the #FFCC00 they use as the brand yellow.
+
+           Yellow cannot carry white text, so it is a FILL colour only,
+           always under near black type. Where the brand needs to speak
+           in text (eyebrows, links) it does so through `deep`, a dark
+           amber that clears AA on white at 5.3:1. */
+        dc: {
+          primary: "#FFCC00", // fills: buttons, rules, pills
+          hover: "#E6B800",
+          soft: "#FFF5CC", // pill fill
+          tint: "#FFFAE6", // gradient start
+          frame: "#FBF7EA", // the panel grey, tinted warm
+          line: "#F0E5C2",
+          deep: "#7A5C00", // brand voice in TEXT, AA on white
+          ink: "#141414",
+          body: "#4A4740",
+          muted: "#7A7668", // 4.7:1 on white
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
