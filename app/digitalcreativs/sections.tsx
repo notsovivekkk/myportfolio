@@ -158,8 +158,9 @@ const featured: Project = {
   poster: "/images/looms/label-match.jpg",
 };
 
-const CLAY_WORKBOOK =
-  "https://app.clay.com/workspaces/1161530/workbooks/wb_0tltttxf8ccXXXXSmFJ/tables/t_0tlttyuzvji7y8SRNRh/views/gv_0tlttyu3emNyjpjHAWw";
+/* The output itself, as a sheet anyone can open without a Clay seat. */
+const LIST_URL =
+  "https://docs.google.com/spreadsheets/d/1goVu-YnupBbKI9oymaNZtbUFCELHROlRJQ2QgcdljIo/edit?usp=sharing";
 
 /* Posters: Loom hands out signed thumbnail links that expire for newer
    recordings, so those frames are saved into public/images/looms and
@@ -369,8 +370,8 @@ export function Featured() {
             <div className="flex flex-col gap-5">
               <ProjectMeta project={featured} />
               <div className="flex">
-                <Button href={CLAY_WORKBOOK} external variant="outline">
-                  View Clay Workbook
+                <Button href={LIST_URL} external variant="outline">
+                  Here is the list
                   <span aria-hidden="true">&rarr;</span>
                 </Button>
               </div>
