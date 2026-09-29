@@ -23,7 +23,7 @@ function Clock() {
           second: "2-digit",
           hour12: true,
           timeZone: "Asia/Kolkata",
-        }).format(new Date())
+        }).format(new Date()),
       );
 
     tick();
@@ -78,7 +78,12 @@ function MenuToggle({ open, onClick }: { open: boolean; onClick: () => void }) {
   );
 }
 
+/* With no items (a standalone page such as /projects) the bar keeps its
+   exact shape, clock left and social icons right, but drops the link row
+   and the hamburger: a menu that opens onto nothing but three icons is
+   friction, so the icons simply stay visible at every width. */
 export default function Nav({ items }: NavProps) {
+  const hasLinks = items.length > 0;
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("top");
 
@@ -153,34 +158,42 @@ export default function Nav({ items }: NavProps) {
         <div className="w-full max-w-content overflow-hidden rounded-card bg-[rgba(242,243,245,0.8)] backdrop-blur-xl">
           {/* Bar: 64px tall at every breakpoint, which is what the
               66px frame shoulder below is sized against. */}
-          <nav className="flex items-center justify-between gap-4 px-4 py-3 sm:px-5 sm:py-4">
+          {/* min-h pins the 64px even when there is no 40px hamburger
+              to hold the height, so the bar always fills the shoulder. */}
+          <nav className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 sm:px-5 sm:py-4">
             <Clock />
 
-            <div className="hidden items-center gap-5 sm:flex">
-              {items.map((item) => {
-                const isActive = active === item.id;
-                return (
-                  <a
-                    key={item.id}
-                    href={item.id === "top" ? "#" : `#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      go(item.id);
-                    }}
-                    aria-current={isActive ? "true" : undefined}
-                    className={`pf-navlink cursor-pointer text-base outline-none transition-colors duration-200 ease-default focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-muted ${
-                      isActive
-                        ? "font-medium text-ink"
-                        : "font-medium text-muted hover:text-ink"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
-            </div>
+            {hasLinks && (
+              <div className="hidden items-center gap-5 sm:flex">
+                {items.map((item) => {
+                  const isActive = active === item.id;
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.id === "top" ? "#" : `#${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        go(item.id);
+                      }}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`pf-navlink cursor-pointer text-base outline-none transition-colors duration-200 ease-default focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-muted ${
+                        isActive
+                          ? "font-medium text-ink"
+                          : "font-medium text-muted hover:text-ink"
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </div>
+            )}
 
-            <div className="hidden shrink-0 items-center gap-2 sm:flex">
+            <div
+              className={`shrink-0 items-center gap-2 ${
+                hasLinks ? "hidden sm:flex" : "flex"
+              }`}
+            >
               {socialLinks.map(({ label, href, Icon }) => (
                 <a
                   key={label}
@@ -196,53 +209,61 @@ export default function Nav({ items }: NavProps) {
               ))}
             </div>
 
-            <MenuToggle open={open} onClick={() => setOpen((o) => !o)} />
+            {hasLinks && (
+              <MenuToggle open={open} onClick={() => setOpen((o) => !o)} />
+            )}
           </nav>
 
           {/* Mobile menu */}
-          <div id="mobile-menu" className="pf-menu sm:hidden" data-open={open}>
-            <div>
-              <div className="flex flex-col items-center gap-5 px-4 pb-7 pt-3">
-                {items.map((item) => {
-                  const isActive = active === item.id;
-                  return (
-                    <a
-                      key={item.id}
-                      href={item.id === "top" ? "#" : `#${item.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        go(item.id);
-                      }}
-                      tabIndex={open ? 0 : -1}
-                      aria-current={isActive ? "true" : undefined}
-                      className={`text-lg outline-none transition-colors duration-200 ease-default ${
-                        isActive ? "font-medium text-ink" : "text-body"
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                  );
-                })}
+          {hasLinks && (
+            <div
+              id="mobile-menu"
+              className="pf-menu sm:hidden"
+              data-open={open}
+            >
+              <div>
+                <div className="flex flex-col items-center gap-5 px-4 pb-7 pt-3">
+                  {items.map((item) => {
+                    const isActive = active === item.id;
+                    return (
+                      <a
+                        key={item.id}
+                        href={item.id === "top" ? "#" : `#${item.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          go(item.id);
+                        }}
+                        tabIndex={open ? 0 : -1}
+                        aria-current={isActive ? "true" : undefined}
+                        className={`text-lg outline-none transition-colors duration-200 ease-default ${
+                          isActive ? "font-medium text-ink" : "text-body"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    );
+                  })}
 
-                <div className="flex items-center gap-2 pt-2">
-                  {socialLinks.map(({ label, href, Icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      aria-label={label}
-                      tabIndex={open ? 0 : -1}
-                      {...(href.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      className="pf-icon-btn"
-                    >
-                      <Icon />
-                    </a>
-                  ))}
+                  <div className="flex items-center gap-2 pt-2">
+                    {socialLinks.map(({ label, href, Icon }) => (
+                      <a
+                        key={label}
+                        href={href}
+                        aria-label={label}
+                        tabIndex={open ? 0 : -1}
+                        {...(href.startsWith("http")
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                        className="pf-icon-btn"
+                      >
+                        <Icon />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </header>
