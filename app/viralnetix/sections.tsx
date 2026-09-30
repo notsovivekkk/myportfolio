@@ -583,6 +583,104 @@ export function Showcase() {
   );
 }
 
+/* Where he means to contribute once in. Written to be sent to the
+   founders on its own, so it has a direct link: /viralnetix/contribution
+   redirects here (see next.config.ts).
+
+   A numbered list of rows rather than three columns: each point is a
+   short paragraph, and three columns at this width would squeeze every
+   one into a narrow, tall block. Rows read top to bottom like a plan. */
+const contributions: {
+  title: string;
+  text: string;
+  note?: string;
+  /* One line per entry, each its own paragraph. */
+  outcome: string[];
+}[] = [
+  {
+    title: "Owning outcomes from day one",
+    text: "Whatever the Viralnetix team throws at me I learn it, apply it, and own the result. Full client pipelines, orchestrated end to end, so Jana and Danilo stay focused on growing MRR.",
+    outcome: [
+      "Within 2 months rising to a capability to handle clients with zero handholding.",
+      "More time for Danilo and Jana to focus on client acquisition, and capacity to handle clients increases without any quality drop.",
+    ],
+  },
+  {
+    title: "Outbound, representing Viralnetix",
+    text: "Finding and bringing in clients by being active on LinkedIn and running unconventional campaigns. 5 years of agency and freelance experience gets put to work here directly for Viralnetix.",
+    outcome: ["More clients for Viralnetix, increasing the MRR of Viralnetix."],
+  },
+  {
+    title: "Inbound EGC",
+    text: "Building an Employee Generated Content engine across the whole Viralnetix team. Multiple accounts, consistent value, attracting clients instead of chasing them. The flywheel that compounds over time.",
+    note: "Learned how agencies like StackOptimise drive inbound this way and they even built a product around it, which says everything about how much it works.",
+    outcome: [
+      "More brand presence and value, thereby attracting clients inbound, also by scraping the engagers and creating an inbound pipeline.",
+    ],
+  },
+];
+
+export function Contribution() {
+  return (
+    <Panel
+      id="contribution"
+      heading={
+        <SectionHeading
+          label="Once I'm in."
+          title="Where I wish to contribute"
+        />
+      }
+    >
+      <ol className="flex flex-col gap-3">
+        {contributions.map((item, i) => (
+          <li
+            key={item.title}
+            className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3 rounded-[20px] bg-white p-5 sm:grid-cols-[36px_minmax(0,1fr)] sm:gap-x-4 sm:p-6"
+          >
+            {/* Numbered in the brand colour, on the title's baseline, so
+                the eye runs down 01 / 02 / 03 before reading a word. */}
+            <span className="pt-px text-base font-medium tabular-nums text-vn-primary">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-md font-medium leading-[1.4] text-vn-ink">
+                {item.title}
+              </h3>
+              <p className="max-w-[62ch] text-base leading-[1.65] text-vn-body">
+                {item.text}
+              </p>
+              {item.note ? (
+                <p className="mt-1.5 max-w-[62ch] text-base italic leading-[1.65] text-vn-muted">
+                  {item.note}
+                </p>
+              ) : null}
+
+              {/* Same label and ink as the Outcome on the project cards,
+                  so "what it does for Viralnetix" reads the same way everywhere
+                  on the page. A hairline sets it apart from the plan. */}
+              <div className="mt-3 flex flex-col gap-1 border-t border-vn-line pt-3">
+                <p className="text-sm font-medium uppercase tracking-[0.04em] text-vn-muted">
+                  Outcome
+                </p>
+                <div className="flex flex-col gap-1.5">
+                  {item.outcome.map((line) => (
+                    <p
+                      key={line}
+                      className="max-w-[62ch] text-base leading-[1.65] text-vn-ink"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </Panel>
+  );
+}
+
 /* The step between the work and the ask. Points at #story rather than
    #background: the story runs from video editing through to GTM
    engineering, so landing there means reading it in order. */
