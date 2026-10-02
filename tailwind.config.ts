@@ -58,6 +58,22 @@ const config: Config = {
           muted: "#7A7668", // 4.7:1 on white
         },
 
+        /* Kestrel. Their brand blue, #2B24EF. Unlike a yellow it is dark
+           enough to carry white text (8.07:1) and to be read as text on
+           white (8.07:1), so here the brand fills buttons AND speaks in
+           labels and numbers, with no separate text shade needed. */
+        ks: {
+          primary: "#2B24EF",
+          hover: "#2119C9",
+          soft: "#EEEDFE", // pill fill, 6.99:1 under primary text
+          tint: "#F1F0FF", // gradient start
+          frame: "#F6F6FD", // the panel grey, tinted cool
+          line: "#E3E2FA",
+          ink: "#13121F",
+          body: "#4A4858",
+          muted: "#6B6880", // 5.36:1 on white
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
