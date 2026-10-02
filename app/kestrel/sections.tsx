@@ -122,7 +122,7 @@ function Tag({ children }: { children: ReactNode }) {
 const TIGHTROPE = {
   name: "Tightrope Buying Window Engine",
   description:
-    "Picked Tightrope from Kestrel's case studies and rebuilt the ICP and lead list from scratch. The ICP doc doubles as the context file for Claude Code, so the agent builds in my direction instead of guessing. Mapped Tightrope's 4 AI agents to the 4 roles they replace, then found PMCs hiring for exactly those roles.",
+    "Picked Tightrope from your case studies and rebuilt the ICP and lead list from scratch. The ICP doc doubles as the context file for Claude Code, so the agent builds in my direction instead of guessing. Mapped Tightrope's 4 AI agents to the 4 roles they replace, then found PMCs hiring for exactly those roles.",
   outcome:
     "40 scored accounts, 2 Hot. Urban Coast already pays Latchel for after-hours calls, the exact gap Tightrope closes. 18 decision-makers, 13 verified emails, MX checked, LinkedIn as backup.",
   loom: "https://www.loom.com/embed/caff966e08e24e76a6ea109b2432b84e",
@@ -198,20 +198,20 @@ const contributions: {
 }[] = [
   {
     title: "Owning outcomes from day one",
-    text: "Whatever you throw at me I learn it, apply it, and own the result. Full client pipelines, orchestrated end to end, so Lirim stays focused on growing MRR.",
+    text: "Whatever you throw at me I learn it, apply it, and own the result. Full client pipelines, orchestrated end to end, so you stay focused on growing MRR.",
     outcome: [
-      "Within 2 months rising to a capability to handle clients with zero handholding.",
-      "More time for Lirim to focus on client acquisition, and capacity to handle clients increases without any quality drop.",
+      "Handling clients with zero handholding within 2 months.",
+      "More time for you to focus on client acquisition, and capacity to handle clients increases without any quality drop.",
     ],
   },
   {
     title: "Outbound, representing Kestrel",
-    text: "Finding and bringing in clients by being active on LinkedIn and running unconventional campaigns. 5 years of agency and freelance experience gets put to work here directly for Kestrel.",
+    text: "Finding and bringing in clients by being active on LinkedIn and running unconventional campaigns. 6 years of agency and freelance experience gets put to work here directly for Kestrel.",
     outcome: ["More clients for Kestrel, increasing its MRR."],
   },
   {
     title: "Inbound EGC",
-    text: "Building an Employee Generated Content engine across Lirim's account and mine. Two voices instead of one, consistent value, attracting clients instead of chasing them. The flywheel that compounds over time.",
+    text: "Building an Employee Generated Content engine across your account and mine. Two voices instead of one, consistent value, attracting clients instead of chasing them. The flywheel that compounds over time.",
     note: "Learned how agencies like StackOptimise drive inbound this way and they even built a product around it, which says everything about how much it works.",
     outcome: [
       "More brand presence and value, thereby attracting clients inbound, also by scraping the engagers and creating an inbound pipeline.",
