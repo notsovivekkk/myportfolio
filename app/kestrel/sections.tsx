@@ -124,7 +124,7 @@ const TIGHTROPE = {
   description:
     "Picked Tightrope from your case studies and rebuilt the ICP and lead list from scratch. The ICP doc doubles as the context file for Claude Code, so the agent builds in my direction instead of guessing. Mapped Tightrope's 4 AI agents to the 4 roles they replace, then found PMCs hiring for exactly those roles.",
   outcome:
-    "40 scored accounts, 2 Hot. Urban Coast already pays Latchel for after-hours calls, the exact gap Tightrope closes. 18 decision-makers, 13 verified emails, MX checked, LinkedIn as backup.",
+    "40 scored accounts, 2 Hot. 18 decision-makers, 13 verified emails, MX checked, LinkedIn as backup.",
   loom: "https://www.loom.com/embed/caff966e08e24e76a6ea109b2432b84e",
   poster: "/images/looms/tightrope.jpg",
 };
