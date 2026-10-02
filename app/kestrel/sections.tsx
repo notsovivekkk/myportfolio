@@ -120,7 +120,11 @@ function Tag({ children }: { children: ReactNode }) {
 /* ---------------- Content ---------------- */
 
 const TIGHTROPE = {
-  title: "Tightrope ICP and Lead List Walkthrough",
+  name: "Tightrope Buying Window Engine",
+  description:
+    "Picked Tightrope from Kestrel's case studies and rebuilt the ICP and lead list from scratch. The ICP doc doubles as the context file for Claude Code, so the agent builds in my direction instead of guessing. Mapped Tightrope's 4 AI agents to the 4 roles they replace, then found PMCs hiring for exactly those roles.",
+  outcome:
+    "40 scored accounts, 2 Hot. Urban Coast already pays Latchel for after-hours calls, the exact gap Tightrope closes. 18 decision-makers, 13 verified emails, MX checked, LinkedIn as backup.",
   loom: "https://www.loom.com/embed/caff966e08e24e76a6ea109b2432b84e",
   poster: "/images/looms/tightrope.jpg",
 };
@@ -182,8 +186,10 @@ const projects: Project[] = [
   },
 ];
 
-/* The Viralnetix contribution points, made generic: no company or
-   founder names, so they read as how he works anywhere. */
+/* Kestrel is a one person GTM agency, run by Lirim. So nothing here
+   speaks of founders in the plural or of a team: the work frees up one
+   person, the outbound represents one brand, and the content engine is
+   two voices, Lirim's and mine. */
 const contributions: {
   title: string;
   text: string;
@@ -192,20 +198,20 @@ const contributions: {
 }[] = [
   {
     title: "Owning outcomes from day one",
-    text: "Whatever the team throws at me I learn it, apply it, and own the result. Full client pipelines, orchestrated end to end, so the founders stay focused on growing MRR.",
+    text: "Whatever you throw at me I learn it, apply it, and own the result. Full client pipelines, orchestrated end to end, so Lirim stays focused on growing MRR.",
     outcome: [
       "Within 2 months rising to a capability to handle clients with zero handholding.",
-      "More time for the founders to focus on client acquisition, and capacity to handle clients increases without any quality drop.",
+      "More time for Lirim to focus on client acquisition, and capacity to handle clients increases without any quality drop.",
     ],
   },
   {
-    title: "Outbound, representing the agency",
-    text: "Finding and bringing in clients by being active on LinkedIn and running unconventional campaigns. 5 years of agency and freelance experience gets put to work here directly for the agency.",
-    outcome: ["More clients for the agency, increasing its MRR."],
+    title: "Outbound, representing Kestrel",
+    text: "Finding and bringing in clients by being active on LinkedIn and running unconventional campaigns. 5 years of agency and freelance experience gets put to work here directly for Kestrel.",
+    outcome: ["More clients for Kestrel, increasing its MRR."],
   },
   {
     title: "Inbound EGC",
-    text: "Building an Employee Generated Content engine across the whole team. Multiple accounts, consistent value, attracting clients instead of chasing them. The flywheel that compounds over time.",
+    text: "Building an Employee Generated Content engine across Lirim's account and mine. Two voices instead of one, consistent value, attracting clients instead of chasing them. The flywheel that compounds over time.",
     note: "Learned how agencies like StackOptimise drive inbound this way and they even built a product around it, which says everything about how much it works.",
     outcome: [
       "More brand presence and value, thereby attracting clients inbound, also by scraping the engagers and creating an inbound pipeline.",
@@ -253,17 +259,42 @@ export function Hero() {
           </p>
         </div>
 
-        {/* The walkthrough sits right under the claim it proves, at a
-            modest width: an invitation to watch, not a slab that pushes
-            everything else down. */}
-        <div className="w-full md:max-w-[420px]">
+        {/* The walkthrough sits right under the claim it proves, video
+            beside its write up: an invitation to watch, not a slab that
+            pushes everything else down. A hairline separates the project
+            from the pitch above it. */}
+        <div className="grid gap-6 border-t border-ks-line pt-7 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] md:items-start md:gap-7">
           <LoomPlayer
             src={TIGHTROPE.loom}
             poster={TIGHTROPE.poster}
-            title={TIGHTROPE.title}
+            title={`${TIGHTROPE.name} walkthrough`}
             priority
-            sizes="(max-width: 768px) 100vw, 420px"
+            sizes="(max-width: 768px) 100vw, 320px"
           />
+
+          <div className="flex flex-col gap-4">
+            <h3 className="text-md font-medium leading-[1.35] text-ks-ink">
+              {TIGHTROPE.name}
+            </h3>
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-medium uppercase tracking-[0.04em] text-ks-muted">
+                Description
+              </p>
+              <p className="text-base leading-[1.6] text-ks-body">
+                {TIGHTROPE.description}
+              </p>
+            </div>
+            {/* The proof, so full ink, the same as every Outcome on the
+                page. */}
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-medium uppercase tracking-[0.04em] text-ks-muted">
+                Outcome
+              </p>
+              <p className="text-base leading-[1.6] text-ks-ink">
+                {TIGHTROPE.outcome}
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
     </Frame>
