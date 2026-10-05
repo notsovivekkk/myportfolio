@@ -298,6 +298,86 @@ body {
 }
 
 /* ============================================================
+   MODAL (native <dialog>, see components/ui/IcpGateCard.tsx)
+
+   Phones get a full screen sheet; from 640px it becomes a centred
+   card, 720px wide at most, with the page dimmed behind it. The
+   dialog itself scrolls, so a long write up never needs the page to.
+   ============================================================ */
+.pf-modal {
+  /* Reset the UA dialog box. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  /* Phone: the full screen. */
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 640px) {
+  .pf-modal {
+    margin: auto;
+    width: calc(100% - 40px);
+    max-width: 720px;
+    height: auto;
+    max-height: min(88dvh, 920px);
+    border-radius: var(--radius-card);
+    box-shadow: 0 0 0 1px var(--color-border),
+      0 24px 64px -16px rgba(10, 10, 10, 0.28);
+  }
+}
+
+.pf-modal::backdrop {
+  background-color: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/* Soft fade and scale in, entrance only: closing is instant, which is
+   what makes a dismissal feel immediate. */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pf-modal[open] {
+  animation: modalIn var(--duration-slow) var(--easing-default);
+}
+
+.pf-modal[open]::backdrop {
+  animation: backdropIn var(--duration-slow) var(--easing-default);
+}
+
+/* The blanket reduced motion rule below only reaches ::before and
+   ::after, so ::backdrop is named here. */
+@media (prefers-reduced-motion: reduce) {
+  .pf-modal[open],
+  .pf-modal[open]::backdrop {
+    animation: none;
+  }
+}
+
+/* ============================================================
    MOTION, carried over from the previous build
    ============================================================ */
 @keyframes msgIn {

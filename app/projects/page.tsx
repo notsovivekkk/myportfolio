@@ -4,7 +4,12 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import ContactCta from "@/components/sections/ContactCta";
 import { Frame, Card, Panel, SectionHeading } from "@/components/ui/Primitives";
+import { existsSync } from "node:fs";
+import path from "node:path";
 import LoomPoster from "@/components/ui/LoomPoster";
+import IcpGateAnimation from "@/components/ui/IcpGateAnimation";
+import IcpGateVideo from "@/components/ui/IcpGateVideo";
+import IcpGateCard from "@/components/ui/IcpGateCard";
 
 export const metadata: Metadata = {
   title: "Projects, Vivek M",
@@ -22,17 +27,29 @@ export const metadata: Metadata = {
    "What I focus on", and the same contact block to close.
    ============================================================ */
 
+/* A project shows either a Loom poster (and links to it) or, with no
+   Loom, the ICP Gate media in the same slot, unlinked. */
 type Project = {
   name: string;
   description: string;
-  loom: string;
-  poster: string;
-};
+} & ({ loom: string; poster: string } | { media: "icp-gate" });
+
+/* Checked at build time: drop a clip at public/videos/icp-gate.mp4 and
+   the next build uses it in place of the illustration. */
+const hasIcpGateVideo = existsSync(
+  path.join(process.cwd(), "public/videos/icp-gate.mp4")
+);
 
 /* In the order given. Posters: newer Loom recordings only hand out
    signed thumbnail links that expire, so those frames are saved in
    public/images/looms; older ones still have a stable CDN URL. */
 const projects: Project[] = [
+  {
+    name: "ICP Gate",
+    description:
+      "An agent that checks every company on a lead list against the client's real ICP before enrichment. It reads each company's website and returns a fit probability using Jev, so credits only go to companies that actually fit.",
+    media: "icp-gate",
+  },
   {
     name: "Vanta Buying Window Detection",
     description:
@@ -123,9 +140,9 @@ export default function ProjectsPage() {
           {/* ---------- Proof of work ---------- */}
           {/* The same grey panel with white tiles as "What I focus on".
               Two per row from md up; rows stretch so each pair shares a
-              bottom edge. Five is odd, so the last tile fills its row and
-              lays out side by side, which keeps its video the same size
-              as the videos above it instead of doubling. */}
+              bottom edge. With an odd count the last tile fills its row
+              and lays out side by side, which keeps its video the same
+              size as the videos above it instead of doubling. */}
           <div id="work" className="scroll-mt-24">
             <Panel className="flex flex-col gap-9 sm:gap-10">
               <SectionHeading title="Proof of work" />
@@ -134,14 +151,34 @@ export default function ProjectsPage() {
                 {projects.map((project, i) => {
                   const alone =
                     projects.length % 2 === 1 && i === projects.length - 1;
+                  const aloneLayout = alone
+                    ? "md:col-span-2 md:grid md:grid-cols-2 md:items-center md:gap-x-[52px] md:gap-y-0"
+                    : "";
+
+                  /* No Loom: the card opens its write up in a modal
+                     instead of linking out. */
+                  if (!("loom" in project)) {
+                    const media = hasIcpGateVideo ? (
+                      <IcpGateVideo />
+                    ) : (
+                      <IcpGateAnimation />
+                    );
+                    return (
+                      <IcpGateCard
+                        key={project.name}
+                        name={project.name}
+                        description={project.description}
+                        media={media}
+                        modalMedia={media}
+                        className={aloneLayout}
+                      />
+                    );
+                  }
+
                   return (
                     <article
                       key={project.name}
-                      className={`flex flex-col gap-5 rounded-card bg-surface p-4 sm:p-5 ${
-                        alone
-                          ? "md:col-span-2 md:grid md:grid-cols-2 md:items-center md:gap-x-[52px] md:gap-y-0"
-                          : ""
-                      }`}
+                      className={`flex flex-col gap-5 rounded-card bg-surface p-4 sm:p-5 ${aloneLayout}`}
                     >
                       <LoomPoster
                         src={project.loom}
