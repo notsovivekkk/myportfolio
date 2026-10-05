@@ -3,7 +3,13 @@ import Image from "next/image";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import ContactCta from "@/components/sections/ContactCta";
-import { Frame, Card, Panel, SectionHeading } from "@/components/ui/Primitives";
+import {
+  Frame,
+  Card,
+  Panel,
+  SectionHeading,
+  Button,
+} from "@/components/ui/Primitives";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import LoomPoster from "@/components/ui/LoomPoster";
@@ -133,6 +139,21 @@ export default function ProjectsPage() {
                   to capitalise on that hunger, own real outcomes, and be the
                   person who drives revenue from the front.
                 </p>
+              </div>
+
+              {/* The secondary button, so it reads as an option rather
+                  than the page's main call to action. Same site, so same
+                  tab, straight to the story, which runs in order from
+                  video editing to GTM engineering. */}
+              <div className="flex">
+                <Button
+                  href="/#story"
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                >
+                  My full background is here
+                  <span aria-hidden="true">&rarr;</span>
+                </Button>
               </div>
             </Card>
           </Frame>
