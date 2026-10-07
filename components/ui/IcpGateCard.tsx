@@ -22,7 +22,26 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
    Styling and the fade and scale-in live in globals.css (.pf-modal),
    where prefers-reduced-motion turns the motion off.
+
+   Layout is swappable: by default the card is the /projects grid tile.
+   A page with its own card shape (/scalantec's rows) passes `layout`
+   and `children`, and keeps the same click target and modal.
    ============================================================ */
+
+/* The "Read more" cue. Exported so a custom card body can use it too. */
+export function ReadMoreHint({ className = "" }: { className?: string }) {
+  return (
+    <p
+      aria-hidden="true"
+      className={`inline-flex items-center gap-1 text-base font-medium ${className}`}
+    >
+      Read more
+      <span className="transition-transform duration-200 ease-default group-hover:translate-x-0.5">
+        &rarr;
+      </span>
+    </p>
+  );
+}
 
 function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -42,12 +61,18 @@ export default function IcpGateCard({
   media,
   modalMedia,
   className = "",
+  layout = "flex flex-col gap-5 rounded-card bg-surface p-4 sm:p-5",
+  children,
 }: {
   name: string;
-  description: string;
-  media: ReactNode;
+  description?: string;
+  media?: ReactNode;
   modalMedia: ReactNode;
   className?: string;
+  /* Replaces the default card shape (padding, grid, background). */
+  layout?: string;
+  /* Replaces the default card body (media, title, description). */
+  children?: ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -82,24 +107,22 @@ export default function IcpGateCard({
           it, so the card stays an article with a heading and paragraph,
           and the focus ring is drawn on the card itself. */}
       <article
-        className={`group relative flex flex-col gap-5 rounded-card bg-surface p-4 transition-shadow duration-200 ease-default hover:shadow-lift has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink sm:p-5 ${className}`}
+        className={`group relative transition-shadow duration-200 ease-default hover:shadow-lift has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${layout} ${className}`}
       >
-        {media}
-        <div className="flex flex-col gap-2 px-1 pb-1">
-          <h3 className="text-md font-medium leading-[1.35] text-ink">
-            {name}
-          </h3>
-          <p className="text-base leading-[1.6] text-body">{description}</p>
-          <p
-            aria-hidden="true"
-            className="mt-1 inline-flex items-center gap-1 text-base font-medium text-ink"
-          >
-            Read more
-            <span className="transition-transform duration-200 ease-default group-hover:translate-x-0.5">
-              &rarr;
-            </span>
-          </p>
-        </div>
+        {children ?? (
+          <>
+            {media}
+            <div className="flex flex-col gap-2 px-1 pb-1">
+              <h3 className="text-md font-medium leading-[1.35] text-ink">
+                {name}
+              </h3>
+              <p className="text-base leading-[1.6] text-body">
+                {description}
+              </p>
+              <ReadMoreHint className="mt-1 text-ink" />
+            </div>
+          </>
+        )}
 
         <button
           ref={triggerRef}

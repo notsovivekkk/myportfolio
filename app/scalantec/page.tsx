@@ -4,7 +4,18 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import ProjectsHero from "@/components/sections/ProjectsHero";
 import { Frame, Card } from "@/components/ui/Primitives";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import IcpGateAnimation from "@/components/ui/IcpGateAnimation";
+import IcpGateVideo from "@/components/ui/IcpGateVideo";
+import IcpGateCard, { ReadMoreHint } from "@/components/ui/IcpGateCard";
 import LoomPlayer from "./LoomPlayer";
+
+/* Same rule as /projects: a clip at public/videos/icp-gate.mp4 replaces
+   the illustration on the next build. */
+const hasIcpGateVideo = existsSync(
+  path.join(process.cwd(), "public/videos/icp-gate.mp4")
+);
 
 export const metadata: Metadata = {
   title: "Vivek M, GTM Engineer application to Scalantec",
@@ -34,13 +45,15 @@ type Project = {
   copy: string;
   forScalantec?: string;
   tags?: string[];
-  loom: string;
-  poster: string;
-};
+} & (
+  | { loom: string; poster: string }
+  /* No Loom: opens its write up in a modal instead of linking out. */
+  | { media: "icp-gate" }
+);
 
 /* Ordered by outcome: the case study proof first, then two systems
    Scalantec can switch on for its own growth, then plays it can sell. */
-const featured: Project = {
+const featured: Project & { loom: string; poster: string } = {
   name: "Seven Senders, rebuilt",
   copy: "I started from Seven Senders' own customers and testimonials, found 212 lookalike shops across DACH, and ran every website through an ICP gate agent to get 65 real fits. Then I ranked them on buying-window signals (new logistics leaders, customs and transport hiring, EU expansion) and found the right contact at each, with a verified email and a personalized angle.",
   forScalantec:
@@ -68,7 +81,7 @@ const projects: Project[] = [
     headline: "Every booked call arrives with a brief",
     copy: "An agent that fires on every inbound booking, researches the company, and delivers a short brief to Slack before the call.",
     forScalantec:
-      "Your own booking flow doesn't have this yet. Plug it in, and every discovery call with a prospect arrives already researched. Less manual prep, faster calls, and more time spent selling.",
+      "If it's useful, this could plug into Scalantec's own booking flow, so every discovery call starts with the research already done. Happy to set it up and adapt it to how your team runs calls.",
     loom: "https://www.loom.com/embed/dfd8168aaaf94d46aa1a7f145e7b73e5",
     poster: "/images/looms/inbound-intelligence-agent.jpg",
   },
@@ -77,7 +90,7 @@ const projects: Project[] = [
     headline: "Multi-signal scoring to find who's buying now",
     copy: "A signal-scored pipeline that finds fintech and healthcare companies in an active buying window. It combines two data sources and seven enriched signals into one ranked list.",
     forScalantec:
-      "This is your multi-signal lead scoring, applied to a different market. Different ICP, same engine, ready to reuse for any client.",
+      "Built on the same idea as the multi-signal scoring you do for clients, applied to a different market. I'd love to learn your approach and bring this into it wherever it helps.",
     loom: "https://www.loom.com/embed/de57bc9394ad4214851fe43ba0346c65",
     poster:
       "https://cdn.loom.com/sessions/thumbnails/de57bc9394ad4214851fe43ba0346c65-b4439463d61d1836.jpg",
@@ -90,6 +103,13 @@ const projects: Project[] = [
       "A ready warm-signal play for any client whose market is active on LinkedIn, with no reliance on a single data source.",
     loom: "https://www.loom.com/embed/4786ad6a872049168eb7410b40ccc1fc",
     poster: "/images/looms/warm-signal-engine.jpg",
+  },
+  {
+    name: "ICP Gate",
+    copy: "An agent that checks every company on a lead list against the client's real ICP before enrichment. It reads each company's website and returns a fit probability using Jev, so credits only go to companies that actually fit.",
+    forScalantec:
+      "Qualify every account in a client's CRM before spending on enrichment. 20,000 Seven Senders accounts would cost a few cents to gate. Most efficient way to make the lists accurate.",
+    media: "icp-gate",
   },
   {
     name: "Clay Skills Showcase",
@@ -303,30 +323,58 @@ export default function ScalantecPage() {
               </div>
 
               <div className="flex flex-col gap-3">
-                {projects.map((project) => (
-                  <article
-                    key={project.name}
-                    /* Left padding set so content starts on the page's one
-                       edge: 14px on phones (16 + 20 + 14 = 50), 26px from
-                       md (240 + 32 + 26 = 298). */
-                    className="relative flex flex-col gap-5 overflow-hidden rounded-card bg-surface p-4 pl-[14px] md:grid md:grid-cols-[minmax(0,248px)_minmax(0,1fr)] md:items-start md:gap-6 md:p-5 md:pl-[26px]"
-                  >
-                    <GradientRule />
-                    <LoomPlayer
-                      src={project.loom}
-                      poster={project.poster}
-                      title={`${project.name} walkthrough`}
-                      sizes="(max-width: 768px) 100vw, 248px"
-                      compact
+                {projects.map((project) => {
+                  /* Left padding set so content starts on the page's one
+                     edge: 14px on phones (16 + 20 + 14 = 50), 26px from
+                     md (240 + 32 + 26 = 298). */
+                  const row =
+                    "flex flex-col gap-5 overflow-hidden rounded-card bg-surface p-4 pl-[14px] md:grid md:grid-cols-[minmax(0,248px)_minmax(0,1fr)] md:items-start md:gap-6 md:p-5 md:pl-[26px]";
+                  const text = (
+                    <ProjectText
+                      project={project}
+                      titleClass="text-md font-medium leading-[1.35] text-sc-ink"
                     />
-                    <div className="pb-1 md:p-0">
-                      <ProjectText
-                        project={project}
-                        titleClass="text-md font-medium leading-[1.35] text-sc-ink"
+                  );
+
+                  /* ICP Gate: same row shape, but the whole row opens the
+                     full write up in a modal, as on /projects. */
+                  if ("media" in project) {
+                    const media = hasIcpGateVideo ? (
+                      <IcpGateVideo />
+                    ) : (
+                      <IcpGateAnimation />
+                    );
+                    return (
+                      <IcpGateCard
+                        key={project.name}
+                        name={project.name}
+                        modalMedia={media}
+                        layout={row}
+                      >
+                        <GradientRule />
+                        {media}
+                        <div className="flex flex-col gap-4 pb-1 md:p-0">
+                          {text}
+                          <ReadMoreHint className="text-sc-deep" />
+                        </div>
+                      </IcpGateCard>
+                    );
+                  }
+
+                  return (
+                    <article key={project.name} className={`relative ${row}`}>
+                      <GradientRule />
+                      <LoomPlayer
+                        src={project.loom}
+                        poster={project.poster}
+                        title={`${project.name} walkthrough`}
+                        sizes="(max-width: 768px) 100vw, 248px"
+                        compact
                       />
-                    </div>
-                  </article>
-                ))}
+                      <div className="pb-1 md:p-0">{text}</div>
+                    </article>
+                  );
+                })}
               </div>
             </div>
           </div>
