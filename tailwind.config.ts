@@ -74,6 +74,27 @@ const config: Config = {
           muted: "#6B6880", // 5.36:1 on white
         },
 
+        /* Scalantec. Their gradient, sampled from their site: red
+           #C54847 into orange #D47244 into amber #EAAD49.
+
+           White text fails on the amber end (1.99:1), so the gradient
+           is decoration only: rules, play buttons, the hero wash.
+           Buttons are the solid red end, which carries white text at
+           4.78:1. Brand text uses `deep`, 6.42:1 on white. */
+        sc: {
+          red: "#C54847",
+          orange: "#D47244",
+          amber: "#EAAD49",
+          hover: "#B23B36",
+          deep: "#A8382F",
+          soft: "#FDF1EC", // pill and callout fill
+          tint: "#FDF3EC", // gradient wash start
+          line: "#F2E1D8",
+          ink: "#17110F",
+          body: "#4D4441",
+          muted: "#7A6F6B", // 4.87:1 on white
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
