@@ -246,8 +246,10 @@ export default function ScalantecPage() {
 
               <div className="flex max-w-full flex-col gap-3 md:max-w-[82%]">
                 <p className="text-md text-sc-body">
-                  Read this, saw myself delivering immense value if given a
-                  chance.
+                  Read this and knew it was written for people like me. I
+                  refuse to lose, and I have plenty of stories (even in
+                  outbound) supporting the same. Happy to share them on a call
+                  :)
                 </p>
                 <h2 className="text-[20px] font-medium leading-[1.3] tracking-[-0.015em] text-sc-ink sm:text-[22px]">
                   I did not want to apply empty handed. So I rebuilt your
