@@ -37,7 +37,7 @@ export default function ProjectsHero() {
         <div className="flex max-w-full flex-col gap-3 md:max-w-[78%]">
           <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-ink sm:text-2xl">
             6 years of freelancing and running an agency, working with
-            premium clients. I was doing GTM before it had a name.
+            premium clients.
           </h1>
           <p className="text-md text-body">
             Now I&apos;m transitioning fully into GTM engineering. Looking to
