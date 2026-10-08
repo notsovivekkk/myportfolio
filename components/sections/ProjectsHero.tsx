@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { Frame, Card, Button } from "@/components/ui/Primitives";
 
@@ -8,7 +9,9 @@ import { Frame, Card, Button } from "@/components/ui/Primitives";
    same introduction (/scalantec), so the two can never drift apart.
    It sits in the hero frame, whose 66px shoulder holds the nav bar.
    ============================================================ */
-export default function ProjectsHero() {
+/* `subhead` replaces the line under the headline, for a company page
+   that opens with its own words. Everything else stays identical. */
+export default function ProjectsHero({ subhead }: { subhead?: ReactNode }) {
   return (
     <Frame hero>
       <Card className="flex flex-col gap-7 p-8 sm:p-11 sm:pl-14">
@@ -40,9 +43,13 @@ export default function ProjectsHero() {
             premium clients (all through manual outbound).
           </h1>
           <p className="text-md text-body">
-            Now I&apos;m transitioning fully into GTM engineering. Looking to
-            capitalise on that hunger, own real outcomes, and be the person
-            who drives revenue from the front.
+            {subhead ?? (
+              <>
+                Now I&apos;m transitioning fully into GTM engineering. Looking
+                to capitalise on that hunger, own real outcomes, and be the
+                person who drives revenue from the front.
+              </>
+            )}
           </p>
         </div>
 

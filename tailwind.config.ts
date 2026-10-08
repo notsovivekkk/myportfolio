@@ -95,17 +95,19 @@ const config: Config = {
           muted: "#7A6F6B", // 4.87:1 on white
         },
 
-        /* Vanderbuild. Their yellow, #FFFF54, sampled from their own
-           button. It only ever appears as that exact fill, under near
-           black type (17.27:1), the way their button uses it: buttons,
-           play buttons, tags, labels, card rules.
+        /* Vanderbuild. A deep, fully saturated yellow, #FFD500. Their own
+           button yellow (#FFFF54) has blue in it and washes out on a white
+           page (1.07:1 against white); this keeps their yellow identity
+           and reads clearly (1.42:1 against white, 12.96:1 under black
+           text). Only ever a fill under near black type: buttons, play
+           buttons, tags, labels, card rules.
 
            No darkened "brand text" shade on purpose: a yellow darkened
            far enough to read on white turns olive, which made the page
            look green. Text stays neutral, like the main site. */
         vb: {
-          hl: "#FFFF54",
-          hover: "#F2F23A",
+          hl: "#FFD500",
+          hover: "#F0C800",
           ink: "#141414",
           body: "#4A4F54", // the main site's body grey
           muted: "#6B7075", // 4.9:1 on white

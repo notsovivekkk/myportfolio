@@ -210,7 +210,7 @@ function Button({
 }) {
   const skin = {
     solid:
-      "bg-vb-hl text-vb-ink shadow-[inset_0_0_0_1px_rgba(20,20,20,0.06),0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(200,200,0,0.6)] hover:bg-vb-hover",
+      "bg-vb-hl text-vb-ink shadow-[inset_0_0_0_1px_rgba(20,20,20,0.06),0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(230,190,0,0.55)] hover:bg-vb-hover",
     secondary:
       "bg-white text-vb-ink shadow-[inset_0_0_0_1px_#E5E7EB,0_6px_6px_-3px_rgba(41,41,41,0.04),0_12px_12px_-6px_rgba(41,41,41,0.04)] hover:shadow-[inset_0_0_0_1px_#141414,0_6px_6px_-3px_rgba(41,41,41,0.05),0_12px_12px_-6px_rgba(41,41,41,0.05)]",
   }[variant];
@@ -240,17 +240,22 @@ export default function VanderbuildPage() {
           {/* ---------- Intro ---------- */}
           {/* The /projects hero itself, shared, so they stay identical.
               It carries the background button too. */}
-          <ProjectsHero />
+          <ProjectsHero
+            subhead={
+              <>
+                Mateusz, the bar to work with you is high. You&apos;re the
+                &ldquo;Clay Cup Vice Champion&rdquo;. That&apos;s exactly why
+                I want to work with you: to raise my own standards and deliver
+                real impact. :)
+              </>
+            }
+          />
 
           {/* ---------- Why Vanderbuild ---------- */}
-          {/* The pitch, its own card, on the hero's left padding. */}
+          {/* The one line that leads into the work, its own card, on the
+              hero's left padding. */}
           <Frame>
             <Card className="flex flex-col gap-5 p-8 sm:p-11 sm:pl-14">
-              <p className="max-w-[46ch] text-lg leading-[1.6] text-vb-ink">
-                Mateusz, the bar to work with you is high. You&apos;re the
-                &ldquo;Clay Cup Vice Champion&rdquo;. That&apos;s exactly why I want to work with you: to raise my
-                own standards and deliver real impact. :)
-              </p>
               <h2 className="max-w-[40ch] text-[20px] font-medium leading-[1.3] tracking-[-0.015em] text-vb-ink sm:text-[22px]">
                 I didn&apos;t want to apply empty-handed, so I rebuilt your
                 ArdentCode campaign from scratch.
