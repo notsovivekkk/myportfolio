@@ -95,6 +95,21 @@ const config: Config = {
           muted: "#7A6F6B", // 4.87:1 on white
         },
 
+        /* Vanderbuild. Highlighter yellow, #E3FC02, read off their site.
+           It cannot carry white text (1.15:1), so it is a FILL under near
+           black type (15.96:1): buttons, play buttons, rules, and the
+           highlighter mark. Brand text uses `deep`, an olive at 7.79:1. */
+        vb: {
+          hl: "#E3FC02",
+          hover: "#D3EB00",
+          soft: "#F7FECC", // callout and pill fill
+          line: "#E6EDB8",
+          deep: "#4F5700",
+          ink: "#141414",
+          body: "#4A4A42",
+          muted: "#77746A", // 4.68:1 on white
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",

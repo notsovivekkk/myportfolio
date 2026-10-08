@@ -14,7 +14,7 @@ import IcpGateCard from "@/components/ui/IcpGateCard";
 export const metadata: Metadata = {
   title: "Projects, Vivek M",
   description:
-    "6 years of freelancing and running an agency, working with premium clients. Now transitioning fully into GTM engineering. Proof of work, walked through on Loom.",
+    "6 years of freelancing and running an agency, working with premium clients (all through manual outbound). Now transitioning fully into GTM engineering. Proof of work, walked through on Loom.",
 };
 
 /* ============================================================
