@@ -96,19 +96,19 @@ const config: Config = {
         },
 
         /* Vanderbuild. Their yellow, #FFFF54, sampled from their own
-           button. It cannot carry white text (1.07:1), so it is a FILL
-           under near black type (17.27:1), exactly as their button does:
-           buttons, play buttons, rules. Brand text uses `deep`, a dark
-           olive of the same hue at 7.37:1 on white. */
+           button. It only ever appears as that exact fill, under near
+           black type (17.27:1), the way their button uses it: buttons,
+           play buttons, tags, labels, card rules.
+
+           No darkened "brand text" shade on purpose: a yellow darkened
+           far enough to read on white turns olive, which made the page
+           look green. Text stays neutral, like the main site. */
         vb: {
           hl: "#FFFF54",
           hover: "#F2F23A",
-          soft: "#FFFFDB", // callout and pill fill
-          line: "#EDEDB5",
-          deep: "#5C5800",
           ink: "#141414",
-          body: "#4A4A42",
-          muted: "#77746A", // 4.68:1 on white
+          body: "#4A4F54", // the main site's body grey
+          muted: "#6B7075", // 4.9:1 on white
         },
 
         // Kept as aliases so nothing silently breaks.

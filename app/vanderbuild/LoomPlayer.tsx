@@ -44,7 +44,7 @@ export default function LoomPlayer({
       rel="noopener noreferrer"
       aria-label={`Watch ${title} on Loom (opens in a new tab)`}
       style={{ aspectRatio: LOOM_RATIO }}
-      className="group relative block w-full overflow-hidden rounded-[12px] bg-vb-soft outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vb-deep"
+      className="group relative block w-full overflow-hidden rounded-[12px] bg-frame outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vb-ink"
     >
       <Image
         src={poster}

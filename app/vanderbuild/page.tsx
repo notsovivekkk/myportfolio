@@ -35,9 +35,9 @@ export const metadata: Metadata = {
    edge throughout (298px desktop, 50px phone).
 
    Colour rule (see the `vb` block in tailwind.config.ts): highlighter
-   their yellow is a fill, always under near black type, used for the
-   play buttons, the card rules and the buttons. Brand text is the deep
-   olive.
+   their yellow is only ever the exact #FFFF54 fill under near black
+   type: play buttons, card rules, buttons, tags and labels. All text is
+   neutral, as on the main site.
    ================================================================== */
 
 type Project = {
@@ -142,15 +142,16 @@ function Rule() {
 }
 
 function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-base text-vb-deep">{children}</p>;
+  return <p className="text-base text-vb-body">{children}</p>;
 }
 
-/* What the project means for them, set apart on a pale yellow panel so
-   a reader skimming the page reads these lines first. */
+/* What the project means for them, on the main site's grey panel, led
+   by a label in their exact yellow, so a reader skimming the page finds
+   these lines first. */
 function ForVanderbuild({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-1 rounded-tile bg-vb-soft px-4 py-3.5">
-      <p className="text-sm font-medium uppercase tracking-[0.04em] text-vb-deep">
+    <div className="flex flex-col items-start gap-2 rounded-tile bg-frame px-4 py-3.5">
+      <p className="rounded-full bg-vb-hl px-2.5 py-1 text-sm font-medium uppercase leading-none tracking-[0.04em] text-vb-ink">
         For Vanderbuild
       </p>
       <p className="text-base leading-[1.6] text-vb-ink">{children}</p>
@@ -178,7 +179,7 @@ function ProjectText({ project }: { project: Project }) {
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center rounded-full bg-vb-soft px-2.5 py-1 text-sm leading-none text-vb-deep"
+                className="inline-flex items-center rounded-full bg-vb-hl px-2.5 py-1 text-sm leading-none text-vb-ink"
               >
                 {tag}
               </span>
@@ -211,14 +212,14 @@ function Button({
     solid:
       "bg-vb-hl text-vb-ink shadow-[inset_0_0_0_1px_rgba(20,20,20,0.06),0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(200,200,0,0.6)] hover:bg-vb-hover",
     secondary:
-      "bg-white text-vb-ink shadow-[inset_0_0_0_1px_#EDEDB5,0_6px_6px_-3px_rgba(41,41,41,0.04),0_12px_12px_-6px_rgba(41,41,41,0.04)] hover:shadow-[inset_0_0_0_1px_#5C5800,0_6px_6px_-3px_rgba(41,41,41,0.05),0_12px_12px_-6px_rgba(41,41,41,0.05)]",
+      "bg-white text-vb-ink shadow-[inset_0_0_0_1px_#E5E7EB,0_6px_6px_-3px_rgba(41,41,41,0.04),0_12px_12px_-6px_rgba(41,41,41,0.04)] hover:shadow-[inset_0_0_0_1px_#141414,0_6px_6px_-3px_rgba(41,41,41,0.05),0_12px_12px_-6px_rgba(41,41,41,0.05)]",
   }[variant];
 
   return (
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`inline-flex h-10 w-full items-center justify-center gap-2 rounded-[12px] px-5 text-base font-medium outline-none transition-[background-color,box-shadow] duration-200 ease-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vb-deep active:scale-[0.98] sm:w-auto ${skin}`}
+      className={`inline-flex h-10 w-full items-center justify-center gap-2 rounded-[12px] px-5 text-base font-medium outline-none transition-[background-color,box-shadow] duration-200 ease-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vb-ink active:scale-[0.98] sm:w-auto ${skin}`}
     >
       {children}
     </a>
@@ -258,45 +259,51 @@ export default function VanderbuildPage() {
           </Frame>
 
           {/* ---------- 1. Featured: ArdentCode ---------- */}
-          {/* Video first, full width of the card, then the funnel in
-              three numbers, then the write up. Laid out as a story: watch
-              it, see the result at a glance, read how. */}
+          {/* Video first, but at thumbnail size beside the title and the
+              funnel in three numbers, not a full width slab. The write up
+              runs underneath at reading width. Same 248px video column as
+              the rows below, so the page keeps one grid. */}
           <div id="ardentcode" className="scroll-mt-24">
             <Frame>
               <Card className="relative flex flex-col gap-7 p-8 sm:p-11 sm:pl-14">
                 <Rule />
-                <div className="flex flex-col gap-1.5">
-                  <Eyebrow>The project.</Eyebrow>
-                  <h3 className="text-lg font-medium leading-[1.3] text-vb-ink">
-                    {ARDENT.name}
-                  </h3>
-                </div>
+                <div className="flex flex-col gap-6 md:grid md:grid-cols-[minmax(0,248px)_minmax(0,1fr)] md:items-start md:gap-6">
+                  <LoomPlayer
+                    src={ARDENT.loom}
+                    poster={ARDENT.poster}
+                    title={`${ARDENT.name} walkthrough`}
+                    priority
+                    sizes="(max-width: 768px) 100vw, 248px"
+                    compact
+                  />
 
-                <LoomPlayer
-                  src={ARDENT.loom}
-                  poster={ARDENT.poster}
-                  title={`${ARDENT.name} walkthrough`}
-                  priority
-                  sizes="(max-width: 768px) 100vw, 700px"
-                />
-
-                {/* 2px gaps on a pale yellow ground read as hairline rules
-                    between the numbers, without drawing any borders. */}
-                <dl className="grid grid-cols-3 gap-0.5 overflow-hidden rounded-tile bg-vb-line">
-                  {ARDENT.stats.map((stat) => (
-                    <div
-                      key={stat.value}
-                      className="flex flex-col gap-1 bg-white px-3 py-4 sm:px-5"
-                    >
-                      <dt className="order-2 text-sm leading-[1.4] text-vb-muted sm:text-base">
-                        {stat.label}
-                      </dt>
-                      <dd className="order-1 text-[24px] font-normal leading-none tracking-[-0.02em] text-vb-ink tabular-nums sm:text-2xl">
-                        {stat.value}
-                      </dd>
+                  <div className="flex flex-col gap-5">
+                    <div className="flex flex-col gap-1.5">
+                      <Eyebrow>The project.</Eyebrow>
+                      <h3 className="text-lg font-medium leading-[1.3] text-vb-ink">
+                        {ARDENT.name}
+                      </h3>
                     </div>
-                  ))}
-                </dl>
+
+                    {/* Three numbers, one hairline apart: 2px gaps on the
+                        main site's line grey, no borders drawn. */}
+                    <dl className="grid grid-cols-3 gap-0.5 overflow-hidden rounded-tile bg-line">
+                      {ARDENT.stats.map((stat) => (
+                        <div
+                          key={stat.value}
+                          className="flex flex-col gap-1 bg-white px-3 py-3"
+                        >
+                          <dt className="order-2 text-sm leading-[1.4] text-vb-muted">
+                            {stat.label}
+                          </dt>
+                          <dd className="order-1 text-[22px] font-normal leading-none tracking-[-0.02em] text-vb-ink tabular-nums">
+                            {stat.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </div>
 
                 <div className="flex max-w-[62ch] flex-col gap-3">
                   {ARDENT.copy.map((para) => (
@@ -353,7 +360,7 @@ export default function VanderbuildPage() {
                         {media}
                         <div className="flex flex-col gap-4 pb-1 md:p-0">
                           <ProjectText project={project} />
-                          <ReadMoreHint className="text-vb-deep" />
+                          <ReadMoreHint className="text-vb-ink" />
                         </div>
                       </IcpGateCard>
                     );
