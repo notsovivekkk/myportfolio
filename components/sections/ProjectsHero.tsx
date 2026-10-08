@@ -10,8 +10,15 @@ import { Frame, Card, Button } from "@/components/ui/Primitives";
    It sits in the hero frame, whose 66px shoulder holds the nav bar.
    ============================================================ */
 /* `subhead` replaces the line under the headline, for a company page
-   that opens with its own words. Everything else stays identical. */
-export default function ProjectsHero({ subhead }: { subhead?: ReactNode }) {
+   that opens with its own words; `subheadClassName` lets that page give
+   it its own emphasis. Everything else stays identical. */
+export default function ProjectsHero({
+  subhead,
+  subheadClassName = "text-md text-body",
+}: {
+  subhead?: ReactNode;
+  subheadClassName?: string;
+}) {
   return (
     <Frame hero>
       <Card className="flex flex-col gap-7 p-8 sm:p-11 sm:pl-14">
@@ -42,7 +49,7 @@ export default function ProjectsHero({ subhead }: { subhead?: ReactNode }) {
             6 years of freelancing and running an agency, working with
             premium clients (all through manual outbound).
           </h1>
-          <p className="text-md text-body">
+          <p className={subheadClassName}>
             {subhead ?? (
               <>
                 Now I&apos;m transitioning fully into GTM engineering. Looking

@@ -240,7 +240,13 @@ export default function VanderbuildPage() {
           {/* ---------- Intro ---------- */}
           {/* The /projects hero itself, shared, so they stay identical.
               It carries the background button too. */}
+          {/* The Mateusz line gets a slight emphasis: full ink on a soft
+              tint of their yellow, with a #FFD500 stripe. The tint bleeds
+              16px into the card's margin (-ml-4), and the padding puts it
+              back (3px stripe + 13px), so the words stay exactly on the
+              page's left edge, under the headline. */}
           <ProjectsHero
+            subheadClassName="-ml-4 rounded-r-tile border-l-[3px] border-vb-hl bg-vb-tint py-3 pl-[13px] pr-4 text-md text-vb-ink"
             subhead={
               <>
                 Mateusz, the bar to work with you is high. You&apos;re the

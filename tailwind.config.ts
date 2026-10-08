@@ -108,6 +108,7 @@ const config: Config = {
         vb: {
           hl: "#FFD500",
           hover: "#F0C800",
+          tint: "#FFF7D1", // soft wash of #FFD500, for an emphasised line
           ink: "#141414",
           body: "#4A4F54", // the main site's body grey
           muted: "#6B7075", // 4.9:1 on white
