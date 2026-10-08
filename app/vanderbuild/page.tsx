@@ -35,9 +35,9 @@ export const metadata: Metadata = {
    edge throughout (298px desktop, 50px phone).
 
    Colour rule (see the `vb` block in tailwind.config.ts): highlighter
-   yellow is a fill, always under near black type, used for the play
-   buttons, the card rules, the buttons and one highlighter mark. Brand
-   text is the deep olive.
+   their yellow is a fill, always under near black type, used for the
+   play buttons, the card rules and the buttons. Brand text is the deep
+   olive.
    ================================================================== */
 
 type Project = {
@@ -209,9 +209,9 @@ function Button({
 }) {
   const skin = {
     solid:
-      "bg-vb-hl text-vb-ink shadow-[inset_0_0_0_1px_rgba(20,20,20,0.06),0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(160,180,0,0.55)] hover:bg-vb-hover",
+      "bg-vb-hl text-vb-ink shadow-[inset_0_0_0_1px_rgba(20,20,20,0.06),0_1px_2px_rgba(20,20,20,0.08),0_6px_16px_-6px_rgba(200,200,0,0.6)] hover:bg-vb-hover",
     secondary:
-      "bg-white text-vb-ink shadow-[inset_0_0_0_1px_#E6EDB8,0_6px_6px_-3px_rgba(41,41,41,0.04),0_12px_12px_-6px_rgba(41,41,41,0.04)] hover:shadow-[inset_0_0_0_1px_#4F5700,0_6px_6px_-3px_rgba(41,41,41,0.05),0_12px_12px_-6px_rgba(41,41,41,0.05)]",
+      "bg-white text-vb-ink shadow-[inset_0_0_0_1px_#EDEDB5,0_6px_6px_-3px_rgba(41,41,41,0.04),0_12px_12px_-6px_rgba(41,41,41,0.04)] hover:shadow-[inset_0_0_0_1px_#5C5800,0_6px_6px_-3px_rgba(41,41,41,0.05),0_12px_12px_-6px_rgba(41,41,41,0.05)]",
   }[variant];
 
   return (
@@ -242,15 +242,12 @@ export default function VanderbuildPage() {
           <ProjectsHero />
 
           {/* ---------- Why Vanderbuild ---------- */}
-          {/* The pitch, its own card, on the hero's left padding. The one
-              highlighter mark on the page goes on the reason he is
-              writing: the bar Mateusz has set. */}
+          {/* The pitch, its own card, on the hero's left padding. */}
           <Frame>
             <Card className="flex flex-col gap-5 p-8 sm:p-11 sm:pl-14">
               <p className="max-w-[46ch] text-lg leading-[1.6] text-vb-ink">
-                Mateusz, the bar to work with you is high. You&apos;re the{" "}
-                <mark className="vb-highlight">Clay Cup Vice Champion</mark>.
-                That&apos;s exactly why I want to work with you: to raise my
+                Mateusz, the bar to work with you is high. You&apos;re the
+                &ldquo;Clay Cup Vice Champion&rdquo;. That&apos;s exactly why I want to work with you: to raise my
                 own standards and deliver real impact. :)
               </p>
               <h2 className="max-w-[40ch] text-[20px] font-medium leading-[1.3] tracking-[-0.015em] text-vb-ink sm:text-[22px]">
