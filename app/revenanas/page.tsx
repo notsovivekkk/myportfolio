@@ -54,6 +54,10 @@ type Project = {
 
 const KASADA = {
   title: "Kasada: 1,335 messy rows to 10 accounts reps can work today",
+  loom: "https://www.loom.com/embed/2c7141a8a87b4f0cb05dd405fed9efac",
+  /* Loom's poster link for this recording is signed and expires, so its
+     first frame is saved with the site. */
+  poster: "/images/looms/kasada.jpg",
   description: [
     "Kasada stops bots. I picked one use case, content scraping, and one industry that pays for it: airlines. Every scraped fare search costs an airline money.",
     "I pulled 1,335 “airline” companies, cleaned them to 173 real passenger airlines, checked which bot tool each one already runs, and scored them on 4 sourced signals. Then I found the decision maker and a verified email for the top 10.",
@@ -233,30 +237,6 @@ function ProjectText({ project }: { project: Project }) {
   );
 }
 
-/* The Loom slot before a recording exists: the same size and corners as
-   a Loom poster, so the layout is final and nothing moves when the real
-   video drops in. Not a link, so not focusable. */
-function LoomComingSoon() {
-  return (
-    <div
-      style={{ aspectRatio: "100 / 64.98194945848375" }}
-      className="flex w-full flex-col items-center justify-center gap-2.5 rounded-[12px] bg-rv-tint shadow-[inset_0_0_0_1px_rgba(243,111,19,0.25)]"
-    >
-      <span
-        aria-hidden="true"
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_rgba(243,111,19,0.3)]"
-      >
-        <svg width="12" height="14" viewBox="0 0 20 22" fill="#A84E0F" className="ml-0.5">
-          <path d="M19 9.27a2 2 0 0 1 0 3.46L3 21.99a2 2 0 0 1-3-1.73V1.74A2 2 0 0 1 3 .01l16 9.26Z" />
-        </svg>
-      </span>
-      <p className="text-sm font-medium text-rv-deep">
-        Loom walkthrough coming soon
-      </p>
-    </div>
-  );
-}
-
 /* 40px, 20px sides, 12px radius, 14px medium, as everywhere else. Solid
    is their orange under their dark text. */
 function Button({
@@ -377,11 +357,18 @@ export default function RevenanasPage() {
                   </div>
                 </div>
 
-                {/* The Loom slot beside the numbers, the /vanderbuild grid:
+                {/* The Loom beside the numbers, the /vanderbuild grid:
                     248px video column, 24px gap. The six stats sit three
                     across on the right and stack to one column on phones. */}
                 <div className="flex flex-col gap-6 md:grid md:grid-cols-[minmax(0,248px)_minmax(0,1fr)] md:items-start md:gap-6">
-                  <LoomComingSoon />
+                  <LoomPlayer
+                    src={KASADA.loom}
+                    poster={KASADA.poster}
+                    title="Kasada walkthrough"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 248px"
+                    compact
+                  />
 
                   {/* 2px gaps on the line grey read as hairlines between
                       the cards, no borders drawn. */}
