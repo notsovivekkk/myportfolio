@@ -398,8 +398,7 @@ const HERO: Record<Version, ReactNode> = {
           did it.
         </h1>
         <p className="text-md font-medium text-rv-ink">
-          I rebuilt your Kasada case study in Claude Code, end to end. No table
-          dragging.
+          I rebuilt your Kasada case study in Claude Code, end to end.
         </p>
       </div>
       <div className="flex flex-col items-start gap-4">
