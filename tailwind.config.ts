@@ -114,6 +114,21 @@ const config: Config = {
           muted: "#6B7075", // 4.9:1 on white
         },
 
+        /* Revenanas. Their orange, #F36F13, read off their stylesheet,
+           with their pale #FFF7F0 as the tint. White on the orange fails
+           (2.96:1), so the orange is a FILL under their dark #1E1E1E
+           (5.63:1): buttons, pills, play buttons, card rules. Orange toned
+           text uses `deep`, 5.58:1 on white. */
+        rv: {
+          orange: "#F36F13",
+          hover: "#E0610B",
+          tint: "#FFF7F0",
+          deep: "#A84E0F",
+          ink: "#1E1E1E",
+          body: "#4A4F54",
+          muted: "#6B7075", // 4.9:1 on white
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
