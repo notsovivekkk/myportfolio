@@ -15,13 +15,12 @@ import VersionSwitch, { type Version } from "./VersionSwitch";
 /* Same rule as /projects: a clip at public/videos/icp-gate.mp4 replaces
    the illustration on the next build. */
 const hasIcpGateVideo = existsSync(
-  path.join(process.cwd(), "public/videos/icp-gate.mp4")
+  path.join(process.cwd(), "public/videos/icp-gate.mp4"),
 );
 
 export const metadata: Metadata = {
   title: "Vivek M, application to Revenanas",
-  description:
-    "Kasada: 1,335 messy rows to 10 accounts reps can work today.",
+  description: "Kasada: 1,335 messy rows to 10 accounts reps can work today.",
   /* Noindex on purpose. This is written for one company, and a targeted
      application page turning up in search results for other people is
      rarely what you want. Delete this block to make it public. */
@@ -66,7 +65,8 @@ type Step = { lead: ReactNode; rest: ReactNode[] };
 type Lead = {
   title: string;
   description: string[];
-  stats: { value: string; label: string }[];
+  /* Jack's version only: Dom's is about how it was built, not numbers. */
+  stats?: { value: string; label: string }[];
   changes?: string;
   howLabel: string;
   how: Step[];
@@ -141,18 +141,8 @@ const JACK: Lead = {
 const DOM: Lead = {
   title: "Kasada: how I turned 1,335 messy rows into 10 workable accounts",
   description: [
-    "One ICP file as context. A cleaning script that logs a reason for every row. An agent that reads each airline's cookies to find which bot tool they run. An email waterfall that only pays when it finds something. Built for 6.87 credits.",
-  ],
-  stats: [
-    {
-      value: "1,335 \u2192 173",
-      label: "rows in, real airlines out, every removal logged",
-    },
-    { value: "70", label: "competitor bot tools found from cookies" },
-    { value: "0", label: "existing Kasada customers detected" },
-    { value: "4", label: "email finders in the waterfall" },
-    { value: "9 / 9", label: "verified emails" },
-    { value: "6.87 credits", label: "total spend" },
+    "Built in Claude Code, with Deepline for the data.",
+    "One ICP file as context. A cleaning script that logs a reason for every row. Signals scored with a source behind every point: scraper lawsuits, the push to book on the airline’s own site, recent breaches, low-cost carriers. An agent that reads each airline’s cookies to find which bot tool they run. An email waterfall that only pays when it finds something.",
   ],
   howLabel: "How it's built",
   how: [
@@ -185,9 +175,7 @@ const DOM: Lead = {
     },
     {
       lead: "Signal research:",
-      rest: [
-        "every point needs a source URL and a date. No source, no point.",
-      ],
+      rest: ["every point needs a source URL and a date. No source, no point."],
     },
     {
       lead: "Email waterfall:",
@@ -200,8 +188,8 @@ const DOM: Lead = {
       rest: [
         <>
           Southwest = <Code>wnco.com</Code>, Lufthansa Group ={" "}
-          <Code>dlh.de</Code>, Qantas = <Code>qantas.com.au</Code>. 3
-          “not found” became 3 verified for under 1 credit.
+          <Code>dlh.de</Code>, Qantas = <Code>qantas.com.au</Code>. 3 “not
+          found” became 3 verified for under 1 credit.
         </>,
       ],
     },
@@ -406,8 +394,8 @@ const HERO: Record<Version, ReactNode> = {
       <div className="flex max-w-full flex-col gap-3 md:max-w-[82%]">
         <p className="text-md text-rv-body">Hey Dom,</p>
         <h1 className="text-[24px] font-normal leading-[1.2] tracking-[-0.02em] text-rv-ink sm:text-2xl">
-          Jack gets the numbers. This tab is for you: what&apos;s under the
-          hood.
+          This tab is for you: what&apos;s under the hood. The flow &amp; how I
+          did it.
         </h1>
         <p className="text-md font-medium text-rv-ink">
           I rebuilt your Kasada case study in Claude Code, end to end. No table
@@ -456,7 +444,8 @@ function LeadProject({ lead }: { lead: Lead }) {
 
           {/* The Loom beside the numbers, the /vanderbuild grid: 248px
               video column, 24px gap. The six stats sit three across on the
-              right and stack to one column on phones. */}
+              right and stack to one column on phones. With no stats (Dom's
+              version) the Loom sits alone, still in its 248px column. */}
           <div className="flex flex-col gap-6 md:grid md:grid-cols-[minmax(0,248px)_minmax(0,1fr)] md:items-start md:gap-6">
             <LoomPlayer
               src={KASADA_LOOM.loom}
@@ -466,24 +455,25 @@ function LeadProject({ lead }: { lead: Lead }) {
               sizes="(max-width: 768px) 100vw, 248px"
               compact
             />
-
             {/* 2px gaps on the line grey read as hairlines between the
                 cards, no borders drawn. */}
-            <dl className="grid grid-cols-1 gap-0.5 overflow-hidden rounded-tile bg-line sm:grid-cols-3">
-              {lead.stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex flex-col gap-1.5 bg-white px-3 py-3"
-                >
-                  <dt className="order-2 text-sm leading-[1.4] text-rv-muted">
-                    {stat.label}
-                  </dt>
-                  <dd className="order-1 whitespace-nowrap text-[18px] font-normal leading-tight tracking-[-0.02em] text-rv-ink tabular-nums">
-                    {stat.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            {lead.stats ? (
+              <dl className="grid grid-cols-1 gap-0.5 overflow-hidden rounded-tile bg-line sm:grid-cols-3">
+                {lead.stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex flex-col gap-1.5 bg-white px-3 py-3"
+                  >
+                    <dt className="order-2 text-sm leading-[1.4] text-rv-muted">
+                      {stat.label}
+                    </dt>
+                    <dd className="order-1 whitespace-nowrap text-[18px] font-normal leading-tight tracking-[-0.02em] text-rv-ink tabular-nums">
+                      {stat.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
           </div>
 
           {lead.changes ? (
@@ -676,7 +666,10 @@ export default async function RevenanasPage({
                   </p>
                 </div>
                 <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-                  <Button href="https://www.linkedin.com/in/vivek-m12/" external>
+                  <Button
+                    href="https://www.linkedin.com/in/vivek-m12/"
+                    external
+                  >
                     Message on LinkedIn
                   </Button>
                   <Button
