@@ -52,9 +52,8 @@ export default function ProjectsHero({
           <p className={subheadClassName}>
             {subhead ?? (
               <>
-                Now I&apos;m transitioning fully into GTM engineering. Looking
-                to capitalise on that hunger, own real outcomes, and be the
-                person who drives revenue from the front.
+                Now I’m a GTM engineer. I’m hungry to own real outcomes
+                and be the person who drives revenue from the front.
               </>
             )}
           </p>
