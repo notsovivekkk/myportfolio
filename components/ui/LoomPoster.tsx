@@ -26,12 +26,16 @@ export default function LoomPoster({
   poster,
   title,
   priority = false,
+  disc = "bg-ink",
   sizes = "(max-width: 768px) 100vw, 380px",
 }: {
   src: string;
   poster: string;
   title: string;
   priority?: boolean;
+  /* Background class for the play disc, for a page with its own colour.
+     Must be dark enough to carry the white play mark. */
+  disc?: string;
   sizes?: string;
 }) {
   return (
@@ -57,7 +61,9 @@ export default function LoomPoster({
       <span className="absolute inset-0 bg-ink/10 transition-colors duration-200 ease-default group-hover:bg-ink/[0.18]" />
 
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink shadow-[0_4px_20px_-4px_rgba(10,10,10,0.45)] transition-transform duration-200 ease-default group-hover:scale-[1.06]">
+        <span
+          className={`flex h-12 w-12 items-center justify-center rounded-full ${disc} shadow-[0_4px_20px_-4px_rgba(10,10,10,0.45)] transition-transform duration-200 ease-default group-hover:scale-[1.06]`}
+        >
           {/* Nudged right: a triangle's optical centre sits left of its
               bounding box, so a centred one always looks off. */}
           <svg

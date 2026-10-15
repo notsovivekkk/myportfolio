@@ -129,6 +129,13 @@ const config: Config = {
           muted: "#6B7075", // 4.9:1 on white
         },
 
+        /* Apero. A near black green, #0F1614. It carries white text at
+           18.34:1, so it is a solid fill: the chosen side of the toggle
+           and the intro video's play button. */
+        ap: {
+          hl: "#0F1614",
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",
