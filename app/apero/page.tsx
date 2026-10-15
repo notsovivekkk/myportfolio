@@ -45,11 +45,11 @@ const INTRO_LOOM = {
 const INTRO: Record<Reader, [string, string]> = {
   ben: [
     "Yo Ben, I know you love my name lol. Jokes aside.",
-    "Here's my intro Loom below, plus a GitHub project walkthrough, my take on one of your concerns, and the freedom for you to decide if I'm a fit or not ;)",
+    "Here’s my intro Loom below, plus a GitHub project walkthrough, my take on one of your concerns, and then you decide if I’m a fit or not ;)",
   ],
   michael: [
-    "I did myself a disservice by positioning myself for an intern role. It came across like I don't have client management experience. I'd like to own that mistake and the confusion it created.",
-    "Here's my intro, a project walkthrough, and the hope that I'll get some feedback from you.",
+    "I made a mistake by asking for an intern role. It made it look like I don’t have client management experience. That’s on me, and I’d like to clear up the confusion.",
+    "Here’s my intro and a project walkthrough. Would love your feedback.",
   ],
 };
 
