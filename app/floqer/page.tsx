@@ -356,7 +356,7 @@ export default function FloqerPage() {
                 </p>
                 <p className="text-base leading-[1.7] text-fq-body">
                   Before GTM engineering, I ran my own web dev agency and won
-                  premium UK clients through persistent outbound.
+                  premium clients through persistent outbound.
                 </p>
               </div>
               <div className="pt-1">
