@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.notsovivek.fyi"),
   title: "Vivek × Floqer",
   description:
-    "Saw you checked my profile twice. Taking that as a signal :) What I'd own at Floqer, and 4 mobile fixes for floqer.com.",
+    "My application, for all things growth at Floqer. What I'd own, and 4 mobile fixes for floqer.com.",
   /* Personal application page: kept out of search. */
   robots: { index: false, follow: false },
 };
@@ -92,11 +92,13 @@ function Button({
   children,
   external = false,
   variant = "primary",
+  className = "",
 }: {
   href: string;
   children: ReactNode;
   external?: boolean;
   variant?: "primary" | "secondary";
+  className?: string;
 }) {
   const skin =
     variant === "primary"
@@ -106,7 +108,7 @@ function Button({
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] px-5 text-base font-medium outline-none transition-[background-color,box-shadow] duration-200 ease-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fq-orange active:scale-[0.98] sm:w-auto ${skin}`}
+      className={`inline-flex h-10 w-full items-center justify-center gap-2 rounded-[10px] px-5 text-base font-medium outline-none transition-[background-color,box-shadow] duration-200 ease-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fq-orange active:scale-[0.98] sm:w-auto ${skin} ${className}`}
     >
       {children}
     </a>
@@ -123,7 +125,13 @@ const Arrow = () => (
 
 /* Each card's body is a list of short paragraphs, so every point gets
    its own line and nothing is buried in a block of text. */
-const OWN: { title: string; body: ReactNode[]; tags?: string[] }[] = [
+const OWN: {
+  title: string;
+  body: ReactNode[];
+  tags?: string[];
+  /* A link out under the card, for the proof behind it. */
+  more?: { href: string; label: string };
+}[] = [
   {
     title: "GTM engineering",
     body: [
@@ -136,8 +144,9 @@ const OWN: { title: string; body: ReactNode[]; tags?: string[] }[] = [
       "Cursor",
       "Claude Code",
       "Python Script",
-      "Floqer - sorry, I did not get approval yet to test",
+      "Floqer (signup pending approval)",
     ],
+    more: { href: "/projects", label: "More projects and builds here" },
   },
   {
     title: "AEO for Floqer",
@@ -216,12 +225,11 @@ export default function FloqerPage() {
 
               <div className="flex max-w-full flex-col gap-3 md:max-w-[86%]">
                 <h1 className="text-[24px] font-normal leading-[1.25] tracking-[-0.02em] text-fq-ink sm:text-2xl">
-                  Hi Shivam, saw you checked my profile twice. Taking that as a
-                  signal :)
+                  Hi Shivam. My application, for all things growth at Floqer.
                 </h1>
                 <p className="text-md text-fq-body">
-                  That, plus I want to be part of a real 0 &rarr; 1 journey,
-                  and I&apos;m confident I can contribute from day one.
+                  I’d love to be part of the 0 &rarr; 1 journey, and I’m
+                  ready to contribute from day one.
                 </p>
               </div>
             </Card>
@@ -282,6 +290,25 @@ export default function FloqerPage() {
                           </li>
                         ))}
                       </ul>
+                    ) : null}
+                    {/* Same site, so same tab. The URL is shown, so the
+                        reader knows where it goes before clicking. */}
+                    {item.more ? (
+                      <div className="pt-2">
+                        {/* On a phone the label can wrap, so the button
+                            grows with it instead of spilling out. */}
+                        <Button
+                          href={item.more.href}
+                          variant="secondary"
+                          className="h-auto min-h-10 py-2.5 sm:h-10 sm:py-0"
+                        >
+                          {item.more.label}
+                          <Arrow />
+                          <span className="hidden font-[family-name:var(--font-fq-mono)] text-xs font-normal text-fq-muted sm:inline">
+                            notsovivek.fyi/projects
+                          </span>
+                        </Button>
+                      </div>
                     ) : null}
                   </div>
                 </li>
