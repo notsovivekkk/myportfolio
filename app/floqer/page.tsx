@@ -182,10 +182,6 @@ const OWN: {
   },
 ];
 
-const BACKGROUND = [
-  "I ran my own web dev agency and won premium UK clients through persistent outbound.",
-];
-
 /* ---------------- Page ---------------- */
 
 export default function FloqerPage() {
@@ -353,23 +349,16 @@ export default function FloqerPage() {
           <Frame>
             <Card className="flex flex-col gap-4 p-7 sm:p-11">
               <Heading>Where I&apos;m coming from.</Heading>
-              <ul className="flex max-w-[62ch] flex-col gap-2.5">
-                {BACKGROUND.map((line) => (
-                  <li
-                    key={line}
-                    className="grid grid-cols-[14px_minmax(0,1fr)] gap-x-2 text-base leading-[1.65] text-fq-body"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-[10px] h-[5px] w-[5px] bg-fq-orange"
-                    />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="text-base leading-[1.65] text-fq-body">
-                Full story, click below.
-              </p>
+              <div className="flex max-w-[62ch] flex-col gap-2.5">
+                <p className="text-md leading-[1.6] text-fq-ink">
+                  I build GTM systems that find the right people, at the right
+                  time, with the right message.
+                </p>
+                <p className="text-base leading-[1.7] text-fq-body">
+                  Before GTM engineering, I ran my own web dev agency and won
+                  premium UK clients through persistent outbound.
+                </p>
+              </div>
               <div className="pt-1">
                 <Button href="https://www.notsovivek.fyi/#story" variant="secondary">
                   My full background is here
