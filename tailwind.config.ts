@@ -136,6 +136,28 @@ const config: Config = {
           hl: "#0F1614",
         },
 
+        /* Floqer, read off floqer.com: an off-white ground, near black
+           ink, black "night" sections, and their orange #FF4F12. White on
+           that orange fails (3.29:1), so primary buttons are black, as on
+           their own site, and orange text uses their deeper #C2410C on
+           light (5.18:1). On the night sections the orange itself reads
+           at 6.0:1. */
+        fq: {
+          orange: "#FF4F12",
+          deep: "#C2410C",
+          ink: "#040305",
+          ground: "#F6F6F6",
+          frame: "#E7E6E3",
+          line: "#D4D4D4",
+          body: "#474747",
+          muted: "#6B6A65", // 5.02:1 on the ground
+          night: "#0B0A0C",
+          "night-card": "#151417",
+          "night-line": "#2A282C",
+          "night-body": "#B9B7B1", // 9.85:1 on night
+          "night-muted": "#8E8C86", // 5.88:1 on night
+        },
+
         // Kept as aliases so nothing silently breaks.
         primary: "#0A0A0A",
         secondary: "#4A4F54",

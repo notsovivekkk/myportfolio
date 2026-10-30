@@ -325,7 +325,9 @@ body {
     margin: auto;
     width: calc(100% - 40px);
     max-width: 720px;
-    height: auto;
+    /* fit-content, not auto: a modal dialog is pinned to both the top
+       and bottom of the screen, so auto stretches it to full height. */
+    height: fit-content;
     max-height: min(88dvh, 920px);
     border-radius: var(--radius-card);
     box-shadow: 0 0 0 1px var(--color-border),
@@ -375,6 +377,73 @@ body {
   .pf-modal[open]::backdrop {
     animation: none;
   }
+}
+
+/* ============================================================
+   FLOQER MODAL (app/floqer/GlitchGrid.tsx)
+
+   The .pf-modal behaviour in Floqer's night palette. Phones get a
+   full screen sheet sized in svh, the small viewport unit, so Safari's
+   toolbar never covers the bottom of it; from 640px it is a centred
+   card, 760px wide at most.
+   ============================================================ */
+.fq-modal {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #f6f6f6;
+  background-color: #0b0a0c;
+  width: 100%;
+  max-width: 100%;
+  height: 100svh;
+  max-height: 100svh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 640px) {
+  .fq-modal {
+    margin: auto;
+    width: calc(100% - 40px);
+    max-width: 760px;
+    /* fit-content, not auto: a modal dialog is pinned to both the top
+       and bottom of the screen, so auto stretches it to full height. */
+    height: fit-content;
+    max-height: min(90svh, 960px);
+    border-radius: var(--radius-card);
+    box-shadow: 0 0 0 1px #2a282c, 0 24px 64px -16px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.fq-modal::backdrop {
+  background-color: rgba(4, 3, 5, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.fq-modal[open] {
+  animation: modalIn var(--duration-slow) var(--easing-default);
+}
+
+.fq-modal[open]::backdrop {
+  animation: backdropIn var(--duration-slow) var(--easing-default);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fq-modal[open],
+  .fq-modal[open]::backdrop {
+    animation: none;
+  }
+}
+
+/* Floqer's hero texture: a fine dot grid, faded out downwards. */
+.fq-dots {
+  background-image: radial-gradient(
+    rgba(4, 3, 5, 0.16) 1px,
+    transparent 1.3px
+  );
+  background-size: 14px 14px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 20%, transparent);
+  mask-image: linear-gradient(to bottom, #000 20%, transparent);
 }
 
 /* ============================================================
